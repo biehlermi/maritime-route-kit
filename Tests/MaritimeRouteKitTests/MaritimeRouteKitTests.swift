@@ -86,6 +86,119 @@ struct MaritimeRoutePlannerTests {
     for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
   }
 
+  @Test("The Mallorca–Barcelona–Suez–Dubai preview itinerary draws every leg")
+  func suezPreviewItinerary() async throws {
+    let stops = [
+      stop("mallorca", "Mallorca", 39.5696, 2.6502),
+      stop("barcelona", "Barcelona", 41.3851, 2.1734),
+      stop("suez", "Suez Canal", 30.5852, 32.2654),
+      stop("dubai", "Dubai", 25.2048, 55.2708),
+    ]
+    let result = await MaritimeRoutePlanner().plan(stops: stops)
+    #expect(result.placements.allSatisfy { $0.status == .placed })
+    try #require(result.legs.map(\.startIndex) == [0, 1, 2])
+    #expect(result.diagnostics.filter { $0.kind == .legCannotBeRouted }.isEmpty)
+    #expect(result.legs[1].coordinates.contains(where: isInsideSuezConnector))
+    #expect(result.legs[2].coordinates.contains(where: isInsideSuezConnector))
+    for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
+  }
+
+  @Test("A Mediterranean-to-Gulf route selects the Suez connector without a canal stop")
+  func automaticSuezPassage() async throws {
+    let result = await MaritimeRoutePlanner().plan(stops: [
+      stop("barcelona", "Barcelona", 41.3851, 2.1734),
+      stop("dubai", "Dubai", 25.2048, 55.2708),
+    ])
+    let leg = try #require(result.legs.first)
+    #expect(result.diagnostics.filter { $0.kind == .legCannotBeRouted }.isEmpty)
+    #expect(leg.coordinates.contains(where: isInsideSuezConnector))
+    #expect(pathLength(leg.coordinates) < 9_000_000)
+    try assertEverySegmentIsWaterSafe(leg)
+  }
+
+  @Test("Suez supports entry, exit, and reverse-direction routing")
+  func reverseSuezPassage() async throws {
+    let stops = [
+      stop("jeddah", "Jeddah", 21.4858, 39.1925),
+      stop("suez", "Suez Canal", 30.5852, 32.2654),
+      stop("alexandria", "Alexandria", 31.2001, 29.9187),
+    ]
+    let result = await MaritimeRoutePlanner().plan(stops: stops)
+    #expect(result.legs.count == 2)
+    #expect(result.legs.allSatisfy { $0.coordinates.contains(where: isInsideSuezConnector) })
+    for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
+  }
+
+  @Test("A Caribbean-to-Pacific itinerary enters and exits the Panama Canal")
+  func panamaCanalItinerary() async throws {
+    let stops = [
+      stop("cartagena", "Cartagena", 10.3910, -75.4794),
+      stop("panama", "Panama Canal", 9.1214, -79.8035),
+      stop("puntarenas", "Puntarenas", 9.9763, -84.8384),
+    ]
+    let result = await MaritimeRoutePlanner().plan(stops: stops)
+    #expect(result.placements.allSatisfy { $0.status == .placed })
+    #expect(result.legs.count == 2)
+    #expect(result.legs.allSatisfy { $0.coordinates.contains(where: isInsidePanamaConnector) })
+    for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
+  }
+
+  @Test("Panama is selected automatically in both directions")
+  func automaticPanamaPassage() async throws {
+    let cartagena = stop("cartagena", "Cartagena", 10.3910, -75.4794)
+    let puntarenas = stop("puntarenas", "Puntarenas", 9.9763, -84.8384)
+    let planner = MaritimeRoutePlanner()
+    let eastToWest = await planner.plan(stops: [cartagena, puntarenas])
+    let westToEast = await planner.plan(stops: [puntarenas, cartagena])
+
+    for result in [eastToWest, westToEast] {
+      let leg = try #require(result.legs.first)
+      #expect(result.diagnostics.filter { $0.kind == .legCannotBeRouted }.isEmpty)
+      #expect(leg.coordinates.contains(where: isInsidePanamaConnector))
+      #expect(pathLength(leg.coordinates) < 2_500_000)
+      try assertEverySegmentIsWaterSafe(leg)
+    }
+  }
+
+  @Test("A northern-fjord itinerary routes between outer and inner Geirangerfjord")
+  func geirangerfjordCalls() async throws {
+    let stops = [
+      stop("outer", "Storfjorden", 62.45, 5.72),
+      stop("hellesylt", "Hellesylt", 62.0854, 6.8698),
+      stop("geiranger", "Geiranger", 62.1015, 7.2070),
+      stop("seven-sisters", "Seven Sisters", 62.1070, 7.0940),
+    ]
+    let result = await MaritimeRoutePlanner().plan(stops: stops)
+    #expect(result.placements.allSatisfy { $0.status == .placed })
+    #expect(result.legs.count == stops.count - 1)
+    for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
+  }
+
+  @Test("Fourteen Caribbean ports and islands produce thirteen ordered legs")
+  func fourteenStopCaribbeanItinerary() async throws {
+    let stops = caribbeanStops
+    let result = await MaritimeRoutePlanner().plan(stops: stops)
+    #expect(result.placements.map(\.stop.id) == stops.map(\.id))
+    #expect(result.placements.allSatisfy { $0.status == .placed })
+    #expect(result.legs.count == 13)
+    #expect(result.diagnostics.filter { $0.kind == .legCannotBeRouted }.isEmpty)
+    for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
+  }
+
+  @Test("Bundled constrained resources are discovered without a Swift filename catalog")
+  func dataDrivenWaterwayDiscovery() throws {
+    let world = try WaterWorld()
+    let connectors = world.grids.filter { $0.metadata.kind == "connector" }
+    #expect(Set(connectors.map(\.metadata.name)) == ["panama", "suez"])
+    #expect(connectors.allSatisfy { $0.gateways.count == 2 })
+    #expect(world.grids.filter { $0.metadata.kind == "constrained" }.count >= 4)
+    #expect(
+      !world.isNavigableSegment(
+        from: MaritimeCoordinate(latitude: 8.8875, longitude: -79.5125),
+        to: MaritimeCoordinate(latitude: 8.862500000000011, longitude: -79.5375)
+      ))
+  }
+
   @Test("Planning is deterministic")
   func deterministic() async {
     let stops = [
@@ -132,6 +245,37 @@ struct MaritimeRoutePlannerTests {
       #expect(world.isNavigableSegment(from: start, to: end))
     }
   }
+}
+
+private let caribbeanStops = [
+  stop("miami", "Miami", 25.7743, -80.1572),
+  stop("nassau", "Nassau", 25.0781, -77.3385),
+  stop("grand-turk", "Grand Turk", 21.4603, -71.1419),
+  stop("san-juan", "San Juan", 18.4655, -66.1057),
+  stop("st-thomas", "St. Thomas", 18.3405, -64.9307),
+  stop("st-maarten", "St. Maarten", 18.0204, -63.0458),
+  stop("antigua", "Antigua", 17.1212, -61.8440),
+  stop("guadeloupe", "Guadeloupe", 16.2306, -61.5364),
+  stop("dominica", "Dominica", 15.2967, -61.3870),
+  stop("martinique", "Martinique", 14.6008, -61.0690),
+  stop("st-lucia", "St. Lucia", 14.0101, -60.9990),
+  stop("barbados", "Barbados", 13.1000, -59.6167),
+  stop("grenada", "Grenada", 12.0500, -61.7500),
+  stop("curacao", "Curaçao", 12.1084, -68.9335),
+]
+
+private func isInsideSuezConnector(_ coordinate: MaritimeCoordinate) -> Bool {
+  (30.0...31.2).contains(coordinate.latitude)
+    && (32.25...32.60).contains(coordinate.longitude)
+}
+
+private func isInsidePanamaConnector(_ coordinate: MaritimeCoordinate) -> Bool {
+  (8.94...9.31).contains(coordinate.latitude)
+    && (-79.93 ... -79.56).contains(coordinate.longitude)
+}
+
+private func pathLength(_ coordinates: [MaritimeCoordinate]) -> Double {
+  zip(coordinates, coordinates.dropFirst()).map(MaritimeGeometry.distance).reduce(0, +)
 }
 
 @Suite("Map presentation")

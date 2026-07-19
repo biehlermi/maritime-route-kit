@@ -119,7 +119,7 @@ public struct MaritimeRouteLeg: Identifiable, Hashable, Sendable {
 ///
 /// This result is illustrative and must never be used for navigation. It does
 /// not account for shipping lanes, depth, tides, weather, traffic separation
-/// schemes, locks or canals, restricted waters, or vessel characteristics.
+/// schemes, lock operations, restricted waters, or vessel characteristics.
 public struct MaritimeRouteResult: Hashable, Sendable {
   public let placements: [MaritimeStopPlacement]
   public let legs: [MaritimeRouteLeg]

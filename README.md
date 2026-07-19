@@ -6,8 +6,9 @@ deterministic, and does not use an online routing service.
 
 > **Not for navigation.** Routes are illustrative geometry. They do not account
 > for shipping lanes, charted depth, tides, currents, weather, traffic
-> separation schemes, locks or canals, military/restricted waters, port rules,
-> temporary closures, or vessel dimensions and handling characteristics.
+> separation schemes, lock state or operating schedules, canal restrictions,
+> military/restricted waters, port rules, temporary closures, or vessel
+> dimensions and handling characteristics.
 
 ## Requirements
 
@@ -46,57 +47,97 @@ struct ItineraryView: View {
 }
 ```
 
-The package contains three live SwiftUI previews in
-`MaritimeRouteMap+Previews.swift`: Hamburg–Bergen, Hamburg–Geirangerfjord, and
-a Baltic itinerary. Open that file in Xcode and select **Editor → Canvas** to
-view them.
+The package contains seven live SwiftUI previews in
+`MaritimeRouteMap+Previews.swift`, including Suez and Panama Canal passages and
+a 14-stop Caribbean itinerary. Open that file in Xcode and select
+**Editor → Canvas** to view them.
 
 ## Planner API
 
-Use `MaritimeRoutePlanner` when you need diagnostics or route geometry without
-the bundled map view:
+Use `MaritimeRoutePlanner` when you need route geometry, placement information,
+or diagnostics without the bundled map view. Keep and reuse the actor: it loads
+the bundled grids lazily on the first call and caches them for later plans.
 
 ```swift
-let result = await MaritimeRoutePlanner().plan(stops: stops)
+let planner = MaritimeRoutePlanner()
+let result = await planner.plan(stops: stops)
 
 for placement in result.placements {
-    print(placement.status, placement.normalizedCoordinate as Any)
+    switch placement.status {
+    case .placed:
+        print(
+            placement.inputIndex,
+            placement.normalizedCoordinate as Any,
+            placement.snapDistanceMeters as Any
+        )
+    case .invalidCoordinate, .noNavigableWaterWithin25Kilometers:
+        print("Unplaced stop:", placement.stop.title, placement.status)
+    }
 }
 
-for diagnostic in result.diagnostics {
-    print(diagnostic.kind, diagnostic.message)
+for leg in result.legs {
+    // Coordinates run from stops[leg.startIndex] to stops[leg.endIndex].
+    drawPolyline(leg.coordinates)
 }
 ```
 
-Every input stop has a placement entry. A successful non-trivial consecutive
-leg has route geometry. Invalid/unplaceable stops and unsuccessful legs are
-reported explicitly; the renderer never substitutes a straight line across
-land.
+`plan(stops:)` is asynchronous and returns a result instead of throwing. Its
+three arrays have stable, complementary roles:
+
+| Result member | Contract |
+| --- | --- |
+| `placements` | Exactly one entry per input stop, in input order. A placed coordinate may differ from the input coordinate because stops can snap to represented water within 25 km. |
+| `legs` | Geometry for each successfully planned pair of consecutive stops. Use `startIndex` and `endIndex`; do not assume `legs[index]` exists when an earlier leg failed. Repeated or colocated calls produce a trivial one-coordinate leg. |
+| `diagnostics` | Structured stop, leg, or bundled-data failures. `stopIndex` and `legStartIndex` associate a diagnostic with the original itinerary. |
+
+Invalid or unplaceable stops and unsuccessful legs are reported explicitly.
+The planner never substitutes a straight line across represented land, and a
+failure on one leg does not prevent later independent legs from being planned.
+Planning is offline, deterministic for the same package data and input order,
+and safe to call from a SwiftUI task.
+
+### Canals and other connectors
+
+Suez and Panama are bundled as high-resolution, two-portal connector grids.
+The planner can select them automatically for an advantageous passage, so an
+explicit “Suez Canal” or “Panama Canal” stop is not required. A stop inside a
+connector is also supported, which is useful when displaying the passage as an
+itinerary call.
+
+Connector handling is data-driven. Runtime code discovers every `.mrkgrid`
+resource and derives transitions from its gateways; there is no Swift list of
+canal names or canal coordinates. To add another canal, strait, river reach, or
+similar region, add its bounds, open-water gateways, and source-selection rules
+to `Tools/waterways.json`, commit the corresponding Overpass query, and rebuild
+the grid. No planner source change is required.
 
 ## How routing works
 
 - A bit-packed Natural Earth 1:10m ocean grid supplies global illustrative
   coverage and a conservative 2 km open-water land clearance.
-- Date-pinned OpenStreetMap-derived patches add a conservative sub-100 m geometric
+- OpenStreetMap-derived patches add a conservative sub-100 m geometric
   clearance in constrained waterways where 2 km is physically impossible:
-  the tidal Elbe, Bergen approach, Geirangerfjord, and Stockholm archipelago.
+  the tidal Elbe, Bergen approach, Geirangerfjord, Stockholm archipelago, Suez
+  Canal, and Panama Canal.
 - Stops over land snap to the closest represented navigable water point within
   25 km.
-- Global A* uses geodesic distance and a turn penalty. Precomputed deterministic
-  gateway trees make high-resolution constrained approaches fast. Safe
-  line-of-sight simplification and rounding remove grid-like steps.
+- A bidirectional global grid search uses geodesic distance and a turn penalty.
+  Multi-gateway connector transitions and single-gateway constrained approaches
+  use precomputed deterministic water-only trees. Safe line-of-sight
+  simplification, interpolation, and raster-corner repair remove grid-like steps
+  while revalidating the returned geometry.
 - Polylines are split at the antimeridian before MapKit renders them.
 
-“Shortest” means the lowest-cost water-safe geometry represented by these
-grids. It does **not** mean the route that a master, pilot, or voyage-planning
-system would choose.
+Route selection prefers lower-cost water-safe geometry represented by these
+grids, but does not claim a globally shortest passage. It does **not** mean the
+route that a master, pilot, or voyage-planning system would choose.
 
 ## Data provenance and licenses
 
 The global ocean mask is derived from Natural Earth 1:10m ocean version 5.1.1,
 which is public domain. The high-detail patch database is derived from
-OpenStreetMap data dated 2026-07-18 and remains available under ODbL 1.0. Exact
-queries, checksums, attribution, and rebuild instructions are in
+OpenStreetMap data and remains available under ODbL 1.0. Exact extraction
+dates, queries, checksums, attribution, and rebuild instructions are in
 [`DataSources/SOURCES.md`](DataSources/SOURCES.md).
 
 The Swift source is MIT-licensed. The ODbL-covered derived grids are separate
@@ -107,6 +148,9 @@ data resources and are not relicensed under MIT.
 - Outside the bundled high-detail regions, Natural Earth’s scale omits small
   islands, narrow channels, harbor basins, and river approaches.
 - Inland lakes are not treated as ocean routes.
+- A represented canal is only geometric connectivity. Lock availability,
+  booking, convoy rules, draft/beam/air-draft limits, fees, and closures are not
+  modeled.
 - The fixed clearance policy can reject a real-world passage or accept water
   that is unsuitable for a particular ship.
 - MapKit tiles follow normal system availability even though route planning is

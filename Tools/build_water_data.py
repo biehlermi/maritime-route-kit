@@ -2,7 +2,7 @@
 """Build MaritimeRouteKit's compact offline water grids.
 
 The script intentionally uses only Python's standard library. It consumes the
-version-pinned Natural Earth ocean shapefile and date-pinned Overpass JSON
+version-pinned Natural Earth ocean shapefile and checksum-pinned Overpass JSON
 extracts described in DataSources/SOURCES.md.
 """
 
@@ -177,10 +177,19 @@ def draw_barriers(
     return barriers
 
 
-def overpass_geometry(path: Path) -> tuple[list[list[tuple[float, float]]], list[list[tuple[float, float]]]]:
+def overpass_geometry(
+    path: Path,
+    *,
+    linear_waterway_names: set[str] | None = None,
+) -> tuple[
+    list[list[tuple[float, float]]],
+    list[list[tuple[float, float]]],
+    list[list[tuple[float, float]]],
+]:
     payload = json.loads(path.read_text())
     coastlines: list[list[tuple[float, float]]] = []
     water_rings: list[list[tuple[float, float]]] = []
+    water_lines: list[list[tuple[float, float]]] = []
 
     def points(geometry: Sequence[dict[str, float]]) -> list[tuple[float, float]]:
         return [(point["lon"], point["lat"]) for point in geometry]
@@ -216,6 +225,12 @@ def overpass_geometry(path: Path) -> tuple[list[list[tuple[float, float]]], list
         geometry = element.get("geometry")
         if tags.get("natural") == "coastline" and geometry:
             coastlines.append(points(geometry))
+        if tags.get("waterway") in {"canal", "river"} and geometry:
+            english_name = tags.get("name:en")
+            if linear_waterway_names is None or english_name in linear_waterway_names:
+                line = points(geometry)
+                if len(line) > 1 and line[0] != line[-1]:
+                    water_lines.append(line)
         is_river_area = (
             (tags.get("natural") == "water" and tags.get("water") in {"river", "canal"})
             or tags.get("waterway") == "riverbank"
@@ -232,7 +247,82 @@ def overpass_geometry(path: Path) -> tuple[list[list[tuple[float, float]]], list
             if member.get("role") == "outer" and member.get("geometry")
         ]
         water_rings.extend(assemble(member_lines))
-    return coastlines, water_rings
+    return coastlines, water_rings, water_lines
+
+
+def add_waterway_corridors(
+    rows_mask: Sequence[int],
+    lines: Iterable[Sequence[tuple[float, float]]],
+    *,
+    min_latitude: float,
+    min_longitude: float,
+    step: float,
+    rows: int,
+    columns: int,
+    width_meters: float,
+) -> list[int]:
+    """Rasterize mapped centerlines as conservative, configurable water corridors."""
+    result = list(rows_mask)
+    half_width = width_meters / 2
+    if half_width <= 0:
+        return result
+
+    def paint(latitude: float, longitude: float) -> None:
+        center_row = math.floor((latitude - min_latitude) / step)
+        center_column = math.floor((longitude - min_longitude) / step)
+        row_meters = step * EARTH_KM_PER_DEGREE * 1000
+        column_meters = max(1.0, row_meters * abs(math.cos(math.radians(latitude))))
+        row_radius = max(1, math.ceil(half_width / row_meters))
+        column_radius = max(1, math.ceil(half_width / column_meters))
+        for row_offset in range(-row_radius, row_radius + 1):
+            row = center_row + row_offset
+            if not 0 <= row < rows:
+                continue
+            for column_offset in range(-column_radius, column_radius + 1):
+                column = center_column + column_offset
+                if not 0 <= column < columns:
+                    continue
+                distance = math.hypot(row_offset * row_meters, column_offset * column_meters)
+                if distance <= half_width + math.hypot(row_meters, column_meters) / 2:
+                    result[row] |= 1 << column
+
+    for line in lines:
+        if len(line) < 2:
+            continue
+        previous_longitude, previous_latitude = line[0]
+        for longitude, latitude in line[1:]:
+            row_delta = (latitude - previous_latitude) / step
+            column_delta = (longitude - previous_longitude) / step
+            samples = max(1, math.ceil(max(abs(row_delta), abs(column_delta)) * 3))
+            for sample in range(samples + 1):
+                fraction = sample / samples
+                paint(
+                    previous_latitude + (latitude - previous_latitude) * fraction,
+                    previous_longitude + (longitude - previous_longitude) * fraction,
+                )
+            previous_longitude, previous_latitude = longitude, latitude
+    return result
+
+
+def connect_gateways_to_lines(
+    lines: Sequence[Sequence[tuple[float, float]]],
+    gateways: Sequence[tuple[float, float]],
+) -> list[list[tuple[float, float]]]:
+    """Extend source-derived centerlines to configured open-water gateway cells."""
+    points = [point for line in lines for point in line]
+    if not points:
+        raise ValueError("A connector grid needs at least one mapped linear waterway")
+    connections: list[list[tuple[float, float]]] = []
+    for latitude, longitude in gateways:
+        nearest = min(
+            points,
+            key=lambda point: (
+                (point[1] - latitude) ** 2
+                + ((point[0] - longitude) * math.cos(math.radians(latitude))) ** 2
+            ),
+        )
+        connections.append([(longitude, latitude), nearest])
+    return connections
 
 
 def regional_water_mask(
@@ -246,6 +336,7 @@ def regional_water_mask(
     step: float,
     rows: int,
     columns: int,
+    include_global_water: bool = True,
 ) -> list[int]:
     # Coastline ways need not form closed polygons within a regional extract.
     # Classify each scanline from the directed land-left/water-right coastline;
@@ -272,9 +363,12 @@ def regional_water_mask(
                     intersections[row].append((crossing_x, y > previous_y))
             previous_x, previous_y = x, y
 
-    coastline_water: list[int] = []
+    if not include_global_water:
+        coastline_water = [0] * rows
+    else:
+        coastline_water = []
     global_columns = round(360 / global_step)
-    for row, crossings in enumerate(intersections):
+    for row, crossings in (enumerate(intersections) if include_global_water else []):
         crossings.sort(key=lambda item: item[0])
         latitude = min_latitude + (row + 0.5) * step
         global_row = math.floor((latitude + 90.0) / global_step)
@@ -355,7 +449,7 @@ def write_grid(
     path: Path,
     rows_mask: Sequence[int],
     metadata: dict[str, object],
-    directions: bytearray | None = None,
+    direction_layers: Sequence[bytearray] = (),
 ) -> None:
     columns = int(metadata["columns"])
     row_bytes = (columns + 7) // 8
@@ -367,91 +461,154 @@ def write_grid(
         handle.write(encoded_metadata)
         for row in rows_mask:
             handle.write(row.to_bytes(row_bytes, "little"))
-        if directions is not None:
+        for directions in direction_layers:
             packed = bytearray((len(directions) + 1) // 2)
             for index, direction in enumerate(directions):
                 packed[index // 2] |= direction << (4 * (index % 2))
             handle.write(packed)
 
 
+def read_grid_mask(path: Path) -> tuple[list[int], dict[str, object]]:
+    data = path.read_bytes()
+    if len(data) < 12 or data[:8] != MAGIC:
+        raise ValueError(f"Invalid MRK grid: {path}")
+    metadata_length = struct.unpack_from("<I", data, 8)[0]
+    metadata_end = 12 + metadata_length
+    metadata = json.loads(data[12:metadata_end])
+    columns = int(metadata["columns"])
+    rows = int(metadata["rows"])
+    row_bytes = (columns + 7) // 8
+    water_end = metadata_end + rows * row_bytes
+    if water_end > len(data):
+        raise ValueError(f"Truncated MRK grid: {path}")
+    rows_mask = [
+        int.from_bytes(data[metadata_end + row * row_bytes : metadata_end + (row + 1) * row_bytes], "little")
+        for row in range(rows)
+    ]
+    return rows_mask, metadata
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--natural-earth-shp", type=Path, required=True)
-    parser.add_argument("--elbe-json", type=Path, required=True)
-    parser.add_argument("--geiranger-json", type=Path, required=True)
-    parser.add_argument("--stockholm-json", type=Path, required=True)
-    parser.add_argument("--bergen-json", type=Path, required=True)
+    parser.add_argument("--natural-earth-shp", type=Path)
+    parser.add_argument("--existing-global-grid", type=Path)
+    parser.add_argument(
+        "--manifest",
+        type=Path,
+        default=Path(__file__).with_name("waterways.json"),
+    )
+    parser.add_argument(
+        "--source",
+        action="append",
+        default=[],
+        metavar="NAME=OVERPASS_JSON",
+        help="Bind a manifest waterway name to its source extract (repeatable)",
+    )
+    parser.add_argument(
+        "--only",
+        action="append",
+        default=[],
+        metavar="NAME",
+        help="Build only a named regional grid (repeatable)",
+    )
+    # Keep the original flags as source-binding conveniences.
+    parser.add_argument("--elbe-json", type=Path)
+    parser.add_argument("--geiranger-json", type=Path)
+    parser.add_argument("--stockholm-json", type=Path)
+    parser.add_argument("--bergen-json", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
-    global_step = 0.025
-    global_rows = round(180 / global_step)
-    global_columns = round(360 / global_step)
-    natural_earth_rings = read_polygon_shapefile(args.natural_earth_shp)
-    global_ocean = scanline_mask(
-        natural_earth_rings,
-        min_latitude=-90,
-        min_longitude=-180,
-        step=global_step,
-        rows=global_rows,
-        columns=global_columns,
-    )
-    global_safe = erode_mask(
-        global_ocean,
-        min_latitude=-90,
-        step=global_step,
-        columns=global_columns,
-        clearance_meters=2000,
-        wrap_longitude=True,
-    )
-    write_grid(
-        args.output / "global-ocean.mrkgrid",
-        global_safe,
-        {
-            "name": "Natural Earth global ocean",
-            "kind": "global",
-            "minLatitude": -90.0,
-            "minLongitude": -180.0,
-            "step": global_step,
-            "rows": global_rows,
-            "columns": global_columns,
-            "clearanceMeters": 2000,
-            "sourceSHA256": sha256(args.natural_earth_shp),
-        },
-    )
+    if bool(args.natural_earth_shp) == bool(args.existing_global_grid):
+        parser.error("provide exactly one of --natural-earth-shp or --existing-global-grid")
 
-    patches = [
-        (
-            "bergen",
-            args.bergen_json,
-            (59.95, 4.70, 60.60, 5.55),
-            (60.25, 4.74),
-        ),
-        (
-            "elbe",
-            args.elbe_json,
-            (53.25, 8.35, 54.25, 10.25),
-            (53.999, 8.415),
-        ),
-        (
-            "geirangerfjord",
-            args.geiranger_json,
-            (61.85, 5.65, 62.65, 7.55),
-            (62.45, 5.72),
-        ),
-        (
-            "stockholm",
-            args.stockholm_json,
-            (58.75, 17.45, 59.85, 19.55),
-            (59.10, 19.48),
-        ),
-    ]
-    regional_step = 0.0005
-    for name, source, bounds, gateway in patches:
+    source_paths: dict[str, Path] = {}
+    for binding in args.source:
+        if "=" not in binding:
+            parser.error(f"invalid --source binding: {binding!r}")
+        name, path = binding.split("=", 1)
+        source_paths[name] = Path(path)
+    for name, path in {
+        "elbe": args.elbe_json,
+        "geirangerfjord": args.geiranger_json,
+        "stockholm": args.stockholm_json,
+        "bergen": args.bergen_json,
+    }.items():
+        if path is not None:
+            source_paths[name] = path
+
+    manifest = json.loads(args.manifest.read_text())
+    if manifest.get("schemaVersion") != 1:
+        raise ValueError(f"Unsupported waterway manifest: {args.manifest}")
+    regions = manifest["waterways"]
+    requested = set(args.only)
+    known_names = {region["name"] for region in regions}
+    if unknown := requested - known_names:
+        parser.error(f"unknown --only waterway(s): {', '.join(sorted(unknown))}")
+    selected = [region for region in regions if not requested or region["name"] in requested]
+
+    global_step = 0.025
+    if args.natural_earth_shp:
+        global_rows = round(180 / global_step)
+        global_columns = round(360 / global_step)
+        natural_earth_rings = read_polygon_shapefile(args.natural_earth_shp)
+        global_ocean = scanline_mask(
+            natural_earth_rings,
+            min_latitude=-90,
+            min_longitude=-180,
+            step=global_step,
+            rows=global_rows,
+            columns=global_columns,
+        )
+        global_safe = erode_mask(
+            global_ocean,
+            min_latitude=-90,
+            step=global_step,
+            columns=global_columns,
+            clearance_meters=2000,
+            wrap_longitude=True,
+        )
+        if not requested:
+            write_grid(
+                args.output / "global-ocean.mrkgrid",
+                global_safe,
+                {
+                    "name": "Natural Earth global ocean",
+                    "kind": "global",
+                    "minLatitude": -90.0,
+                    "minLongitude": -180.0,
+                    "step": global_step,
+                    "rows": global_rows,
+                    "columns": global_columns,
+                    "clearanceMeters": 2000,
+                    "sourceSHA256": sha256(args.natural_earth_shp),
+                },
+            )
+    else:
+        global_ocean, global_metadata = read_grid_mask(args.existing_global_grid)
+        if global_metadata.get("kind") != "global":
+            raise ValueError("--existing-global-grid must reference the global grid")
+        global_step = float(global_metadata["step"])
+
+    for region in selected:
+        name = region["name"]
+        source = source_paths.get(name)
+        if source is None:
+            parser.error(f"missing --source {name}=OVERPASS_JSON")
+        bounds = region["bounds"]
+        gateways = [tuple(gateway) for gateway in region["gateways"]]
+        regional_step = float(region.get("step", 0.0005))
+        clearance_meters = float(region.get("clearanceMeters", 25))
         min_latitude, min_longitude, max_latitude, max_longitude = bounds
         rows = math.ceil((max_latitude - min_latitude) / regional_step)
         columns = math.ceil((max_longitude - min_longitude) / regional_step)
-        coastlines, water_rings = overpass_geometry(source)
+        configured_names = region.get("linearWaterwayNames")
+        coastlines, water_rings, water_lines = overpass_geometry(
+            source,
+            linear_waterway_names=set(configured_names) if configured_names else None,
+        )
+        if region.get("connectGatewaysToLinearWaterways"):
+            water_lines.extend(connect_gateways_to_lines(water_lines, gateways))
         raw_water = regional_water_mask(
             coastlines,
             water_rings,
@@ -462,42 +619,61 @@ def main() -> None:
             step=regional_step,
             rows=rows,
             columns=columns,
+            include_global_water=bool(region.get("includeGlobalWater", True)),
+        )
+        raw_water = add_waterway_corridors(
+            raw_water,
+            water_lines,
+            min_latitude=min_latitude,
+            min_longitude=min_longitude,
+            step=regional_step,
+            rows=rows,
+            columns=columns,
+            width_meters=float(region.get("linearWaterwayWidthMeters", 0)),
         )
         safe_water = erode_mask(
             raw_water,
             min_latitude=min_latitude,
             step=regional_step,
             columns=columns,
-            clearance_meters=25,
+            clearance_meters=clearance_meters,
         )
-        directions = gateway_directions(
-            safe_water,
-            min_latitude=min_latitude,
-            min_longitude=min_longitude,
-            step=regional_step,
-            rows=rows,
-            columns=columns,
-            gateway=gateway,
-        )
+        direction_layers = [
+            gateway_directions(
+                safe_water,
+                min_latitude=min_latitude,
+                min_longitude=min_longitude,
+                step=regional_step,
+                rows=rows,
+                columns=columns,
+                gateway=gateway,
+            )
+            for gateway in gateways
+        ]
         write_grid(
             args.output / f"{name}.mrkgrid",
             safe_water,
             {
                 "name": name,
-                "kind": "constrained",
+                "kind": region.get("kind", "constrained"),
                 "minLatitude": min_latitude,
                 "minLongitude": min_longitude,
                 "step": regional_step,
                 "rows": rows,
                 "columns": columns,
-                "clearanceMeters": 25,
-                "gatewayLatitude": gateway[0],
-                "gatewayLongitude": gateway[1],
+                "clearanceMeters": clearance_meters,
+                "gateways": [
+                    {"latitude": gateway[0], "longitude": gateway[1]}
+                    for gateway in gateways
+                ],
                 "hasGatewayDirections": True,
-                "reachableCells": sum(direction != 15 for direction in directions),
+                "reachableCellsByGateway": [
+                    sum(direction != 15 for direction in directions)
+                    for directions in direction_layers
+                ],
                 "sourceSHA256": sha256(source),
             },
-            directions,
+            direction_layers,
         )
 
 

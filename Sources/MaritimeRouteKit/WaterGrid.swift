@@ -1,6 +1,11 @@
 import Foundation
 
 struct WaterGridMetadata: Decodable, Sendable {
+  struct Gateway: Decodable, Sendable {
+    let latitude: Double
+    let longitude: Double
+  }
+
   let name: String
   let kind: String
   let minLatitude: Double
@@ -12,6 +17,7 @@ struct WaterGridMetadata: Decodable, Sendable {
   let gatewayLatitude: Double?
   let gatewayLongitude: Double?
   let hasGatewayDirections: Bool?
+  let gateways: [Gateway]?
 }
 
 struct WaterGrid: Sendable {
@@ -22,21 +28,30 @@ struct WaterGrid: Sendable {
 
   let metadata: WaterGridMetadata
   private let bits: Data
-  private let directions: Data?
+  private let directionLayers: [Data]
   private let rowBytes: Int
 
   var isGlobal: Bool { metadata.kind == "global" }
-  var gateway: MaritimeCoordinate? {
-    guard let latitude = metadata.gatewayLatitude, let longitude = metadata.gatewayLongitude else {
-      return nil
+  var gateways: [MaritimeCoordinate] {
+    if let gateways = metadata.gateways, !gateways.isEmpty {
+      return gateways.map {
+        MaritimeCoordinate(latitude: $0.latitude, longitude: $0.longitude)
+      }
     }
-    return MaritimeCoordinate(latitude: latitude, longitude: longitude)
+    guard let latitude = metadata.gatewayLatitude, let longitude = metadata.gatewayLongitude else {
+      return []
+    }
+    return [MaritimeCoordinate(latitude: latitude, longitude: longitude)]
   }
 
   init(resource name: String) throws {
     guard let url = Bundle.module.url(forResource: name, withExtension: "mrkgrid") else {
       throw CocoaError(.fileNoSuchFile)
     }
+    try self.init(url: url)
+  }
+
+  init(url: URL) throws {
     let data = try Data(contentsOf: url, options: .mappedIfSafe)
     guard data.count >= 12, data.prefix(8) == Data("MRKGRID1".utf8) else {
       throw CocoaError(.fileReadCorruptFile)
@@ -54,13 +69,23 @@ struct WaterGrid: Sendable {
     let waterEnd = metadataEnd + waterBytes
     guard waterEnd <= data.count else { throw CocoaError(.fileReadCorruptFile) }
     bits = data[metadataEnd..<waterEnd]
+
+    let expectedLayers =
+      metadata.gateways?.isEmpty == false
+      ? metadata.gateways!.count
+      : (metadata.gatewayLatitude != nil && metadata.gatewayLongitude != nil ? 1 : 0)
     if metadata.hasGatewayDirections == true {
-      let directionBytes = (metadata.rows * metadata.columns + 1) / 2
-      guard data.count - waterEnd == directionBytes else { throw CocoaError(.fileReadCorruptFile) }
-      directions = data[waterEnd...]
+      let layerBytes = (metadata.rows * metadata.columns + 1) / 2
+      guard expectedLayers > 0, data.count - waterEnd == layerBytes * expectedLayers else {
+        throw CocoaError(.fileReadCorruptFile)
+      }
+      directionLayers = (0..<expectedLayers).map { index in
+        let start = waterEnd + index * layerBytes
+        return data[start..<(start + layerBytes)]
+      }
     } else {
       guard data.count == waterEnd else { throw CocoaError(.fileReadCorruptFile) }
-      directions = nil
+      directionLayers = []
     }
   }
 
@@ -109,8 +134,8 @@ struct WaterGrid: Sendable {
 
   func isRoutable(_ cell: Cell) -> Bool {
     guard isNavigable(cell) else { return false }
-    guard directions != nil else { return true }
-    return gatewayDirection(at: cell) != 15
+    guard !directionLayers.isEmpty else { return true }
+    return directionLayers.indices.contains { gatewayDirection(at: cell, layer: $0) != 15 }
   }
 
   func neighboringCell(_ cell: Cell, rowOffset: Int, columnOffset: Int) -> Cell? {
@@ -160,10 +185,10 @@ struct WaterGrid: Sendable {
     let sampleSpacing = max(40, min(1_000, latitudeCellMeters * 0.4))
     let samples = max(1, Int(ceil(distance / sampleSpacing)))
     for index in 0...samples {
-      if !isNavigable(
-        MaritimeGeometry.interpolate(
-          from: start, to: end, fraction: Double(index) / Double(samples)))
-      {
+      let fraction = Double(index) / Double(samples)
+      let forward = MaritimeGeometry.interpolate(from: start, to: end, fraction: fraction)
+      let reverse = MaritimeGeometry.interpolate(from: end, to: start, fraction: 1 - fraction)
+      if !isNavigable(forward) || !isNavigable(reverse) {
         return false
       }
     }
@@ -185,8 +210,8 @@ struct WaterGrid: Sendable {
     return 0
   }
 
-  func pathToGateway(from start: Cell) -> [Cell]? {
-    guard directions != nil, isRoutable(start) else { return nil }
+  func pathToGateway(from start: Cell, gatewayIndex: Int = 0) -> [Cell]? {
+    guard directionLayers.indices.contains(gatewayIndex), isNavigable(start) else { return nil }
     let offsets = [
       (-1, 0), (-1, 1), (0, 1), (1, 1),
       (1, 0), (1, -1), (0, -1), (-1, -1),
@@ -194,7 +219,7 @@ struct WaterGrid: Sendable {
     var result = [start]
     var cell = start
     while result.count <= metadata.rows * metadata.columns {
-      let direction = gatewayDirection(at: cell)
+      let direction = gatewayDirection(at: cell, layer: gatewayIndex)
       if direction == 8 { return result }
       guard (0..<8).contains(direction),
         let next = neighboringCell(
@@ -209,8 +234,9 @@ struct WaterGrid: Sendable {
     return nil
   }
 
-  private func gatewayDirection(at cell: Cell) -> Int {
-    guard let directions else { return 15 }
+  private func gatewayDirection(at cell: Cell, layer: Int) -> Int {
+    guard directionLayers.indices.contains(layer) else { return 15 }
+    let directions = directionLayers[layer]
     let linearIndex = cell.row * metadata.columns + cell.column
     let byte = directions[directions.startIndex + linearIndex / 2]
     return Int((byte >> UInt8(4 * (linearIndex % 2))) & 0x0F)
