@@ -7,6 +7,7 @@ import Foundation
 /// operations, and vessel characteristics.
 public actor MaritimeRoutePlanner {
   private var waterWorld: WaterWorld?
+  private var routeWorkers: [WaterWorldWorker] = []
   private var dataLoadFailed = false
 
   public init() {}
@@ -28,38 +29,25 @@ public actor MaritimeRoutePlanner {
       guard MaritimeGeometry.isValid(stop.coordinate) else {
         placements.append(
           MaritimeStopPlacement(
-            inputIndex: index,
-            stop: stop,
-            status: .invalidCoordinate,
-            normalizedCoordinate: nil,
-            snapDistanceMeters: nil
-          ))
+            inputIndex: index, stop: stop, status: .invalidCoordinate,
+            normalizedCoordinate: nil, snapDistanceMeters: nil))
         nodes.append(nil)
         diagnostics.append(
           MaritimeRouteDiagnostic(
-            id: "invalid-stop-\(index)",
-            kind: .invalidCoordinate,
-            stopIndex: index,
-            message: "Stop \(index + 1) has a non-finite or out-of-range coordinate."
-          ))
+            id: "invalid-stop-\(index)", kind: .invalidCoordinate, stopIndex: index,
+            message: "Stop \(index + 1) has a non-finite or out-of-range coordinate."))
         continue
       }
 
       guard let node = world.place(stop.coordinate, maximumSnapDistance: 25_000) else {
         placements.append(
           MaritimeStopPlacement(
-            inputIndex: index,
-            stop: stop,
-            status: .noNavigableWaterWithin25Kilometers,
-            normalizedCoordinate: nil,
-            snapDistanceMeters: nil
-          ))
+            inputIndex: index, stop: stop, status: .noNavigableWaterWithin25Kilometers,
+            normalizedCoordinate: nil, snapDistanceMeters: nil))
         nodes.append(nil)
         diagnostics.append(
           MaritimeRouteDiagnostic(
-            id: "unplaceable-stop-\(index)",
-            kind: .stopCannotBePlaced,
-            stopIndex: index,
+            id: "unplaceable-stop-\(index)", kind: .stopCannotBePlaced, stopIndex: index,
             message:
               "No ocean-connected water represented by the bundled data lies within 25 km of \(stop.title)."
           ))
@@ -69,63 +57,47 @@ public actor MaritimeRoutePlanner {
       nodes.append(node)
       placements.append(
         MaritimeStopPlacement(
-          inputIndex: index,
-          stop: stop,
-          status: .placed,
-          normalizedCoordinate: node.coordinate,
-          snapDistanceMeters: node.snapDistance
-        ))
+          inputIndex: index, stop: stop, status: .placed,
+          normalizedCoordinate: node.coordinate, snapDistanceMeters: node.snapDistance))
+    }
+
+    let legCount = max(0, stops.count - 1)
+    var coordinatesByLeg = [[MaritimeCoordinate]?](repeating: nil, count: legCount)
+    var work: [LegWork] = []
+    for index in 0..<legCount {
+      guard let start = nodes[index], let end = nodes[index + 1] else { continue }
+      if MaritimeGeometry.distance(start.coordinate, end.coordinate) < 1 {
+        coordinatesByLeg[index] = [start.coordinate]
+      } else {
+        work.append(LegWork(index: index, start: start, end: end))
+      }
+    }
+    for result in await route(work) {
+      coordinatesByLeg[result.index] = result.coordinates
     }
 
     var legs: [MaritimeRouteLeg] = []
-    if stops.count > 1 {
-      for index in 0..<(stops.count - 1) {
-        guard let start = nodes[index], let end = nodes[index + 1] else {
-          diagnostics.append(
-            MaritimeRouteDiagnostic(
-              id: "unroutable-leg-\(index)",
-              kind: .legCannotBeRouted,
-              legStartIndex: index,
-              message: "Leg \(index + 1) was omitted because one or both stops could not be placed."
-            ))
-          continue
-        }
-
-        let legID = "leg-\(index)-\(stops[index].id)-\(stops[index + 1].id)"
-        if MaritimeGeometry.distance(start.coordinate, end.coordinate) < 1 {
-          legs.append(
-            MaritimeRouteLeg(
-              id: legID,
-              startIndex: index,
-              endIndex: index + 1,
-              startStopID: stops[index].id,
-              endStopID: stops[index + 1].id,
-              coordinates: [start.coordinate]
-            ))
-          continue
-        }
-
-        guard let coordinates = world.route(from: start, to: end) else {
-          diagnostics.append(
-            MaritimeRouteDiagnostic(
-              id: "unroutable-leg-\(index)",
-              kind: .legCannotBeRouted,
-              legStartIndex: index,
-              message:
-                "No water-safe route was found for \(stops[index].title)–\(stops[index + 1].title)."
-            ))
-          continue
-        }
-        legs.append(
-          MaritimeRouteLeg(
-            id: legID,
-            startIndex: index,
-            endIndex: index + 1,
-            startStopID: stops[index].id,
-            endStopID: stops[index + 1].id,
-            coordinates: coordinates
-          ))
+    for index in 0..<legCount {
+      guard nodes[index] != nil, nodes[index + 1] != nil else {
+        diagnostics.append(
+          MaritimeRouteDiagnostic(
+            id: "unroutable-leg-\(index)", kind: .legCannotBeRouted, legStartIndex: index,
+            message: "Leg \(index + 1) was omitted because one or both stops could not be placed."))
+        continue
       }
+      guard let coordinates = coordinatesByLeg[index] else {
+        diagnostics.append(
+          MaritimeRouteDiagnostic(
+            id: "unroutable-leg-\(index)", kind: .legCannotBeRouted, legStartIndex: index,
+            message:
+              "No water-safe route was found for \(stops[index].title)–\(stops[index + 1].title)."))
+        continue
+      }
+      legs.append(
+        MaritimeRouteLeg(
+          id: "leg-\(index)-\(stops[index].id)-\(stops[index + 1].id)", startIndex: index,
+          endIndex: index + 1, startStopID: stops[index].id, endStopID: stops[index + 1].id,
+          coordinates: coordinates))
     }
 
     return MaritimeRouteResult(placements: placements, legs: legs, diagnostics: diagnostics)
@@ -137,6 +109,10 @@ public actor MaritimeRoutePlanner {
     do {
       let loaded = try WaterWorld()
       waterWorld = loaded
+      routeWorkers = [
+        WaterWorldWorker(resource: loaded.resource),
+        WaterWorldWorker(resource: loaded.resource),
+      ]
       return loaded
     } catch {
       dataLoadFailed = true
@@ -144,29 +120,72 @@ public actor MaritimeRoutePlanner {
     }
   }
 
+  private func route(_ work: [LegWork]) async -> [LegWorkResult] {
+    guard !work.isEmpty else { return [] }
+    let workerCount = min(routeWorkers.count, work.count)
+    return await withTaskGroup(of: [LegWorkResult].self) { group in
+      for workerIndex in 0..<workerCount {
+        let worker = routeWorkers[workerIndex]
+        let assigned = work.enumerated().compactMap { offset, item in
+          offset % workerCount == workerIndex ? item : nil
+        }
+        group.addTask {
+          var results: [LegWorkResult] = []
+          results.reserveCapacity(assigned.count)
+          for item in assigned {
+            results.append(await worker.route(item))
+          }
+          return results
+        }
+      }
+      var results: [LegWorkResult] = []
+      for await batch in group { results.append(contentsOf: batch) }
+      return results.sorted { $0.index < $1.index }
+    }
+  }
+
   private func dataUnavailableResult(stops: [MaritimeRouteStop], error: Error)
     -> MaritimeRouteResult
   {
-    let placements = stops.enumerated().map { index, stop in
-      MaritimeStopPlacement(
-        inputIndex: index,
-        stop: stop,
-        status: MaritimeGeometry.isValid(stop.coordinate)
-          ? .noNavigableWaterWithin25Kilometers : .invalidCoordinate,
-        normalizedCoordinate: nil,
-        snapDistanceMeters: nil
-      )
-    }
-    return MaritimeRouteResult(
-      placements: placements,
+    MaritimeRouteResult(
+      placements: stops.enumerated().map { index, stop in
+        MaritimeStopPlacement(
+          inputIndex: index, stop: stop,
+          status: MaritimeGeometry.isValid(stop.coordinate)
+            ? .noNavigableWaterWithin25Kilometers : .invalidCoordinate,
+          normalizedCoordinate: nil, snapDistanceMeters: nil)
+      },
       legs: [],
       diagnostics: [
         MaritimeRouteDiagnostic(
-          id: "routing-data-unavailable",
-          kind: .routingDataUnavailable,
-          message: "The bundled water dataset could not be loaded: \(error.localizedDescription)"
-        )
-      ]
+          id: "routing-data-unavailable", kind: .routingDataUnavailable,
+          message: "The bundled water dataset could not be loaded: \(error.localizedDescription)")
+      ])
+  }
+}
+
+private struct LegWork: Sendable {
+  let index: Int
+  let start: PlacedWaterNode
+  let end: PlacedWaterNode
+}
+
+private struct LegWorkResult: Sendable {
+  let index: Int
+  let coordinates: [MaritimeCoordinate]?
+}
+
+private actor WaterWorldWorker {
+  private let world: WaterWorld
+
+  init(resource: WorldRouteResource) {
+    world = WaterWorld(resource: resource)
+  }
+
+  func route(_ work: LegWork) -> LegWorkResult {
+    LegWorkResult(
+      index: work.index,
+      coordinates: world.route(from: work.start, to: work.end)
     )
   }
 }
@@ -175,109 +194,147 @@ struct PlacedWaterNode: Sendable {
   let coordinate: MaritimeCoordinate
   let snapDistance: Double
   let gridIndex: Int
+  let cell: WaterGrid.Cell
 }
 
-struct WaterWorld: Sendable {
-  private struct Access: Sendable {
-    let coordinate: MaritimeCoordinate
+/// Unified worldwide graph router. Mutable buffers are isolated by
+/// `MaritimeRoutePlanner`, while tests may construct a world serially.
+final class WaterWorld: @unchecked Sendable {
+  private struct Access {
+    let graphNode: Int
     let pathFromEndpoint: [MaritimeCoordinate]
     let cost: Double
-    let sourceGridIndex: Int?
   }
 
-  private struct ConnectorTransition: Sendable {
-    let gridIndex: Int
-    let start: MaritimeCoordinate
-    let end: MaritimeCoordinate
-    let path: [MaritimeCoordinate]
+  private struct GraphFrontier: Comparable {
+    let estimate: Double
     let cost: Double
+    let node: Int
+    let serial: Int
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+      if lhs.estimate != rhs.estimate { return lhs.estimate < rhs.estimate }
+      if lhs.cost != rhs.cost { return lhs.cost < rhs.cost }
+      if lhs.node != rhs.node { return lhs.node < rhs.node }
+      return lhs.serial < rhs.serial
+    }
   }
 
+  private struct LocalFrontier: Comparable {
+    let cost: Double
+    let index: Int
+    let serial: Int
+
+    static func < (lhs: Self, rhs: Self) -> Bool {
+      if lhs.cost != rhs.cost { return lhs.cost < rhs.cost }
+      if lhs.index != rhs.index { return lhs.index < rhs.index }
+      return lhs.serial < rhs.serial
+    }
+  }
+
+  private struct RouteCacheKey: Hashable {
+    let startGrid: Int
+    let startCell: Int
+    let startLatitude: UInt64
+    let startLongitude: UInt64
+    let endGrid: Int
+    let endCell: Int
+    let endLatitude: UInt64
+    let endLongitude: UInt64
+  }
+
+  let resource: WorldRouteResource
   let grids: [WaterGrid]
   let globalGridIndex: Int
-  private let connectorTransitions: [ConnectorTransition]
 
-  init() throws {
-    guard
-      let urls = Bundle.module.urls(forResourcesWithExtension: "mrkgrid", subdirectory: nil),
-      !urls.isEmpty
-    else { throw CocoaError(.fileNoSuchFile) }
-    let loaded = try urls.sorted { $0.lastPathComponent < $1.lastPathComponent }.map(WaterGrid.init)
-    let globalIndices = loaded.indices.filter { loaded[$0].isGlobal }
-    guard globalIndices.count == 1, let globalIndex = globalIndices.first else {
-      throw CocoaError(.fileReadCorruptFile)
+  private var graphCosts: [Double]
+  private var graphParents: [Int]
+  private var graphParentEdges: [Int]
+  private var graphRoots: [Int]
+  private var graphGenerations: [UInt32]
+  private var graphGeneration: UInt32 = 0
+  private var routeCache: [RouteCacheKey: [MaritimeCoordinate]] = [:]
+  private var routeCacheOrder: [RouteCacheKey] = []
+
+  convenience init() throws {
+    try self.init(resource: WorldRouteResource())
+  }
+
+  init(resource: WorldRouteResource) {
+    let grids = resource.metadata.grids.enumerated().map {
+      WaterGrid(metadata: $0.element, gridIndex: $0.offset, resource: resource)
     }
-
-    var transitions: [ConnectorTransition] = []
-    for (gridIndex, grid) in loaded.enumerated() where grid.gateways.count > 1 {
-      for firstIndex in 0..<(grid.gateways.count - 1) {
-        for secondIndex in (firstIndex + 1)..<grid.gateways.count {
-          let first = grid.gateways[firstIndex]
-          let second = grid.gateways[secondIndex]
-          guard let path = Self.routeLocally(on: grid, from: first, to: second) else {
-            throw CocoaError(.fileReadCorruptFile)
-          }
-          let cost = Self.pathLength(path)
-          transitions.append(
-            ConnectorTransition(
-              gridIndex: gridIndex, start: first, end: second, path: path, cost: cost))
-          transitions.append(
-            ConnectorTransition(
-              gridIndex: gridIndex,
-              start: second,
-              end: first,
-              path: path.reversed(),
-              cost: cost
-            ))
-        }
-      }
-    }
-
-    grids = loaded
-    globalGridIndex = globalIndex
-    connectorTransitions = transitions
+    let globals = grids.indices.filter { grids[$0].isGlobal }
+    precondition(globals.count == 1)
+    let global = globals[0]
+    self.resource = resource
+    self.grids = grids
+    self.globalGridIndex = global
+    self.graphCosts = Array(repeating: .infinity, count: resource.graphNodeCount)
+    self.graphParents = Array(repeating: -1, count: resource.graphNodeCount)
+    self.graphParentEdges = Array(repeating: -1, count: resource.graphNodeCount)
+    self.graphRoots = Array(repeating: -1, count: resource.graphNodeCount)
+    self.graphGenerations = Array(repeating: 0, count: resource.graphNodeCount)
   }
 
   func place(_ coordinate: MaritimeCoordinate, maximumSnapDistance: Double) -> PlacedWaterNode? {
     var best: PlacedWaterNode?
     for (index, grid) in grids.enumerated() where grid.contains(coordinate) {
-      if let cell = grid.cell(for: coordinate), grid.isRoutable(cell) {
-        let candidate = PlacedWaterNode(coordinate: coordinate, snapDistance: 0, gridIndex: index)
+      if let cell = grid.cell(for: coordinate), grid.isNavigable(cell) {
+        let candidate = PlacedWaterNode(
+          coordinate: coordinate, snapDistance: 0, gridIndex: index, cell: cell)
         if isBetterPlacement(candidate, than: best) { best = candidate }
         continue
       }
+      let searchDistance = min(maximumSnapDistance, best?.snapDistance ?? maximumSnapDistance)
+      guard searchDistance > 0 else { continue }
       guard
         let (cell, distance) = grid.nearestNavigable(
-          to: coordinate, maximumDistance: maximumSnapDistance)
-      else {
-        continue
-      }
+          to: coordinate, maximumDistance: searchDistance)
+      else { continue }
       let candidate = PlacedWaterNode(
-        coordinate: grid.coordinate(for: cell),
-        snapDistance: distance,
-        gridIndex: index
-      )
+        coordinate: grid.coordinate(for: cell), snapDistance: distance,
+        gridIndex: index, cell: cell)
       if isBetterPlacement(candidate, than: best) { best = candidate }
     }
     return best
   }
 
   func route(from start: PlacedWaterNode, to end: PlacedWaterNode) -> [MaritimeCoordinate]? {
-    if start.gridIndex == end.gridIndex, start.gridIndex != globalGridIndex {
-      return Self.routeLocally(
-        on: grids[start.gridIndex], from: start.coordinate, to: end.coordinate)
+    let key = cacheKey(from: start, to: end)
+    if let cached = routeCache[key] { return cached }
+
+    if start.gridIndex == end.gridIndex,
+      let startTile = grids[start.gridIndex].tileIndex(for: start.cell),
+      startTile == grids[end.gridIndex].tileIndex(for: end.cell),
+      let local = localPath(
+        on: grids[start.gridIndex], from: start.coordinate, startCell: start.cell,
+        to: end.coordinate, goalCell: end.cell, tileIndex: startTile)
+    {
+      return cache(local, for: key)
     }
 
-    guard let starts = accesses(for: start), let ends = accesses(for: end),
-      let path = routeThroughGlobalNetwork(from: starts, to: ends)
+    guard let starts = accesses(for: start), !starts.isEmpty,
+      let ends = accesses(for: end), !ends.isEmpty,
+      let graphPath = graphPath(from: starts, to: ends)
     else { return nil }
-    return path.count > 1 ? path : nil
+    let simplified = simplifyAcrossAvailableGrids(graphPath)
+    guard simplified.count > 1, validate(simplified) else { return nil }
+    return cache(simplified, for: key)
   }
 
   func isNavigableSegment(from start: MaritimeCoordinate, to end: MaritimeCoordinate) -> Bool {
-    grids.contains { grid in
-      grid.contains(start) && grid.contains(end) && grid.segmentIsNavigable(from: start, to: end)
-    }
+    let candidates = grids.filter { $0.contains(start) && $0.contains(end) }
+      .sorted {
+        if $0.metadata.step != $1.metadata.step { return $0.metadata.step < $1.metadata.step }
+        return $0.gridIndex < $1.gridIndex
+      }
+    guard let finest = candidates.first else { return false }
+    return finest.segmentIsNavigable(from: start, to: end)
+  }
+
+  func hasGraphAccess(_ node: PlacedWaterNode) -> Bool {
+    accesses(for: node)?.isEmpty == false
   }
 
   private func isBetterPlacement(_ candidate: PlacedWaterNode, than current: PlacedWaterNode?)
@@ -293,397 +350,300 @@ struct WaterWorld: Sendable {
     return candidate.gridIndex < current.gridIndex
   }
 
-  private func accesses(for node: PlacedWaterNode) -> [Access]? {
-    if node.gridIndex == globalGridIndex {
-      return [
-        Access(
-          coordinate: node.coordinate,
-          pathFromEndpoint: [node.coordinate],
-          cost: 0,
-          sourceGridIndex: nil
-        )
-      ]
+  private func accesses(for endpoint: PlacedWaterNode) -> [Access]? {
+    let grid = grids[endpoint.gridIndex]
+    guard let tileIndex = grid.tileIndex(for: endpoint.cell),
+      let candidateNodes = resource.nodesByTile[tileIndex], !candidateNodes.isEmpty
+    else { return nil }
+    let candidates = Dictionary(
+      uniqueKeysWithValues: candidateNodes.compactMap { nodeIndex -> (Int, Int)? in
+        let node = resource.node(at: nodeIndex)
+        guard node.gridIndex == endpoint.gridIndex else { return nil }
+        return (node.linearCell, nodeIndex)
+      })
+    guard !candidates.isEmpty else { return nil }
+
+    let searches = localPaths(
+      on: grid, from: endpoint.coordinate, startCell: endpoint.cell,
+      toLinearCells: candidates, tileIndex: tileIndex, maximumResults: 4)
+    return searches.map {
+      Access(graphNode: $0.node, pathFromEndpoint: $0.path, cost: $0.cost)
     }
-    let grid = grids[node.gridIndex]
-    let accesses = grid.gateways.indices.compactMap { gatewayIndex -> Access? in
-      guard
-        let path = Self.routeToGateway(
-          on: grid, from: node.coordinate, gatewayIndex: gatewayIndex)
-      else { return nil }
-      return Access(
-        coordinate: grid.gateways[gatewayIndex],
-        pathFromEndpoint: path,
-        cost: Self.pathLength(path),
-        sourceGridIndex: node.gridIndex
-      )
-    }
-    return accesses.isEmpty ? nil : accesses
   }
 
-  private func routeThroughGlobalNetwork(from starts: [Access], to ends: [Access])
-    -> [MaritimeCoordinate]?
-  {
-    let directEstimate = starts.flatMap { start in
-      ends.map { end in
-        start.cost + MaritimeGeometry.distance(start.coordinate, end.coordinate) + end.cost
+  private func graphPath(from starts: [Access], to ends: [Access]) -> [MaritimeCoordinate]? {
+    beginGraphSearch()
+    var targetByNode: [Int: (index: Int, cost: Double)] = [:]
+    for (index, access) in ends.enumerated() {
+      if let current = targetByNode[access.graphNode], current.cost <= access.cost { continue }
+      targetByNode[access.graphNode] = (index, access.cost)
+    }
+
+    var frontier = PriorityQueue<GraphFrontier>()
+    var serial = 0
+    for (index, access) in starts.enumerated().sorted(by: {
+      $0.element.graphNode < $1.element.graphNode
+    }) {
+      let node = access.graphNode
+      if graphGenerations[node] == graphGeneration, graphCosts[node] <= access.cost { continue }
+      graphGenerations[node] = graphGeneration
+      graphCosts[node] = access.cost
+      graphParents[node] = -1
+      graphParentEdges[node] = -1
+      graphRoots[node] = index
+      let estimate = access.cost + graphHeuristic(node: node, ends: ends)
+      frontier.push(
+        GraphFrontier(estimate: estimate, cost: access.cost, node: node, serial: serial))
+      serial += 1
+    }
+
+    var bestTarget: (node: Int, endIndex: Int, total: Double)?
+    while let current = frontier.pop() {
+      guard graphGenerations[current.node] == graphGeneration,
+        graphCosts[current.node] == current.cost
+      else { continue }
+      if let bestTarget, current.estimate >= bestTarget.total { break }
+      if let target = targetByNode[current.node] {
+        let total = current.cost + target.cost
+        if bestTarget == nil || total < bestTarget!.total
+          || (total == bestTarget!.total && current.node < bestTarget!.node)
+        {
+          bestTarget = (current.node, target.index, total)
+        }
       }
-    }.min() ?? .infinity
-    var candidates: [(index: Int, estimate: Double)] = []
-    for (index, transition) in connectorTransitions.enumerated() {
-      if starts.contains(where: { $0.sourceGridIndex == transition.gridIndex })
-        || ends.contains(where: { $0.sourceGridIndex == transition.gridIndex })
+
+      for edgeIndex in resource.outgoingEdgeRange(for: current.node) {
+        let edge = resource.edge(at: edgeIndex)
+        let nextCost = current.cost + edge.cost
+        if graphGenerations[edge.target] == graphGeneration,
+          graphCosts[edge.target] <= nextCost
+        {
+          continue
+        }
+        graphGenerations[edge.target] = graphGeneration
+        graphCosts[edge.target] = nextCost
+        graphParents[edge.target] = current.node
+        graphParentEdges[edge.target] = edgeIndex
+        graphRoots[edge.target] = graphRoots[current.node]
+        let estimate = nextCost + graphHeuristic(node: edge.target, ends: ends)
+        frontier.push(
+          GraphFrontier(estimate: estimate, cost: nextCost, node: edge.target, serial: serial))
+        serial += 1
+      }
+    }
+    guard let target = bestTarget else { return nil }
+
+    var reversedNodes = [target.node]
+    var reversedEdges: [Int] = []
+    var node = target.node
+    while graphParents[node] >= 0 {
+      reversedEdges.append(graphParentEdges[node])
+      node = graphParents[node]
+      reversedNodes.append(node)
+    }
+    guard starts.indices.contains(graphRoots[target.node]), ends.indices.contains(target.endIndex)
+    else {
+      return nil
+    }
+    let nodes = reversedNodes.reversed()
+    let edges = reversedEdges.reversed()
+    var sections: [[MaritimeCoordinate]] = [starts[graphRoots[target.node]].pathFromEndpoint]
+    for (pair, edgeIndex) in zip(zip(nodes, nodes.dropFirst()), edges) {
+      let first = resource.node(at: pair.0)
+      let second = resource.node(at: pair.1)
+      let firstGrid = grids[first.gridIndex]
+      let firstCell = WaterGrid.Cell(
+        row: first.linearCell / firstGrid.metadata.columns,
+        column: first.linearCell % firstGrid.metadata.columns)
+      let secondGrid = grids[second.gridIndex]
+      let secondCell = WaterGrid.Cell(
+        row: second.linearCell / secondGrid.metadata.columns,
+        column: second.linearCell % secondGrid.metadata.columns)
+      let firstCoordinate = firstGrid.coordinate(for: firstCell)
+      let secondCoordinate = secondGrid.coordinate(for: secondCell)
+      let edge = resource.edge(at: edgeIndex)
+      if let tile = edge.tileContext, first.gridIndex == second.gridIndex {
+        guard
+          let section = localPath(
+            on: firstGrid, from: firstCoordinate, startCell: firstCell,
+            to: secondCoordinate, goalCell: secondCell, tileIndex: tile)
+        else { return nil }
+        sections.append(section)
+      } else if first.gridIndex == second.gridIndex,
+        !isNavigableSegment(from: firstCoordinate, to: secondCoordinate),
+        let tile = firstGrid.tileIndex(for: firstCell),
+        tile == secondGrid.tileIndex(for: secondCell)
       {
-        continue
-      }
-      var estimate = Double.infinity
-      for start in starts {
-        let approach = start.cost + MaritimeGeometry.distance(start.coordinate, transition.start)
-        for end in ends {
-          let departure = MaritimeGeometry.distance(transition.end, end.coordinate) + end.cost
-          estimate = min(estimate, approach + transition.cost + departure)
-        }
-      }
-      if estimate <= directEstimate * 1.15 + 100_000 {
-        candidates.append((index: index, estimate: estimate))
+        // The build-time raster proof is deliberately cheap. If the finer
+        // runtime sampler sees a thin raster corner that it missed, reconstruct
+        // the already-selected edge locally instead of accepting or dropping it.
+        guard
+          let section = localPath(
+            on: firstGrid, from: firstCoordinate, startCell: firstCell,
+            to: secondCoordinate, goalCell: secondCell, tileIndex: tile)
+        else { return nil }
+        sections.append(section)
+      } else {
+        sections.append([firstCoordinate, secondCoordinate])
       }
     }
-    candidates.sort {
-      $0.estimate != $1.estimate ? $0.estimate < $1.estimate : $0.index < $1.index
-    }
-
-    for candidate in candidates.prefix(2) {
-      let transition = connectorTransitions[candidate.index]
-      let entrance = Access(
-        coordinate: transition.start,
-        pathFromEndpoint: [transition.start],
-        cost: 0,
-        sourceGridIndex: nil
-      )
-      let exit = Access(
-        coordinate: transition.end,
-        pathFromEndpoint: [transition.end],
-        cost: 0,
-        sourceGridIndex: nil
-      )
-      guard
-        let approach = routeAcrossGlobalGrid(
-          from: starts, to: [entrance], connectorTransitions: []),
-        let departure = routeAcrossGlobalGrid(
-          from: [exit], to: ends, connectorTransitions: [])
-      else { continue }
-      let path = Self.join(
-        [approach, transition.path, departure] as [[MaritimeCoordinate]])
-      let rounded = roundedAcrossAvailableGrids(simplifyAcrossAvailableGrids(path))
-      return repairRasterCornerCuts(in: rounded)
-    }
-
-    return routeAcrossGlobalGrid(from: starts, to: ends, connectorTransitions: [])
+    sections.append(Array(ends[target.endIndex].pathFromEndpoint.reversed()))
+    let joined = Self.join(sections)
+    return validate(joined) ? joined : nil
   }
 
-  private func routeAcrossGlobalGrid(
-    from starts: [Access],
-    to ends: [Access],
-    connectorTransitions: [ConnectorTransition]
-  ) -> [MaritimeCoordinate]? {
-    let grid = grids[globalGridIndex]
+  private func graphHeuristic(node: Int, ends: [Access]) -> Double {
+    let coordinate = graphCoordinate(node)
+    return ends.map {
+      MaritimeGeometry.distance(coordinate, graphCoordinate($0.graphNode)) + $0.cost
+    }.min() ?? .infinity
+  }
 
-    enum Parent: Sendable {
-      case adjacent(WaterGrid.Cell)
-      case connector(WaterGrid.Cell, [MaritimeCoordinate])
+  private func graphCoordinate(_ nodeIndex: Int) -> MaritimeCoordinate {
+    let node = resource.node(at: nodeIndex)
+    let grid = grids[node.gridIndex]
+    return grid.coordinate(
+      for: WaterGrid.Cell(
+        row: node.linearCell / grid.metadata.columns,
+        column: node.linearCell % grid.metadata.columns))
+  }
+
+  private func beginGraphSearch() {
+    graphGeneration &+= 1
+    if graphGeneration == 0 {
+      graphGenerations = Array(repeating: 0, count: graphGenerations.count)
+      graphGeneration = 1
     }
+  }
 
-    struct Frontier: Comparable {
-      let estimatedTotal: Double
-      let heuristic: Double
-      let cost: Double
-      let serial: Int
-      let cell: WaterGrid.Cell
-
-      static func < (lhs: Frontier, rhs: Frontier) -> Bool {
-        if lhs.estimatedTotal != rhs.estimatedTotal {
-          return lhs.estimatedTotal < rhs.estimatedTotal
-        }
-        if lhs.heuristic != rhs.heuristic { return lhs.heuristic < rhs.heuristic }
-        return lhs.serial < rhs.serial
-      }
-    }
-
-    struct SearchState {
-      var frontier = PriorityQueue<Frontier>()
-      var costs: [WaterGrid.Cell: Double] = [:]
-      var parents: [WaterGrid.Cell: Parent] = [:]
-      var incomingDirections: [WaterGrid.Cell: Int] = [:]
-      var accessIndicesByRoot: [WaterGrid.Cell: Int] = [:]
-      var serial = 0
-    }
-
-    var transitionIndicesByCell: [WaterGrid.Cell: [Int]] = [:]
-    for (index, transition) in connectorTransitions.enumerated() {
-      guard grid.isNavigable(transition.start), grid.isNavigable(transition.end),
-        let cell = grid.cell(for: transition.start), grid.cell(for: transition.end) != nil
-      else { continue }
-      transitionIndicesByCell[cell, default: []].append(index)
-    }
-
-    func heuristic(from coordinate: MaritimeCoordinate, toward accesses: [Access]) -> Double {
-      var estimates = accesses.compactMap { access -> Double? in
-        guard grid.isNavigable(access.coordinate) else { return nil }
-        return MaritimeGeometry.distance(coordinate, access.coordinate) + access.cost
-      }
-      for transition in connectorTransitions {
-        for access in accesses {
-          let viaConnector =
-            MaritimeGeometry.distance(coordinate, transition.start)
-            + transition.cost
-            + MaritimeGeometry.distance(transition.end, access.coordinate)
-            + access.cost
-          // A small lower-bound discount makes geographically useful connector
-          // entrances competitive with a direct great-circle line through land.
-          estimates.append(viaConnector * 0.9)
-        }
-      }
-      return estimates.min() ?? .infinity
-    }
-
-    func initialState(for accesses: [Access], toward targets: [Access]) -> SearchState {
-      var state = SearchState()
-      for (index, access) in accesses.enumerated() {
-        guard grid.isNavigable(access.coordinate), let cell = grid.cell(for: access.coordinate)
-        else { continue }
-        let center = grid.coordinate(for: cell)
-        guard grid.segmentIsNavigable(from: access.coordinate, to: center) else { continue }
-        let cost = access.cost + MaritimeGeometry.distance(access.coordinate, center)
-        if let oldCost = state.costs[cell], oldCost <= cost { continue }
-        state.costs[cell] = cost
-        state.accessIndicesByRoot[cell] = index
-        let estimate = heuristic(from: center, toward: targets)
-        state.frontier.push(
-          Frontier(
-            estimatedTotal: cost + estimate,
-            heuristic: estimate,
-            cost: cost,
-            serial: state.serial,
-            cell: cell
-          ))
-        state.serial += 1
-      }
-      return state
-    }
-
+  private func localPaths(
+    on grid: WaterGrid,
+    from startCoordinate: MaritimeCoordinate,
+    startCell: WaterGrid.Cell,
+    toLinearCells targets: [Int: Int],
+    tileIndex: Int,
+    maximumResults: Int
+  ) -> [(node: Int, path: [MaritimeCoordinate], cost: Double)] {
+    let tile = resource.tiles[tileIndex]
+    guard tile.gridIndex == grid.gridIndex else { return [] }
+    let firstRow = tile.tileRow * resource.metadata.tileSize
+    let firstColumn = tile.tileColumn * resource.metadata.tileSize
+    let width = tile.columns
+    let height = tile.rows
+    guard (firstRow..<(firstRow + height)).contains(startCell.row),
+      (firstColumn..<(firstColumn + width)).contains(startCell.column)
+    else { return [] }
+    let startIndex = (startCell.row - firstRow) * width + startCell.column - firstColumn
+    var costs = Array(repeating: Double.infinity, count: width * height)
+    var parents = Array(repeating: -1, count: width * height)
+    var frontier = PriorityQueue<LocalFrontier>()
+    var serial = 0
+    costs[startIndex] = MaritimeGeometry.distance(startCoordinate, grid.coordinate(for: startCell))
+    frontier.push(LocalFrontier(cost: costs[startIndex], index: startIndex, serial: serial))
+    serial += 1
+    var results: [(node: Int, path: [MaritimeCoordinate], cost: Double)] = []
     let directions = [
       (-1, 0), (-1, 1), (0, 1), (1, 1),
       (1, 0), (1, -1), (0, -1), (-1, -1),
     ]
 
-    func expand(_ state: inout SearchState, toward targets: [Access]) -> WaterGrid.Cell? {
-      var current: Frontier?
-      while let candidate = state.frontier.pop() {
-        if state.costs[candidate.cell] == candidate.cost {
-          current = candidate
-          break
-        }
+    while let current = frontier.pop(), results.count < maximumResults {
+      guard costs[current.index] == current.cost else { continue }
+      let local = localCell(
+        current.index, width: width, firstRow: firstRow, firstColumn: firstColumn)
+      let linear = local.row * grid.metadata.columns + local.column
+      if let graphNode = targets[linear] {
+        let cells = reconstructLocalCells(
+          goalIndex: current.index, parents: parents, width: width,
+          firstRow: firstRow, firstColumn: firstColumn)
+        let path = coordinates(from: startCoordinate, cells: cells, on: grid)
+        results.append((graphNode, simplifyAcrossAvailableGrids(path), current.cost))
       }
-      guard let current, let currentCost = state.costs[current.cell] else { return nil }
-      let currentCoordinate = grid.coordinate(for: current.cell)
-      let currentDirection = state.incomingDirections[current.cell]
-      for (direction, offset) in directions.enumerated() {
-        guard
-          let nextCell = grid.neighboringCell(
-            current.cell, rowOffset: offset.0, columnOffset: offset.1),
-          grid.isNavigable(nextCell)
+      for offset in directions {
+        let nextRow = local.row + offset.0
+        let nextColumn = local.column + offset.1
+        guard (firstRow..<(firstRow + height)).contains(nextRow),
+          (firstColumn..<(firstColumn + width)).contains(nextColumn)
         else { continue }
-        let nextCoordinate = grid.coordinate(for: nextCell)
-        guard grid.segmentIsNavigable(from: currentCoordinate, to: nextCoordinate) else {
+        let nextCell = WaterGrid.Cell(row: nextRow, column: nextColumn)
+        guard grid.isNavigable(nextCell) else { continue }
+        if offset.0 != 0, offset.1 != 0,
+          !grid.isNavigable(WaterGrid.Cell(row: local.row + offset.0, column: local.column))
+            || !grid.isNavigable(WaterGrid.Cell(row: local.row, column: local.column + offset.1))
+        {
           continue
         }
-        let stepDistance = MaritimeGeometry.distance(currentCoordinate, nextCoordinate)
-        let turnMultiplier = currentDirection == nil || currentDirection == direction ? 0 : 0.035
-        let nextCost = currentCost + stepDistance * (1 + turnMultiplier)
-        guard state.costs[nextCell].map({ $0 > nextCost }) ?? true else { continue }
-        state.costs[nextCell] = nextCost
-        state.parents[nextCell] = .adjacent(current.cell)
-        state.incomingDirections[nextCell] = direction
-        let nextHeuristic = heuristic(from: nextCoordinate, toward: targets)
-        state.frontier.push(
-          Frontier(
-            estimatedTotal: nextCost + nextHeuristic,
-            heuristic: nextHeuristic,
-            cost: nextCost,
-            serial: state.serial,
-            cell: nextCell
-          ))
-        state.serial += 1
-      }
-
-      for transitionIndex in transitionIndicesByCell[current.cell] ?? [] {
-        let transition = connectorTransitions[transitionIndex]
-        guard let nextCell = grid.cell(for: transition.end) else { continue }
-        let nextCoordinate = grid.coordinate(for: nextCell)
-        let section = Self.join([
-          [currentCoordinate, transition.start], transition.path,
-          [transition.end, nextCoordinate],
-        ])
-        let nextCost = currentCost + Self.pathLength(section)
-        guard state.costs[nextCell].map({ $0 > nextCost }) ?? true else { continue }
-        state.costs[nextCell] = nextCost
-        state.parents[nextCell] = .connector(current.cell, section)
-        state.incomingDirections[nextCell] = nil
-        let nextHeuristic = heuristic(from: nextCoordinate, toward: targets)
-        state.frontier.push(
-          Frontier(
-            estimatedTotal: nextCost + nextHeuristic,
-            heuristic: nextHeuristic,
-            cost: nextCost,
-            serial: state.serial,
-            cell: nextCell
-          ))
-        state.serial += 1
-      }
-      return current.cell
-    }
-
-    var forward = initialState(for: starts, toward: ends)
-    var backward = initialState(for: ends, toward: starts)
-    guard !forward.costs.isEmpty, !backward.costs.isEmpty else { return nil }
-
-    var meetingCell = forward.costs.keys
-      .filter { backward.costs[$0] != nil }
-      .sorted {
-        $0.row != $1.row ? $0.row < $1.row : $0.column < $1.column
-      }
-      .first
-    while meetingCell == nil, forward.costs.count + backward.costs.count <= 500_000 {
-      guard let forwardCell = expand(&forward, toward: ends) else { break }
-      if backward.costs[forwardCell] != nil {
-        meetingCell = forwardCell
-        break
-      }
-      guard let backwardCell = expand(&backward, toward: starts) else { break }
-      if forward.costs[backwardCell] != nil {
-        meetingCell = backwardCell
+        let nextIndex = (nextRow - firstRow) * width + nextColumn - firstColumn
+        let step = MaritimeGeometry.distance(
+          grid.coordinate(for: local), grid.coordinate(for: nextCell))
+        let nextCost = current.cost + step * (1 + grid.shorePenalty(at: nextCell))
+        guard nextCost < costs[nextIndex] else { continue }
+        costs[nextIndex] = nextCost
+        parents[nextIndex] = current.index
+        frontier.push(LocalFrontier(cost: nextCost, index: nextIndex, serial: serial))
+        serial += 1
       }
     }
-    guard let meetingCell else { return nil }
-
-    var cell = meetingCell
-    var reversedForwardSections: [[MaritimeCoordinate]] = []
-    while let parent = forward.parents[cell] {
-      switch parent {
-      case .adjacent(let previous):
-        reversedForwardSections.append([grid.coordinate(for: previous), grid.coordinate(for: cell)])
-        cell = previous
-      case .connector(let previous, let section):
-        reversedForwardSections.append(section)
-        cell = previous
-      }
-    }
-    guard let startIndex = forward.accessIndicesByRoot[cell] else { return nil }
-    let forwardRoot = cell
-
-    cell = meetingCell
-    var backwardSections: [[MaritimeCoordinate]] = []
-    while let parent = backward.parents[cell] {
-      switch parent {
-      case .adjacent(let next):
-        backwardSections.append([grid.coordinate(for: cell), grid.coordinate(for: next)])
-        cell = next
-      case .connector(let next, let section):
-        backwardSections.append(Array(section.reversed()))
-        cell = next
-      }
-    }
-    guard let endIndex = backward.accessIndicesByRoot[cell] else { return nil }
-    let backwardRoot = cell
-
-    let startAccess = starts[startIndex]
-    let endAccess = ends[endIndex]
-    var sections = [startAccess.pathFromEndpoint]
-    sections.append([startAccess.coordinate, grid.coordinate(for: forwardRoot)])
-    sections.append(contentsOf: reversedForwardSections.reversed())
-    sections.append(contentsOf: backwardSections)
-    sections.append([grid.coordinate(for: backwardRoot), endAccess.coordinate])
-    sections.append(Array(endAccess.pathFromEndpoint.reversed()))
-    let path = Self.join(sections)
-    let simplified = simplifyAcrossAvailableGrids(path)
-    return repairRasterCornerCuts(in: roundedAcrossAvailableGrids(simplified))
+    return results
   }
 
-  private static func routeLocally(
+  private func localPath(
     on grid: WaterGrid,
-    from start: MaritimeCoordinate,
-    to end: MaritimeCoordinate
-  ) -> [MaritimeCoordinate]? {
-    guard grid.isNavigable(start), grid.isNavigable(end),
-      let startCell = grid.cell(for: start), let goalCell = grid.cell(for: end)
-    else { return nil }
-    if grid.segmentIsNavigable(from: start, to: end) { return [start, end] }
-    let candidates = grid.gateways.indices.compactMap { gatewayIndex in
-      routeUsingGatewayTree(
-        on: grid,
-        from: start,
-        startCell: startCell,
-        to: end,
-        goalCell: goalCell,
-        gatewayIndex: gatewayIndex
-      )
-    }
-    return candidates.min { pathLength($0) < pathLength($1) }
-  }
-
-  private static func routeToGateway(
-    on grid: WaterGrid,
-    from start: MaritimeCoordinate,
-    gatewayIndex: Int
-  ) -> [MaritimeCoordinate]? {
-    guard grid.gateways.indices.contains(gatewayIndex), grid.isNavigable(start),
-      let startCell = grid.cell(for: start),
-      let cells = grid.pathToGateway(from: startCell, gatewayIndex: gatewayIndex)
-    else { return nil }
-    let gateway = grid.gateways[gatewayIndex]
-    var path = [start]
-    path.append(contentsOf: cells.dropFirst().map(grid.coordinate(for:)))
-    if path.last.map({ MaritimeGeometry.distance($0, gateway) >= 1 }) ?? true {
-      path.append(gateway)
-    }
-    for (first, second) in zip(path, path.dropFirst()) {
-      guard grid.segmentIsNavigable(from: first, to: second) else { return nil }
-    }
-    return rounded(simplify(path, on: grid), on: grid)
-  }
-
-  private static func routeUsingGatewayTree(
-    on grid: WaterGrid,
-    from start: MaritimeCoordinate,
+    from startCoordinate: MaritimeCoordinate,
     startCell: WaterGrid.Cell,
-    to end: MaritimeCoordinate,
+    to endCoordinate: MaritimeCoordinate,
     goalCell: WaterGrid.Cell,
-    gatewayIndex: Int
+    tileIndex: Int
   ) -> [MaritimeCoordinate]? {
-    guard let startPath = grid.pathToGateway(from: startCell, gatewayIndex: gatewayIndex),
-      let goalPath = grid.pathToGateway(from: goalCell, gatewayIndex: gatewayIndex)
-    else { return nil }
-    let startIndices = Dictionary(
-      uniqueKeysWithValues: startPath.enumerated().map { ($0.element, $0.offset) })
+    if isNavigableSegment(from: startCoordinate, to: endCoordinate) {
+      return [startCoordinate, endCoordinate]
+    }
+    let linear = goalCell.row * grid.metadata.columns + goalCell.column
     guard
-      let intersection = goalPath.enumerated().first(where: { startIndices[$0.element] != nil }),
-      let startIntersectionIndex = startIndices[intersection.element]
+      let result = localPaths(
+        on: grid, from: startCoordinate, startCell: startCell,
+        toLinearCells: [linear: 0], tileIndex: tileIndex, maximumResults: 1
+      ).first
     else { return nil }
+    var path = result.path
+    if let last = path.last, MaritimeGeometry.distance(last, endCoordinate) >= 1 {
+      guard grid.segmentIsNavigable(from: last, to: endCoordinate) else { return nil }
+      path.append(endCoordinate)
+    }
+    return validate(path) ? path : nil
+  }
 
-    var cells = Array(startPath[0...startIntersectionIndex])
-    if intersection.offset > 0 {
-      cells.append(contentsOf: goalPath[..<intersection.offset].reversed())
+  private func localCell(_ index: Int, width: Int, firstRow: Int, firstColumn: Int)
+    -> WaterGrid.Cell
+  {
+    let position = index.quotientAndRemainder(dividingBy: width)
+    return WaterGrid.Cell(
+      row: firstRow + position.quotient, column: firstColumn + position.remainder)
+  }
+
+  private func reconstructLocalCells(
+    goalIndex: Int, parents: [Int], width: Int, firstRow: Int, firstColumn: Int
+  ) -> [WaterGrid.Cell] {
+    var result: [WaterGrid.Cell] = []
+    var index = goalIndex
+    while index >= 0 {
+      result.append(localCell(index, width: width, firstRow: firstRow, firstColumn: firstColumn))
+      index = parents[index]
     }
-    var path = [start]
-    for cell in cells
-    where path.last.map({ MaritimeGeometry.distance($0, grid.coordinate(for: cell)) >= 1 }) ?? true
-    {
-      path.append(grid.coordinate(for: cell))
+    return result.reversed()
+  }
+
+  private func coordinates(
+    from start: MaritimeCoordinate, cells: [WaterGrid.Cell], on grid: WaterGrid
+  ) -> [MaritimeCoordinate] {
+    var result = [start]
+    for cell in cells {
+      let coordinate = grid.coordinate(for: cell)
+      if result.last.map({ MaritimeGeometry.distance($0, coordinate) >= 1 }) ?? true {
+        result.append(coordinate)
+      }
     }
-    if path.last.map({ MaritimeGeometry.distance($0, end) >= 1 }) ?? true { path.append(end) }
-    for (first, second) in zip(path, path.dropFirst()) {
-      guard grid.segmentIsNavigable(from: first, to: second) else { return nil }
-    }
-    return rounded(simplify(path, on: grid), on: grid)
+    return result
   }
 
   private func simplifyAcrossAvailableGrids(_ path: [MaritimeCoordinate])
@@ -693,115 +653,60 @@ struct WaterWorld: Sendable {
     var result = [path[0]]
     var index = 0
     while index < path.count - 1 {
-      var candidate = min(path.count - 1, index + 160)
+      var candidate = min(path.count - 1, index + 192)
       while candidate > index + 1,
         !isNavigableSegment(from: path[index], to: path[candidate])
-      {
-        candidate -= 1
-      }
+      { candidate -= 1 }
       result.append(path[candidate])
       index = candidate
     }
     return result
   }
 
-  private func roundedAcrossAvailableGrids(_ path: [MaritimeCoordinate])
-    -> [MaritimeCoordinate]
-  {
-    guard path.count > 2 else { return path }
-    var candidate = [path[0]]
-    for index in 0..<(path.count - 1) {
-      candidate.append(
-        MaritimeGeometry.interpolate(from: path[index], to: path[index + 1], fraction: 0.25))
-      candidate.append(
-        MaritimeGeometry.interpolate(from: path[index], to: path[index + 1], fraction: 0.75))
-    }
-    candidate.append(path[path.count - 1])
-    for (start, end) in zip(candidate, candidate.dropFirst()) {
-      if !isNavigableSegment(from: start, to: end) { return path }
-    }
-    return candidate
-  }
-
-  private func repairRasterCornerCuts(in path: [MaritimeCoordinate])
-    -> [MaritimeCoordinate]?
-  {
-    guard let first = path.first else { return [] }
-    var result = [first]
-    for end in path.dropFirst() {
-      let start = result.last!
-      if isNavigableSegment(from: start, to: end) {
-        result.append(end)
-        continue
-      }
-
-      var repaired = false
-      for grid in grids where grid.contains(start) && grid.contains(end) {
-        guard let startCell = grid.cell(for: start), let endCell = grid.cell(for: end),
-          abs(startCell.row - endCell.row) <= 1,
-          abs(startCell.column - endCell.column) <= 1
-        else { continue }
-        let candidates = [
-          WaterGrid.Cell(row: startCell.row, column: endCell.column),
-          WaterGrid.Cell(row: endCell.row, column: startCell.column),
-        ]
-        for cell in candidates where grid.isNavigable(cell) {
-          let corner = grid.coordinate(for: cell)
-          if grid.segmentIsNavigable(from: start, to: corner),
-            grid.segmentIsNavigable(from: corner, to: end)
-          {
-            result.append(corner)
-            result.append(end)
-            repaired = true
-            break
-          }
-        }
-        if repaired { break }
-      }
-      if !repaired { return nil }
-    }
-    return result
-  }
-
-  private static func simplify(_ path: [MaritimeCoordinate], on grid: WaterGrid)
+  private func simplify(_ path: [MaritimeCoordinate], on grid: WaterGrid)
     -> [MaritimeCoordinate]
   {
     guard path.count > 2 else { return path }
     var result = [path[0]]
     var index = 0
     while index < path.count - 1 {
-      var candidate = min(path.count - 1, index + 160)
+      var candidate = min(path.count - 1, index + 192)
       while candidate > index + 1,
         !grid.segmentIsNavigable(from: path[index], to: path[candidate])
-      {
-        candidate -= 1
-      }
+      { candidate -= 1 }
       result.append(path[candidate])
       index = candidate
     }
     return result
   }
 
-  private static func rounded(_ path: [MaritimeCoordinate], on grid: WaterGrid)
-    -> [MaritimeCoordinate]
-  {
-    guard path.count > 2 else { return path }
-    var candidate = [path[0]]
-    for index in 0..<(path.count - 1) {
-      let start = path[index]
-      let end = path[index + 1]
-      candidate.append(MaritimeGeometry.interpolate(from: start, to: end, fraction: 0.25))
-      candidate.append(MaritimeGeometry.interpolate(from: start, to: end, fraction: 0.75))
-    }
-    candidate.append(path[path.count - 1])
-    for (start, end) in zip(candidate, candidate.dropFirst()) {
-      if !grid.segmentIsNavigable(from: start, to: end) { return path }
-    }
-    return candidate
+  private func validate(_ path: [MaritimeCoordinate]) -> Bool {
+    zip(path, path.dropFirst()).allSatisfy(isNavigableSegment)
   }
 
-  private static func pathLength(_ path: [MaritimeCoordinate]) -> Double {
-    zip(path, path.dropFirst()).map(MaritimeGeometry.distance).reduce(0, +)
+  private func cacheKey(from start: PlacedWaterNode, to end: PlacedWaterNode) -> RouteCacheKey {
+    RouteCacheKey(
+      startGrid: start.gridIndex,
+      startCell: start.cell.row * grids[start.gridIndex].metadata.columns + start.cell.column,
+      startLatitude: start.coordinate.latitude.bitPattern,
+      startLongitude: start.coordinate.longitude.bitPattern,
+      endGrid: end.gridIndex,
+      endCell: end.cell.row * grids[end.gridIndex].metadata.columns + end.cell.column,
+      endLatitude: end.coordinate.latitude.bitPattern,
+      endLongitude: end.coordinate.longitude.bitPattern)
+  }
+
+  private func cache(_ path: [MaritimeCoordinate], for key: RouteCacheKey)
+    -> [MaritimeCoordinate]
+  {
+    if routeCache[key] == nil {
+      routeCacheOrder.append(key)
+      if routeCacheOrder.count > 128 {
+        routeCache.removeValue(forKey: routeCacheOrder.removeFirst())
+      }
+    }
+    routeCache[key] = path
+    return path
   }
 
   private static func join<S: Sequence>(_ sections: S) -> [MaritimeCoordinate]

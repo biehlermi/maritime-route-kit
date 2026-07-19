@@ -199,6 +199,25 @@ struct MaritimeRoutePlannerTests {
       ))
   }
 
+  @Test("The single worldwide resource stays below 25 MiB and validates 600 WPI ports")
+  func worldwideResourceAndPortCoverage() throws {
+    let world = try WaterWorld()
+    #expect(world.resource.installedByteCount <= 25 * 1_024 * 1_024)
+    let url = try #require(Bundle.module.url(forResource: "worldwide_ports", withExtension: "json"))
+    let catalog = try JSONDecoder().decode(WorldPortCatalog.self, from: Data(contentsOf: url))
+    #expect(catalog.ports.count >= 500)
+    var placedCount = 0
+    var connectedCount = 0
+    for port in catalog.ports {
+      let coordinate = MaritimeCoordinate(latitude: port.latitude, longitude: port.longitude)
+      guard let placement = world.place(coordinate, maximumSnapDistance: 25_000) else { continue }
+      placedCount += 1
+      if world.hasGraphAccess(placement) { connectedCount += 1 }
+    }
+    #expect(placedCount >= 500)
+    #expect(connectedCount >= 500)
+  }
+
   @Test("Planning is deterministic")
   func deterministic() async {
     let stops = [
@@ -245,6 +264,17 @@ struct MaritimeRoutePlannerTests {
       #expect(world.isNavigableSegment(from: start, to: end))
     }
   }
+}
+
+private struct WorldPortCatalog: Decodable {
+  struct Port: Decodable {
+    let id: String
+    let name: String
+    let latitude: Double
+    let longitude: Double
+  }
+
+  let ports: [Port]
 }
 
 private let caribbeanStops = [

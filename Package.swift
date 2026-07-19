@@ -30,6 +30,9 @@ let package = Package(
     .testTarget(
       name: "MaritimeRouteKitTests",
       dependencies: ["MaritimeRouteKit"],
+      resources: [
+        .process("Resources")
+      ],
       swiftSettings: [
         .enableUpcomingFeature("ApproachableConcurrency")
       ],

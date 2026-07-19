@@ -56,7 +56,8 @@ a 14-stop Caribbean itinerary. Open that file in Xcode and select
 
 Use `MaritimeRoutePlanner` when you need route geometry, placement information,
 or diagnostics without the bundled map view. Keep and reuse the actor: it loads
-the bundled grids lazily on the first call and caches them for later plans.
+the single bundled worldwide resource lazily on the first call and reuses its
+tile, graph-search, and route caches for later plans.
 
 ```swift
 let planner = MaritimeRoutePlanner()
@@ -98,50 +99,52 @@ and safe to call from a SwiftUI task.
 
 ### Canals and other connectors
 
-Suez and Panama are bundled as high-resolution, two-portal connector grids.
-The planner can select them automatically for an advantageous passage, so an
-explicit “Suez Canal” or “Panama Canal” stop is not required. A stop inside a
-connector is also supported, which is useful when displaying the passage as an
-itinerary call.
+Suez and Panama currently have bundled high-resolution masks and internal
+passage annotations. The planner selects them automatically when advantageous;
+callers do not name a canal, select a data product, or configure availability.
+A stop inside a represented connector is supported as well.
 
-Connector handling is data-driven. Runtime code discovers every `.mrkgrid`
-resource and derives transitions from its gateways; there is no Swift list of
-canal names or canal coordinates. To add another canal, strait, river reach, or
-similar region, add its bounds, open-water gateways, and source-selection rules
-to `Tools/waterways.json`, commit the corresponding Overpass query, and rebuild
-the grid. No planner source change is required.
+All global and detailed regions feed one graph, so a route can compose any
+number of represented canals, straits, coastal approaches, and fjords. Adding a
+region changes the build-time manifest and regenerated `world.mrkroute`, not the
+Swift routing logic or public API.
 
 ## How routing works
 
-- A bit-packed Natural Earth 1:10m ocean grid supplies global illustrative
-  coverage and a conservative 2 km open-water land clearance.
-- OpenStreetMap-derived patches add a conservative sub-100 m geometric
-  clearance in constrained waterways where 2 km is physically impossible:
+- A compressed Natural Earth 1:10m ocean mask supplies worldwide illustrative
+  open-water coverage at 0.025°. OpenStreetMap-derived detail currently covers
   the tidal Elbe, Bergen approach, Geirangerfjord, Stockholm archipelago, Suez
-  Canal, and Panama Canal.
+  Canal, and Panama Canal at sub-100 m cell sizes.
 - Stops over land snap to the closest represented navigable water point within
   25 km.
-- A bidirectional global grid search uses geodesic distance and a turn penalty.
-  Multi-gateway connector transitions and single-gateway constrained approaches
-  use precomputed deterministic water-only trees. Safe line-of-sight
-  simplification, interpolation, and raster-corner repair remove grid-like steps
-  while revalidating the returned geometry.
+- A hierarchical portal graph connects the tiled masks. Bounded local searches
+  attach each endpoint to up to four graph nodes; flat-array A* then finds the
+  worldwide path with geodesic distance as its heuristic. Contextual graph
+  edges are reconstructed inside their source tile.
+- Water masks are stored as independently raw-DEFLATE-compressed 128×128 tiles;
+  all-land and all-water tiles have no payload. Runtime decoding is bounded by a
+  32 MiB LRU cache, and graph and route-search scratch storage is reused.
+- Water-validated line-of-sight simplification removes grid-like steps. Every
+  returned segment is checked against the finest available mask; an unsuccessful
+  search never falls back to an unchecked straight line.
 - Polylines are split at the antimeridian before MapKit renders them.
 
-Route selection prefers lower-cost water-safe geometry represented by these
-grids, but does not claim a globally shortest passage. It does **not** mean the
-route that a master, pilot, or voyage-planning system would choose.
+Route selection prefers lower-cost water-safe geometry represented by the
+bundled dataset, but does not claim a navigationally optimal passage. It does
+**not** mean the route that a master, pilot, or voyage-planning system would
+choose.
 
 ## Data provenance and licenses
 
 The global ocean mask is derived from Natural Earth 1:10m ocean version 5.1.1,
-which is public domain. The high-detail patch database is derived from
-OpenStreetMap data and remains available under ODbL 1.0. Exact extraction
-dates, queries, checksums, attribution, and rebuild instructions are in
+which is public domain. High-detail masks are derived from OpenStreetMap data
+and remain available under ODbL 1.0. The test fixture catalog is derived from
+the NGA World Port Index. Exact extraction dates, checksums, attribution, and
+rebuild instructions are in
 [`DataSources/SOURCES.md`](DataSources/SOURCES.md).
 
-The Swift source is MIT-licensed. The ODbL-covered derived grids are separate
-data resources and are not relicensed under MIT.
+The Swift source is MIT-licensed. The ODbL-covered derived resources are
+separate data and are not relicensed under MIT.
 
 ## Known limits
 
@@ -160,15 +163,43 @@ data resources and are not relicensed under MIT.
 
 ## Rebuilding and testing
 
-The data preprocessor uses only Python’s standard library:
+The data preprocessors use only Python’s standard library. First create the
+unshipped intermediate masks, then compile them into the only runtime resource:
 
 ```sh
-python3 Tools/build_water_data.py --help
+python3 Tools/build_water_data.py \
+  --natural-earth-shp path/to/ne_10m_ocean.shp \
+  --source elbe=path/to/elbe-water.json \
+  --source bergen=path/to/bergen-coastline.json \
+  --source geirangerfjord=path/to/geiranger-coastline.json \
+  --source stockholm=path/to/stockholm-coastline.json \
+  --source suez=path/to/suez-water.json \
+  --source panama=path/to/panama-water.json \
+  --output path/to/intermediate-grids
+
+python3 Tools/build_world_route.py \
+  --grid-directory path/to/intermediate-grids \
+  --output Sources/MaritimeRouteKit/Resources/world.mrkroute
+
+python3 Tools/inspect_world_route.py \
+  Sources/MaritimeRouteKit/Resources/world.mrkroute
 ```
+
+The committed resource is about 5.3 MiB; generation and CI reject it if it
+exceeds 25 MiB. Identical pinned inputs produce byte-identical output.
 
 Run the iOS package tests from Xcode, or with an installed simulator:
 
 ```sh
 xcodebuild -scheme MaritimeRouteKit \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' test
+```
+
+Release-only performance gates use the same suite with optimized code:
+
+```sh
+xcodebuild -scheme MaritimeRouteKit \
+  -configuration Release \
+  -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+  ENABLE_TESTABILITY=YES test
 ```

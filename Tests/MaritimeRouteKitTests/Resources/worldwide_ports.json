@@ -1,0 +1,4808 @@
+{
+  "ports": [
+    {
+      "country": "Albania",
+      "id": "wpi-41670",
+      "latitude": 41.316667,
+      "longitude": 19.45,
+      "name": "Durres",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Algeria",
+      "id": "wpi-45570",
+      "latitude": 36.766667,
+      "longitude": 3.066667,
+      "name": "Alger",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "American Samoa",
+      "id": "wpi-55680",
+      "latitude": -14.283333,
+      "longitude": -170.666667,
+      "name": "Pago Pago Harbor",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Angola",
+      "id": "wpi-46490",
+      "latitude": -5.533333,
+      "longitude": 12.2,
+      "name": "Cabinda",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Antarctica",
+      "id": "wpi-63130",
+      "latitude": -77.85,
+      "longitude": 166.65,
+      "name": "Mcmurdo Station",
+      "waterBody": "Ross Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Antigua and Barbuda",
+      "id": "wpi-11430",
+      "latitude": 17.116667,
+      "longitude": -61.85,
+      "name": "St Johns",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Argentina",
+      "id": "wpi-13760",
+      "latitude": -34.6,
+      "longitude": -58.366667,
+      "name": "Buenos Aires",
+      "waterBody": "Rio de la Plata; South Atlantic Ocean"
+    },
+    {
+      "country": "Aruba",
+      "id": "wpi-11830",
+      "latitude": 12.433333,
+      "longitude": -69.916667,
+      "name": "Sint Nicolaas Baai",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Australia",
+      "id": "wpi-53490",
+      "latitude": -27.466667,
+      "longitude": 153.033333,
+      "name": "Brisbane",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Bahrain",
+      "id": "wpi-48327",
+      "latitude": 26.25,
+      "longitude": 50.75,
+      "name": "Khalifa Bin Salman",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Bangladesh",
+      "id": "wpi-49590",
+      "latitude": 22.316667,
+      "longitude": 91.816667,
+      "name": "Chittagong",
+      "waterBody": "Bay of Bengal; Indian Ocean"
+    },
+    {
+      "country": "Barbados",
+      "id": "wpi-11690",
+      "latitude": 13.1,
+      "longitude": -59.633333,
+      "name": "Bridgetown",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Belgium",
+      "id": "wpi-31280",
+      "latitude": 51.333333,
+      "longitude": 3.2,
+      "name": "Zeebrugge",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Belize",
+      "id": "wpi-9590",
+      "latitude": 17.5,
+      "longitude": -88.183333,
+      "name": "Belize City",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Benin",
+      "id": "wpi-46110",
+      "latitude": 6.35,
+      "longitude": 2.433333,
+      "name": "Cotonou",
+      "waterBody": "Bight of Benin; Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Bermuda",
+      "id": "wpi-9950",
+      "latitude": 32.316667,
+      "longitude": -64.833333,
+      "name": "Ireland Island",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Bosnia and Herzegovina",
+      "id": "wpi-41415",
+      "latitude": 42.916667,
+      "longitude": 17.6,
+      "name": "Neum",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Brazil",
+      "id": "wpi-12920",
+      "latitude": -22.9,
+      "longitude": -43.166667,
+      "name": "Rio De Janeiro",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "British Indian Ocean Territory",
+      "id": "wpi-47800",
+      "latitude": -7.35,
+      "longitude": 72.466667,
+      "name": "Diego Garcia",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "British Virgin Islands",
+      "id": "wpi-11350",
+      "latitude": 18.416667,
+      "longitude": -64.616667,
+      "name": "Road Harbor",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Brunei",
+      "id": "wpi-51630",
+      "latitude": 4.883333,
+      "longitude": 114.883333,
+      "name": "Bandar Seri Begawan",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Bulgaria",
+      "id": "wpi-43510",
+      "latitude": 43.183333,
+      "longitude": 27.966667,
+      "name": "Varna",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Burma",
+      "id": "wpi-49690",
+      "latitude": 12.433333,
+      "longitude": 98.6,
+      "name": "Mergui",
+      "waterBody": "Andaman Sea; Indian Ocean"
+    },
+    {
+      "country": "Cabo Verde",
+      "id": "wpi-45910",
+      "latitude": 14.916667,
+      "longitude": -23.516667,
+      "name": "Porto Da Praia",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Cambodia",
+      "id": "wpi-57485",
+      "latitude": 10.633333,
+      "longitude": 103.5,
+      "name": "Kampong Saom",
+      "waterBody": "Gulf of Thailand; South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Cameroon",
+      "id": "wpi-46280",
+      "latitude": 4.05,
+      "longitude": 9.683333,
+      "name": "Douala",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Canada",
+      "id": "wpi-6545",
+      "latitude": 45.2,
+      "longitude": -65.983333,
+      "name": "Canaport (St. John)",
+      "waterBody": "Bay of Fundy; North Atlantic Ocean"
+    },
+    {
+      "country": "Caribbean Netherlands",
+      "id": "wpi-11390",
+      "latitude": 17.483333,
+      "longitude": -62.983333,
+      "name": "Oranjestad",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cayman Islands",
+      "id": "wpi-10585",
+      "latitude": 19.75,
+      "longitude": -79.75,
+      "name": "Cayman Brac",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Chile",
+      "id": "wpi-14660",
+      "latitude": -23.65,
+      "longitude": -70.416667,
+      "name": "Antofagasta",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "China",
+      "id": "wpi-60250",
+      "latitude": 38.916667,
+      "longitude": 121.666667,
+      "name": "Dalian",
+      "waterBody": "Yellow Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Christmas Island",
+      "id": "wpi-50910",
+      "latitude": -10.416667,
+      "longitude": 105.7,
+      "name": "Flying Fish Cove",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Colombia",
+      "id": "wpi-11930",
+      "latitude": 10.966667,
+      "longitude": -74.766667,
+      "name": "Barranquilla",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Comoros",
+      "id": "wpi-47340",
+      "latitude": -12.783333,
+      "longitude": 45.25,
+      "name": "Dzaoudzi",
+      "waterBody": "Mozambique Channel; Indian Ocean"
+    },
+    {
+      "country": "Congo (Brazzaville)",
+      "id": "wpi-46470",
+      "latitude": -4.783333,
+      "longitude": 11.833333,
+      "name": "Pointe Noire",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Congo (Kinshasa)",
+      "id": "wpi-46520",
+      "latitude": -5.85,
+      "longitude": 13.05,
+      "name": "Boma",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Cook Islands",
+      "id": "wpi-55740",
+      "latitude": -21.2,
+      "longitude": -159.783333,
+      "name": "Avatiu",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Costa Rica",
+      "id": "wpi-15480",
+      "latitude": 8.633333,
+      "longitude": -83.166667,
+      "name": "Golfito",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Cote D'Ivoire",
+      "id": "wpi-46000",
+      "latitude": 5.25,
+      "longitude": -4.016667,
+      "name": "Abidjan",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Croatia",
+      "id": "wpi-41010",
+      "latitude": 45.333333,
+      "longitude": 14.433333,
+      "name": "Rijeka Luka",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cuba",
+      "id": "wpi-10230",
+      "latitude": 20.833333,
+      "longitude": -75.733333,
+      "name": "Antilla",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Curacao",
+      "id": "wpi-11820",
+      "latitude": 12.183333,
+      "longitude": -69.033333,
+      "name": "Bullen Baai",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cyprus",
+      "id": "wpi-44970",
+      "latitude": 35.116667,
+      "longitude": 33.933333,
+      "name": "Famagusta",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Denmark",
+      "id": "wpi-29230",
+      "latitude": 55.7,
+      "longitude": 12.616667,
+      "name": "Kobenhavn",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Djibouti",
+      "id": "wpi-47850",
+      "latitude": 11.6,
+      "longitude": 43.133333,
+      "name": "Djibouti",
+      "waterBody": "Gulf of Aden; Indian Ocean"
+    },
+    {
+      "country": "Dominica",
+      "id": "wpi-11530",
+      "latitude": 15.566667,
+      "longitude": -61.466667,
+      "name": "Portsmouth",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Dominican Republic",
+      "id": "wpi-11035",
+      "latitude": 18.433333,
+      "longitude": -69.633333,
+      "name": "Andres (Andres Lng Terminal)",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ecuador",
+      "id": "wpi-15275",
+      "latitude": -2.283333,
+      "longitude": -79.9,
+      "name": "Puerto Maritimo De Guayaquil",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Egypt",
+      "id": "wpi-48055",
+      "latitude": 29.583333,
+      "longitude": 32.366667,
+      "name": "Ain Sukhna Terminal",
+      "waterBody": "Gulf of Suez; Red Sea; Indian Ocean"
+    },
+    {
+      "country": "El Salvador",
+      "id": "wpi-15640",
+      "latitude": 13.583333,
+      "longitude": -89.833333,
+      "name": "Acajutla",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Equatorial Guinea",
+      "id": "wpi-46320",
+      "latitude": 3.75,
+      "longitude": 8.783333,
+      "name": "Malabo",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Eritrea",
+      "id": "wpi-47880",
+      "latitude": 13.0,
+      "longitude": 42.75,
+      "name": "Assab",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Estonia",
+      "id": "wpi-28484",
+      "latitude": 59.500042,
+      "longitude": 24.966693,
+      "name": "Muuga-Port of Tallin",
+      "waterBody": "Gulf of Finland; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Falkland Islands (Islas Malvinas)",
+      "id": "wpi-14000",
+      "latitude": -51.7,
+      "longitude": -57.833333,
+      "name": "Stanley",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Faroe Islands",
+      "id": "wpi-32740",
+      "latitude": 62.25,
+      "longitude": -6.8,
+      "name": "Fuglafjordur",
+      "waterBody": "Norwegian Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Federated States of Micronesia",
+      "id": "wpi-56590",
+      "latitude": 6.983333,
+      "longitude": 158.2,
+      "name": "Pohnpei Harbor",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Fiji",
+      "id": "wpi-55550",
+      "latitude": -17.683333,
+      "longitude": 178.833333,
+      "name": "Levuka",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Finland",
+      "id": "wpi-28190",
+      "latitude": 60.166667,
+      "longitude": 24.966667,
+      "name": "Helsinki",
+      "waterBody": "Gulf of Finland; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "France",
+      "id": "wpi-35840",
+      "latitude": 49.483333,
+      "longitude": 0.116667,
+      "name": "Port Of Le Havre",
+      "waterBody": "English Channel; North Atlantic Ocean"
+    },
+    {
+      "country": "French Guiana",
+      "id": "wpi-12455",
+      "latitude": 4.85,
+      "longitude": -52.266667,
+      "name": "Degrad Des Cannes",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "French Polynesia",
+      "id": "wpi-55840",
+      "latitude": -17.533333,
+      "longitude": -149.583333,
+      "name": "Papeete",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Gabon",
+      "id": "wpi-46430",
+      "latitude": 0.383333,
+      "longitude": 9.45,
+      "name": "Libreville",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Georgia",
+      "id": "wpi-44350",
+      "latitude": 41.65,
+      "longitude": 41.65,
+      "name": "Batumi",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Germany",
+      "id": "wpi-30810",
+      "latitude": 53.533333,
+      "longitude": 8.583333,
+      "name": "Bremerhaven",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ghana",
+      "id": "wpi-46040",
+      "latitude": 4.883333,
+      "longitude": -1.733333,
+      "name": "Takoradi",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Gibraltar",
+      "id": "wpi-38330",
+      "latitude": 36.133333,
+      "longitude": -5.35,
+      "name": "Europa Point",
+      "waterBody": "Strait of Gibraltar; North Atlantic Ocean"
+    },
+    {
+      "country": "Greece",
+      "id": "wpi-42230",
+      "latitude": 37.933333,
+      "longitude": 23.65,
+      "name": "Piraievs",
+      "waterBody": "Aegean Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Greenland",
+      "id": "wpi-760",
+      "latitude": 68.710833333,
+      "longitude": -52.868333333,
+      "name": "Aasiaat",
+      "waterBody": "Baffin Bay; Arctic Ocean"
+    },
+    {
+      "country": "Grenada",
+      "id": "wpi-11670",
+      "latitude": 12.05,
+      "longitude": -61.75,
+      "name": "St George's",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Guadeloupe",
+      "id": "wpi-11450",
+      "latitude": 16.233333,
+      "longitude": -61.533333,
+      "name": "Pointe A Pitre",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Guam",
+      "id": "wpi-56550",
+      "latitude": 13.45,
+      "longitude": 144.616667,
+      "name": "Apra Harbor",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Guatemala",
+      "id": "wpi-9620",
+      "latitude": 15.733333,
+      "longitude": -88.6,
+      "name": "Puerto Barrios",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Guernsey",
+      "id": "wpi-36000",
+      "latitude": 49.45,
+      "longitude": -2.533333,
+      "name": "Saint Peter Port",
+      "waterBody": "English Channel; North Atlantic Ocean"
+    },
+    {
+      "country": "Guinea",
+      "id": "wpi-45855",
+      "latitude": 9.516667,
+      "longitude": -13.716667,
+      "name": "Conakry",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Guinea-Bissau",
+      "id": "wpi-45838",
+      "latitude": 11.866667,
+      "longitude": -15.633333,
+      "name": "Bissau",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Guyana",
+      "id": "wpi-12370",
+      "latitude": 6.833333,
+      "longitude": -58.166667,
+      "name": "Georgetown",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Haiti",
+      "id": "wpi-10880",
+      "latitude": 18.55,
+      "longitude": -72.35,
+      "name": "Port Au Prince",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Honduras",
+      "id": "wpi-9650",
+      "latitude": 15.833333,
+      "longitude": -87.95,
+      "name": "Puerto Cortes",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Hong Kong",
+      "id": "wpi-57840",
+      "latitude": 22.266667,
+      "longitude": 114.2,
+      "name": "Hong Kong",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Iceland",
+      "id": "wpi-105",
+      "latitude": 64.266667,
+      "longitude": -22.0,
+      "name": "Grundartangi",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "India",
+      "id": "wpi-49450",
+      "latitude": 13.1,
+      "longitude": 80.3,
+      "name": "Chennai (Madras)",
+      "waterBody": "Bay of Bengal; Indian Ocean"
+    },
+    {
+      "country": "Indonesia",
+      "id": "wpi-51220",
+      "latitude": -7.733333,
+      "longitude": 109.0,
+      "name": "Cilacap",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Iran",
+      "id": "wpi-48520",
+      "latitude": 27.15,
+      "longitude": 56.2,
+      "name": "Bandar Abbas",
+      "waterBody": "Strait of Hormuz; Indian Ocean"
+    },
+    {
+      "country": "Iraq",
+      "id": "wpi-48399",
+      "latitude": 30.016667,
+      "longitude": 47.95,
+      "name": "Umm Qasr",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Ireland",
+      "id": "wpi-34350",
+      "latitude": 51.85,
+      "longitude": -8.3,
+      "name": "Cobh",
+      "waterBody": "Celtic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Isle of Man",
+      "id": "wpi-33610",
+      "latitude": 54.15,
+      "longitude": -4.466667,
+      "name": "Douglas",
+      "waterBody": "Irish Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Israel",
+      "id": "wpi-45080",
+      "latitude": 32.816667,
+      "longitude": 35.0,
+      "name": "Haifa",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Italy",
+      "id": "wpi-40500",
+      "latitude": 40.65,
+      "longitude": 17.983333,
+      "name": "Brindisi",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Jamaica",
+      "id": "wpi-10770",
+      "latitude": 17.966667,
+      "longitude": -76.783333,
+      "name": "Kingston",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Japan",
+      "id": "wpi-61385",
+      "latitude": 35.5,
+      "longitude": 139.766667,
+      "name": "Kawasaki Ko",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Jersey",
+      "id": "wpi-36040",
+      "latitude": 49.183333,
+      "longitude": -2.116667,
+      "name": "Saint Helier Harbour",
+      "waterBody": "English Channel; North Atlantic Ocean"
+    },
+    {
+      "country": "Johnson Atoll",
+      "id": "wpi-56325",
+      "latitude": 16.75,
+      "longitude": -169.516667,
+      "name": "Johnston Atoll",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Jordan",
+      "id": "wpi-48090",
+      "latitude": 29.516667,
+      "longitude": 35.0,
+      "name": "Al Aqabah",
+      "waterBody": "Gulf of Aqaba; Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Kenya",
+      "id": "wpi-47100",
+      "latitude": -4.066667,
+      "longitude": 39.666667,
+      "name": "Mombasa",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Kiribati",
+      "id": "wpi-56025",
+      "latitude": -2.833333,
+      "longitude": -171.716667,
+      "name": "Canton Island",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Kuwait",
+      "id": "wpi-48361",
+      "latitude": 29.066667,
+      "longitude": 48.166667,
+      "name": "Mina Al Ahmadi",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Latvia",
+      "id": "wpi-28610",
+      "latitude": 56.95,
+      "longitude": 24.1,
+      "name": "Riga",
+      "waterBody": "Gulf of Riga; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Lebanon",
+      "id": "wpi-45030",
+      "latitude": 33.9,
+      "longitude": 35.5,
+      "name": "Bayrut",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Liberia",
+      "id": "wpi-45940",
+      "latitude": 6.316667,
+      "longitude": -10.816667,
+      "name": "Monrovia",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Libya",
+      "id": "wpi-45280",
+      "latitude": 32.116667,
+      "longitude": 20.05,
+      "name": "Banghazi",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Lithuania",
+      "id": "wpi-28660",
+      "latitude": 55.716667,
+      "longitude": 21.116667,
+      "name": "Klaipeda",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Macau",
+      "id": "wpi-57810",
+      "latitude": 22.183333,
+      "longitude": 113.566667,
+      "name": "Macau",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Madagascar",
+      "id": "wpi-47630",
+      "latitude": -12.266667,
+      "longitude": 49.283333,
+      "name": "Antsiranana",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Malaysia",
+      "id": "wpi-49982",
+      "latitude": 1.433333,
+      "longitude": 103.9,
+      "name": "Johor",
+      "waterBody": "Strait of Malacca; Indian Ocean"
+    },
+    {
+      "country": "Maldives",
+      "id": "wpi-49200",
+      "latitude": 4.166667,
+      "longitude": 73.5,
+      "name": "Male",
+      "waterBody": "Laccadive Sea; Indian Ocean"
+    },
+    {
+      "country": "Malta",
+      "id": "wpi-40330",
+      "latitude": 35.9,
+      "longitude": 14.516667,
+      "name": "Valletta Harbors",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Marshall Islands",
+      "id": "wpi-56350",
+      "latitude": 11.333333,
+      "longitude": 162.333333,
+      "name": "Enitwetak Island",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Martinique",
+      "id": "wpi-11550",
+      "latitude": 14.6,
+      "longitude": -61.066667,
+      "name": "Fort De France",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Mauritania",
+      "id": "wpi-45812",
+      "latitude": 20.916667,
+      "longitude": -17.05,
+      "name": "Nouadhibou",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Mauritius",
+      "id": "wpi-47720",
+      "latitude": -20.15,
+      "longitude": 57.5,
+      "name": "Port Louis",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Mexico",
+      "id": "wpi-15760",
+      "latitude": 16.85,
+      "longitude": -99.933333,
+      "name": "Acapulco",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Midway Islands",
+      "id": "wpi-56328",
+      "latitude": 28.183333,
+      "longitude": -177.366667,
+      "name": "Midway Island",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Monaco",
+      "id": "wpi-39025",
+      "latitude": 43.733333,
+      "longitude": 7.416667,
+      "name": "Monaco",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Montenegro",
+      "id": "wpi-41640",
+      "latitude": 42.083333,
+      "longitude": 19.083333,
+      "name": "Bar",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Morocco",
+      "id": "wpi-45802",
+      "latitude": 30.433333,
+      "longitude": -9.633333,
+      "name": "Agadir",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Mozambique",
+      "id": "wpi-46890",
+      "latitude": -19.833333,
+      "longitude": 34.833333,
+      "name": "Beira",
+      "waterBody": "Mozambique Channel; Indian Ocean"
+    },
+    {
+      "country": "Namibia",
+      "id": "wpi-46650",
+      "latitude": -26.65,
+      "longitude": 15.15,
+      "name": "Luderitz Bay",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Nauru",
+      "id": "wpi-56500",
+      "latitude": -0.533333,
+      "longitude": 166.916667,
+      "name": "Nauru",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Netherlands",
+      "id": "wpi-31085",
+      "latitude": 51.95,
+      "longitude": 4.116667,
+      "name": "Europoort",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "New Caledonia",
+      "id": "wpi-57320",
+      "latitude": -22.283333,
+      "longitude": 166.433333,
+      "name": "Noumea",
+      "waterBody": "Coral Sea; South Pacific Ocean"
+    },
+    {
+      "country": "New Zealand",
+      "id": "wpi-55060",
+      "latitude": -36.85,
+      "longitude": 174.766667,
+      "name": "Auckland",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Nicaragua",
+      "id": "wpi-9770",
+      "latitude": 12.016667,
+      "longitude": -83.75,
+      "name": "Bluefields",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Nigeria",
+      "id": "wpi-46130",
+      "latitude": 6.4,
+      "longitude": 3.4,
+      "name": "Lagos",
+      "waterBody": "Bight of Benin; Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Niue",
+      "id": "wpi-55695",
+      "latitude": -19.033333,
+      "longitude": -169.933333,
+      "name": "Alofi",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Norfolk Island",
+      "id": "wpi-55500",
+      "latitude": -29.066667,
+      "longitude": 167.95,
+      "name": "Kingston",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "North Korea",
+      "id": "wpi-60500",
+      "latitude": 41.766667,
+      "longitude": 129.816667,
+      "name": "Ch'ongjin",
+      "waterBody": "Sea of Japan; North Pacific Ocean"
+    },
+    {
+      "country": "Northern Mariana Islands",
+      "id": "wpi-56520",
+      "latitude": 15.2,
+      "longitude": 145.683333,
+      "name": "Saipan",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Norway",
+      "id": "wpi-23160",
+      "latitude": 60.402777778,
+      "longitude": 5.298611111,
+      "name": "Bergen",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Oman",
+      "id": "wpi-48235",
+      "latitude": 19.673252583,
+      "longitude": 57.716908916,
+      "name": "Duqm",
+      "waterBody": "Arabian Sea; Indian Ocean"
+    },
+    {
+      "country": "Pakistan",
+      "id": "wpi-48590",
+      "latitude": 25.133333,
+      "longitude": 62.3,
+      "name": "Gwadar",
+      "waterBody": "Arabian Sea; Indian Ocean"
+    },
+    {
+      "country": "Palau",
+      "id": "wpi-56660",
+      "latitude": 7.333333,
+      "longitude": 134.45,
+      "name": "Malakal Harbor",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Panama",
+      "id": "wpi-15410",
+      "latitude": 8.95,
+      "longitude": -79.566667,
+      "name": "Balboa",
+      "waterBody": "Gulf of Panama; North Pacific Ocean"
+    },
+    {
+      "country": "Papua New Guinea",
+      "id": "wpi-56760",
+      "latitude": -2.583333,
+      "longitude": 150.8,
+      "name": "Kavieng Harbor",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Peru",
+      "id": "wpi-14950",
+      "latitude": -12.05,
+      "longitude": -77.15,
+      "name": "Puerto Del Callao",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Philippines",
+      "id": "wpi-58960",
+      "latitude": 10.3,
+      "longitude": 123.9,
+      "name": "Cebu",
+      "waterBody": "Philippine inland seas; North Pacific Ocean"
+    },
+    {
+      "country": "Poland",
+      "id": "wpi-28710",
+      "latitude": 54.35,
+      "longitude": 18.666667,
+      "name": "Gdansk",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Portugal",
+      "id": "wpi-38130",
+      "latitude": 32.633333,
+      "longitude": -16.916667,
+      "name": "Funchal",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Puerto Rico",
+      "id": "wpi-11170",
+      "latitude": 18.233333,
+      "longitude": -65.633333,
+      "name": "Ensenada Honda",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Qatar",
+      "id": "wpi-48297",
+      "latitude": 25.916667,
+      "longitude": 51.583333,
+      "name": "Ras Laffan",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Reunion",
+      "id": "wpi-47690",
+      "latitude": -20.933333,
+      "longitude": 55.316667,
+      "name": "Port Est",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Romania",
+      "id": "wpi-43560",
+      "latitude": 44.166667,
+      "longitude": 28.65,
+      "name": "Constanta",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Russia",
+      "id": "wpi-44200",
+      "latitude": 44.716667,
+      "longitude": 37.783333,
+      "name": "Novorossiysk",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saint Helena, Ascension, and Tristan da Cunha",
+      "id": "wpi-46690",
+      "latitude": -15.916667,
+      "longitude": -5.716667,
+      "name": "Jamestown",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Saint Kitts and Nevis",
+      "id": "wpi-11400",
+      "latitude": 17.3,
+      "longitude": -62.716667,
+      "name": "Basseterre",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saint Lucia",
+      "id": "wpi-11630",
+      "latitude": 14.016667,
+      "longitude": -61.0,
+      "name": "Castries",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saint Pierre and Miquelon",
+      "id": "wpi-1750",
+      "latitude": 46.783333,
+      "longitude": -56.166667,
+      "name": "Port De St Pierre",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Saint Vincent and the Grenadines (Windward Islands)",
+      "id": "wpi-11640",
+      "latitude": 13.15,
+      "longitude": -61.233333,
+      "name": "Kingstown",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Samoa",
+      "id": "wpi-55670",
+      "latitude": -13.816667,
+      "longitude": -171.766667,
+      "name": "Apia",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Sao Tome and Principe",
+      "id": "wpi-46375",
+      "latitude": 1.65,
+      "longitude": 7.45,
+      "name": "Santo Antonio",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saudi Arabia",
+      "id": "wpi-48340",
+      "latitude": 26.633333,
+      "longitude": 50.166667,
+      "name": "Ras  Tannurah",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Senegal",
+      "id": "wpi-45820",
+      "latitude": 14.683333,
+      "longitude": -17.433333,
+      "name": "Dakar",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Seychelles",
+      "id": "wpi-47220",
+      "latitude": -4.616667,
+      "longitude": 55.45,
+      "name": "Victoria",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Sierra Leone",
+      "id": "wpi-45862",
+      "latitude": 8.5,
+      "longitude": -13.233333,
+      "name": "Freetown",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Singapore",
+      "id": "wpi-50017",
+      "latitude": 1.283333,
+      "longitude": 103.733333,
+      "name": "Jurong Island",
+      "waterBody": "Strait of Malacca; Indian Ocean"
+    },
+    {
+      "country": "Sint Maarten",
+      "id": "wpi-11372",
+      "latitude": 18.016667,
+      "longitude": -63.083333,
+      "name": "Coles Bay Oil Terminal",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Slovenia",
+      "id": "wpi-40860",
+      "latitude": 45.55,
+      "longitude": 13.733333,
+      "name": "Koper",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Solomon Islands",
+      "id": "wpi-56975",
+      "latitude": -8.216667,
+      "longitude": 157.183333,
+      "name": "Port Noro",
+      "waterBody": "Solomon Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Somalia",
+      "id": "wpi-47160",
+      "latitude": 2.033333,
+      "longitude": 45.35,
+      "name": "Muqdisho",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "South Africa",
+      "id": "wpi-46770",
+      "latitude": -33.916667,
+      "longitude": 18.416667,
+      "name": "Cape Town",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "South Georgia and South Sandwich Islands",
+      "id": "wpi-14060",
+      "latitude": -54.266667,
+      "longitude": -36.5,
+      "name": "Grytviken",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "South Korea",
+      "id": "wpi-60390",
+      "latitude": 35.1,
+      "longitude": 129.033333,
+      "name": "Busan",
+      "waterBody": "Korea Strait; North Pacific Ocean"
+    },
+    {
+      "country": "Spain",
+      "id": "wpi-38550",
+      "latitude": 41.35,
+      "longitude": 2.166667,
+      "name": "Barcelona",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Sri Lanka",
+      "id": "wpi-49240",
+      "latitude": 6.95,
+      "longitude": 79.85,
+      "name": "Colombo",
+      "waterBody": "Laccadive Sea; Indian Ocean"
+    },
+    {
+      "country": "Sudan",
+      "id": "wpi-47944",
+      "latitude": 19.4,
+      "longitude": 37.316667,
+      "name": "Beshayer Oil Terminal",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Suriname",
+      "id": "wpi-12410",
+      "latitude": 5.833333,
+      "longitude": -55.166667,
+      "name": "Paramaribo",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Svalbard",
+      "id": "wpi-20560",
+      "latitude": 78.059444444,
+      "longitude": 14.202222222,
+      "name": "Barentsburg",
+      "waterBody": "Greenland Sea; Arctic Ocean"
+    },
+    {
+      "country": "Sweden",
+      "id": "wpi-24020",
+      "latitude": 57.709722222,
+      "longitude": 11.954722222,
+      "name": "Goteborg",
+      "waterBody": "Kattegat; North Atlantic Ocean"
+    },
+    {
+      "country": "Syria",
+      "id": "wpi-45005",
+      "latitude": 35.188333333,
+      "longitude": 35.943333333,
+      "name": "Baniyas",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Taiwan",
+      "id": "wpi-57890",
+      "latitude": 25.133333,
+      "longitude": 121.766667,
+      "name": "Chi-Lung",
+      "waterBody": "East China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Tanzania",
+      "id": "wpi-47010",
+      "latitude": -6.816667,
+      "longitude": 39.3,
+      "name": "Dar Es Salaam",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Thailand",
+      "id": "wpi-57446",
+      "latitude": 12.616667,
+      "longitude": 100.916667,
+      "name": "Sattahip",
+      "waterBody": "Gulf of Thailand; South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "The Bahamas",
+      "id": "wpi-9990",
+      "latitude": 25.083333,
+      "longitude": -77.35,
+      "name": "Nassau",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "The Gambia",
+      "id": "wpi-45825",
+      "latitude": 13.45,
+      "longitude": -16.566667,
+      "name": "Banjul",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Timor-Leste",
+      "id": "wpi-51440",
+      "latitude": -8.533333,
+      "longitude": 125.583333,
+      "name": "Dili",
+      "waterBody": "Banda Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Togo",
+      "id": "wpi-46090",
+      "latitude": 6.133333,
+      "longitude": 1.283333,
+      "name": "Lome",
+      "waterBody": "Bight of Benin; Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Tonga",
+      "id": "wpi-55610",
+      "latitude": -18.65,
+      "longitude": -173.983333,
+      "name": "Neiafu",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Trinidad and Tobago",
+      "id": "wpi-11720",
+      "latitude": 10.65,
+      "longitude": -61.516667,
+      "name": "Port Of Spain",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Tunisia",
+      "id": "wpi-45420",
+      "latitude": 36.8,
+      "longitude": 10.3,
+      "name": "La Goulette",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Turkey",
+      "id": "wpi-43420",
+      "latitude": 41.016667,
+      "longitude": 28.966667,
+      "name": "Istanbul",
+      "waterBody": "Sea of Marmara; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Turks and Caicos Islands",
+      "id": "wpi-10025",
+      "latitude": 21.5,
+      "longitude": -71.533333,
+      "name": "Cockburn Harbor",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Tuvalu",
+      "id": "wpi-55617",
+      "latitude": -8.516667,
+      "longitude": 179.133333,
+      "name": "Funafuti Atoll",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "U.S. Virgin Islands",
+      "id": "wpi-11310",
+      "latitude": 18.35,
+      "longitude": -64.933333,
+      "name": "Charlotte Amalie",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ukraine",
+      "id": "wpi-43645",
+      "latitude": 46.3,
+      "longitude": 30.65,
+      "name": "Illichivsk",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "United Arab Emirates",
+      "id": "wpi-48276",
+      "latitude": 25.016667,
+      "longitude": 55.05,
+      "name": "Mina Jabal Ali",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "United Kingdom",
+      "id": "wpi-33770",
+      "latitude": 54.616667,
+      "longitude": -5.9,
+      "name": "Belfast",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "United States",
+      "id": "wpi-8210",
+      "latitude": 39.266667,
+      "longitude": -76.583333,
+      "name": "Baltimore",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Uruguay",
+      "id": "wpi-13120",
+      "latitude": -34.9,
+      "longitude": -56.216667,
+      "name": "Montevideo",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Vanuatu",
+      "id": "wpi-57200",
+      "latitude": -15.516667,
+      "longitude": 167.166667,
+      "name": "Luganville",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Venezuela",
+      "id": "wpi-12185",
+      "latitude": 10.25,
+      "longitude": -64.633333,
+      "name": "Puerto La Cruz",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Vietnam",
+      "id": "wpi-57650",
+      "latitude": 16.1,
+      "longitude": 108.216667,
+      "name": "Da Nang",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Wake Island",
+      "id": "wpi-56330",
+      "latitude": 19.283333,
+      "longitude": 166.616667,
+      "name": "Wake Island",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Wallis and Futuna",
+      "id": "wpi-55650",
+      "latitude": -13.283333,
+      "longitude": -176.133333,
+      "name": "Mata-Utu",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Western Sahara",
+      "id": "wpi-45808",
+      "latitude": 23.7,
+      "longitude": -15.916667,
+      "name": "Ad Dakhla",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Yemen",
+      "id": "wpi-48155",
+      "latitude": 15.133333,
+      "longitude": 42.6,
+      "name": "Ras Isa Marine Terminal",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Albania",
+      "id": "wpi-41660",
+      "latitude": 41.816667,
+      "longitude": 19.6,
+      "name": "Shengjin",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Algeria",
+      "id": "wpi-45640",
+      "latitude": 35.7,
+      "longitude": -0.633333,
+      "name": "Oran",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Angola",
+      "id": "wpi-46553",
+      "latitude": -6.45,
+      "longitude": 12.4,
+      "name": "Estrela Oil Field",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Antarctica",
+      "id": "wpi-63090",
+      "latitude": -62.083333,
+      "longitude": -58.416667,
+      "name": "Admiralty Bay",
+      "waterBody": "Bransfield Strait; Drake Passage; South Atlantic Ocean"
+    },
+    {
+      "country": "Argentina",
+      "id": "wpi-13770",
+      "latitude": -34.833333,
+      "longitude": -57.883333,
+      "name": "La Plata",
+      "waterBody": "Rio de la Plata; South Atlantic Ocean"
+    },
+    {
+      "country": "Aruba",
+      "id": "wpi-11840",
+      "latitude": 12.516667,
+      "longitude": -70.033333,
+      "name": "Paarden Baai - (Oranjestad)",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Australia",
+      "id": "wpi-54520",
+      "latitude": -32.05,
+      "longitude": 115.75,
+      "name": "Fremantle",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Bahrain",
+      "id": "wpi-48325",
+      "latitude": 26.2,
+      "longitude": 50.633333,
+      "name": "Mina Salman",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Belgium",
+      "id": "wpi-31310",
+      "latitude": 51.233333,
+      "longitude": 2.916667,
+      "name": "Oostende",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Belize",
+      "id": "wpi-9598",
+      "latitude": 16.516666667,
+      "longitude": -88.4,
+      "name": "Big Creek",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Bermuda",
+      "id": "wpi-9960",
+      "latitude": 32.3,
+      "longitude": -64.783333,
+      "name": "Hamilton",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Brazil",
+      "id": "wpi-13060",
+      "latitude": -32.05,
+      "longitude": -52.083333,
+      "name": "Rio Grande",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Brunei",
+      "id": "wpi-51620",
+      "latitude": 5.033333,
+      "longitude": 115.066667,
+      "name": "Muara Harbor",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Bulgaria",
+      "id": "wpi-43500",
+      "latitude": 42.483333,
+      "longitude": 27.483333,
+      "name": "Burgas",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Burma",
+      "id": "wpi-49660",
+      "latitude": 16.483333,
+      "longitude": 97.616667,
+      "name": "Moulmein Harbor",
+      "waterBody": "Andaman Sea; Indian Ocean"
+    },
+    {
+      "country": "Cabo Verde",
+      "id": "wpi-45880",
+      "latitude": 16.883333,
+      "longitude": -25.0,
+      "name": "Porto Grande",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Cambodia",
+      "id": "wpi-57490",
+      "latitude": 10.5,
+      "longitude": 103.6,
+      "name": "Phsar Ream",
+      "waterBody": "Gulf of Thailand; South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Cameroon",
+      "id": "wpi-46287",
+      "latitude": 2.8,
+      "longitude": 9.816667,
+      "name": "Ebome Marine Terminal",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Canada",
+      "id": "wpi-6340",
+      "latitude": 44.65,
+      "longitude": -63.583333,
+      "name": "Halifax",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Caribbean Netherlands",
+      "id": "wpi-11781",
+      "latitude": 12.216667,
+      "longitude": -68.383333,
+      "name": "Goto Oil Terminal",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cayman Islands",
+      "id": "wpi-10580",
+      "latitude": 19.3,
+      "longitude": -81.383333,
+      "name": "Georgetown",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Chile",
+      "id": "wpi-14500",
+      "latitude": -33.033333,
+      "longitude": -71.616667,
+      "name": "Bahia De Valparaiso",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "China",
+      "id": "wpi-57775",
+      "latitude": 20.833333,
+      "longitude": 115.683333,
+      "name": "Lon Shui Terminal",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Colombia",
+      "id": "wpi-11910",
+      "latitude": 10.416667,
+      "longitude": -75.533333,
+      "name": "Cartagena",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Comoros",
+      "id": "wpi-47310",
+      "latitude": -12.266667,
+      "longitude": 43.75,
+      "name": "Fomboni",
+      "waterBody": "Mozambique Channel; Indian Ocean"
+    },
+    {
+      "country": "Congo (Brazzaville)",
+      "id": "wpi-46472",
+      "latitude": -4.933333,
+      "longitude": 11.9,
+      "name": "Djeno Terminal",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Congo (Kinshasa)",
+      "id": "wpi-46510",
+      "latitude": -5.983333,
+      "longitude": 12.383333,
+      "name": "Banana",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Costa Rica",
+      "id": "wpi-15500",
+      "latitude": 9.916667,
+      "longitude": -84.716667,
+      "name": "Puerto Caldera",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Cote D'Ivoire",
+      "id": "wpi-45970",
+      "latitude": 4.966667,
+      "longitude": -4.55,
+      "name": "Baobab Marine Terminal",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Croatia",
+      "id": "wpi-41320",
+      "latitude": 43.5,
+      "longitude": 16.433333,
+      "name": "Split",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cuba",
+      "id": "wpi-10100",
+      "latitude": 23.133333,
+      "longitude": -82.366667,
+      "name": "Bahai De La Habana",
+      "waterBody": "Gulf of Mexico; North Atlantic Ocean"
+    },
+    {
+      "country": "Curacao",
+      "id": "wpi-11810",
+      "latitude": 12.116667,
+      "longitude": -68.933333,
+      "name": "Willemstad",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cyprus",
+      "id": "wpi-44960",
+      "latitude": 34.916667,
+      "longitude": 33.65,
+      "name": "Larnaca",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Denmark",
+      "id": "wpi-30260",
+      "latitude": 56.15,
+      "longitude": 10.216667,
+      "name": "Arhus",
+      "waterBody": "Kattegat; North Atlantic Ocean"
+    },
+    {
+      "country": "Djibouti",
+      "id": "wpi-47855",
+      "latitude": 11.602777778,
+      "longitude": 43.088611111,
+      "name": "Doraleh",
+      "waterBody": "Gulf of Aden; Indian Ocean"
+    },
+    {
+      "country": "Dominica",
+      "id": "wpi-11520",
+      "latitude": 15.3,
+      "longitude": -61.4,
+      "name": "Roseau",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Dominican Republic",
+      "id": "wpi-11040",
+      "latitude": 18.466667,
+      "longitude": -69.883333,
+      "name": "Santo Domingo",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ecuador",
+      "id": "wpi-15330",
+      "latitude": 1.0,
+      "longitude": -79.65,
+      "name": "Esmeraldas",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Egypt",
+      "id": "wpi-45165",
+      "latitude": 31.166667,
+      "longitude": 29.833333,
+      "name": "Al Iskandariyh (Alexandria)",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "El Salvador",
+      "id": "wpi-15645",
+      "latitude": 13.583333,
+      "longitude": -89.866667,
+      "name": "Acajutla Offshore Terminal",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Equatorial Guinea",
+      "id": "wpi-46305",
+      "latitude": 1.866667,
+      "longitude": 9.766667,
+      "name": "Bata",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Eritrea",
+      "id": "wpi-47900",
+      "latitude": 15.616667,
+      "longitude": 39.466667,
+      "name": "Mitsiwa Harbor",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Estonia",
+      "id": "wpi-28505",
+      "latitude": 59.333343,
+      "longitude": 24.081111,
+      "name": "Paldiski Lounasadam",
+      "waterBody": "Gulf of Finland; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Faroe Islands",
+      "id": "wpi-32750",
+      "latitude": 62.233333,
+      "longitude": -6.583333,
+      "name": "Klaksvik",
+      "waterBody": "Norwegian Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Federated States of Micronesia",
+      "id": "wpi-56630",
+      "latitude": 9.516667,
+      "longitude": 138.133333,
+      "name": "Colonia",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Fiji",
+      "id": "wpi-55540",
+      "latitude": -18.133333,
+      "longitude": 178.416667,
+      "name": "Suva Harbor",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Finland",
+      "id": "wpi-27560",
+      "latitude": 63.85,
+      "longitude": 23.016667,
+      "name": "Kokkola",
+      "waterBody": "Gulf of Bothnia; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "France",
+      "id": "wpi-36460",
+      "latitude": 48.383333,
+      "longitude": -4.5,
+      "name": "Rade De Brest",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "French Polynesia",
+      "id": "wpi-56010",
+      "latitude": -9.816667,
+      "longitude": -139.033333,
+      "name": "Atuona",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Gabon",
+      "id": "wpi-46440",
+      "latitude": -0.7,
+      "longitude": 8.8,
+      "name": "Port Gentil",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Georgia",
+      "id": "wpi-44320",
+      "latitude": 42.983333,
+      "longitude": 40.983333,
+      "name": "Sokhumi",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Germany",
+      "id": "wpi-28930",
+      "latitude": 54.316667,
+      "longitude": 10.133333,
+      "name": "Kiel",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ghana",
+      "id": "wpi-46070",
+      "latitude": 5.631944444,
+      "longitude": 0.015555556,
+      "name": "Tema",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Greece",
+      "id": "wpi-42630",
+      "latitude": 40.833333,
+      "longitude": 25.883333,
+      "name": "Alexandroupoli",
+      "waterBody": "Aegean Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Greenland",
+      "id": "wpi-810",
+      "latitude": 69.216667,
+      "longitude": -51.1,
+      "name": "Illulissat (Jakobshavn)",
+      "waterBody": "Baffin Bay; Arctic Ocean"
+    },
+    {
+      "country": "Guadeloupe",
+      "id": "wpi-11460",
+      "latitude": 16.0,
+      "longitude": -61.733333,
+      "name": "Basse Terre",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Guatemala",
+      "id": "wpi-9625",
+      "latitude": 15.7,
+      "longitude": -88.616667,
+      "name": "Santo Tomas De Castilla",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Guernsey",
+      "id": "wpi-35980",
+      "latitude": 49.733333,
+      "longitude": -2.2,
+      "name": "Alderney Harbour",
+      "waterBody": "English Channel; North Atlantic Ocean"
+    },
+    {
+      "country": "Guinea",
+      "id": "wpi-45857",
+      "latitude": 9.166667,
+      "longitude": -13.2,
+      "name": "Benti",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Guinea-Bissau",
+      "id": "wpi-45835",
+      "latitude": 12.283333,
+      "longitude": -16.233333,
+      "name": "Rio Cacheu",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Guyana",
+      "id": "wpi-12390",
+      "latitude": 6.25,
+      "longitude": -57.516667,
+      "name": "New Amsterdam",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Haiti",
+      "id": "wpi-10930",
+      "latitude": 19.766667,
+      "longitude": -72.2,
+      "name": "Cap Haitien",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Honduras",
+      "id": "wpi-9675",
+      "latitude": 16.316667,
+      "longitude": -86.55,
+      "name": "Coxen Hole",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Iceland",
+      "id": "wpi-100",
+      "latitude": 64.15,
+      "longitude": -21.933333,
+      "name": "Reykjavik",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "India",
+      "id": "wpi-49454",
+      "latitude": 13.306944444,
+      "longitude": 80.352222222,
+      "name": "Kattupalli Port",
+      "waterBody": "Bay of Bengal; Indian Ocean"
+    },
+    {
+      "country": "Indonesia",
+      "id": "wpi-50970",
+      "latitude": -6.1,
+      "longitude": 106.883333,
+      "name": "Jakarta",
+      "waterBody": "Java Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Iran",
+      "id": "wpi-48470",
+      "latitude": 28.983333,
+      "longitude": 50.833333,
+      "name": "Bushehr",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Iraq",
+      "id": "wpi-48392",
+      "latitude": 29.683333,
+      "longitude": 48.816667,
+      "name": "Al-Basra Oil Terminal",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Ireland",
+      "id": "wpi-34360",
+      "latitude": 51.85,
+      "longitude": -8.266667,
+      "name": "Cork",
+      "waterBody": "Celtic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Isle of Man",
+      "id": "wpi-33620",
+      "latitude": 54.316667,
+      "longitude": -4.366667,
+      "name": "Ramsey",
+      "waterBody": "Irish Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Israel",
+      "id": "wpi-45100",
+      "latitude": 31.816667,
+      "longitude": 34.65,
+      "name": "Ashdod",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Italy",
+      "id": "wpi-39810",
+      "latitude": 42.102,
+      "longitude": 11.771,
+      "name": "Civitavecchia",
+      "waterBody": "Tyrrhenian Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Jamaica",
+      "id": "wpi-10610",
+      "latitude": 18.466667,
+      "longitude": -77.933333,
+      "name": "Montego Bay",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Japan",
+      "id": "wpi-61560",
+      "latitude": 34.65,
+      "longitude": 135.183333,
+      "name": "Kobe",
+      "waterBody": "Sea of Japan; North Pacific Ocean"
+    },
+    {
+      "country": "Kenya",
+      "id": "wpi-47110",
+      "latitude": -2.266667,
+      "longitude": 40.9,
+      "name": "Lamu",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Kiribati",
+      "id": "wpi-56039",
+      "latitude": 3.85,
+      "longitude": -159.366667,
+      "name": "English Harbor",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Kuwait",
+      "id": "wpi-48357",
+      "latitude": 29.033333,
+      "longitude": 48.166667,
+      "name": "Mina Ash Shuaybah",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Latvia",
+      "id": "wpi-28640",
+      "latitude": 56.516667,
+      "longitude": 21.016667,
+      "name": "Liepaja",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Lebanon",
+      "id": "wpi-45025",
+      "latitude": 34.45,
+      "longitude": 35.833333,
+      "name": "Tarabulus",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Liberia",
+      "id": "wpi-45950",
+      "latitude": 5.866667,
+      "longitude": -10.066667,
+      "name": "Buchanan",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Libya",
+      "id": "wpi-45330",
+      "latitude": 32.9,
+      "longitude": 13.183333,
+      "name": "Mina Tarabulus (Tripoli)",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Lithuania",
+      "id": "wpi-28654",
+      "latitude": 56.033333,
+      "longitude": 20.95,
+      "name": "Butinge Oil Terminal",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Madagascar",
+      "id": "wpi-47540",
+      "latitude": -18.166667,
+      "longitude": 49.416667,
+      "name": "Toamasina",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Malaysia",
+      "id": "wpi-49930",
+      "latitude": 3.0,
+      "longitude": 101.4,
+      "name": "Port Klang",
+      "waterBody": "Strait of Malacca; Indian Ocean"
+    },
+    {
+      "country": "Malta",
+      "id": "wpi-40340",
+      "latitude": 35.816667,
+      "longitude": 14.55,
+      "name": "Marsaxlokk",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Marshall Islands",
+      "id": "wpi-56370",
+      "latitude": 8.716667,
+      "longitude": 167.733333,
+      "name": "Kwajalein",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Mauritania",
+      "id": "wpi-45814",
+      "latitude": 18.033333,
+      "longitude": -16.033333,
+      "name": "Nouakchott",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Mauritius",
+      "id": "wpi-47750",
+      "latitude": -19.683333,
+      "longitude": 63.416667,
+      "name": "Port Mathurin",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Mexico",
+      "id": "wpi-15990",
+      "latitude": 31.866667,
+      "longitude": -116.633333,
+      "name": "Ensenada",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Montenegro",
+      "id": "wpi-41610",
+      "latitude": 42.416667,
+      "longitude": 18.766667,
+      "name": "Kotor",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Morocco",
+      "id": "wpi-45793",
+      "latitude": 33.6,
+      "longitude": -7.616667,
+      "name": "Casablanca",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Mozambique",
+      "id": "wpi-46870",
+      "latitude": -25.962777778,
+      "longitude": 32.544722222,
+      "name": "Maputo",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Namibia",
+      "id": "wpi-46640",
+      "latitude": -22.95,
+      "longitude": 14.5,
+      "name": "Walvis Bay",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Netherlands",
+      "id": "wpi-31210",
+      "latitude": 51.45,
+      "longitude": 3.6,
+      "name": "Vlissingen",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "New Caledonia",
+      "id": "wpi-57275",
+      "latitude": -21.383333,
+      "longitude": 165.816667,
+      "name": "Baie De Kouaoua",
+      "waterBody": "Coral Sea; South Pacific Ocean"
+    },
+    {
+      "country": "New Zealand",
+      "id": "wpi-55150",
+      "latitude": -41.283333,
+      "longitude": 174.783333,
+      "name": "Wellington",
+      "waterBody": "Cook Strait; South Pacific Ocean"
+    },
+    {
+      "country": "Nicaragua",
+      "id": "wpi-15550",
+      "latitude": 12.483333,
+      "longitude": -87.166667,
+      "name": "Corinto",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Nigeria",
+      "id": "wpi-46200",
+      "latitude": 4.25,
+      "longitude": 5.616667,
+      "name": "Pennington Oil Terminal",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "North Korea",
+      "id": "wpi-60310",
+      "latitude": 38.0,
+      "longitude": 125.7,
+      "name": "Haeju Hang",
+      "waterBody": "Yellow Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Northern Mariana Islands",
+      "id": "wpi-56540",
+      "latitude": 14.133333,
+      "longitude": 145.15,
+      "name": "Rota",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Norway",
+      "id": "wpi-20920",
+      "latitude": 70.666667,
+      "longitude": 23.666667,
+      "name": "Hammerfest",
+      "waterBody": "Norwegian Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Oman",
+      "id": "wpi-48259",
+      "latitude": 26.216667,
+      "longitude": 56.233333,
+      "name": "Khawr Khasab",
+      "waterBody": "Strait of Hormuz; Indian Ocean"
+    },
+    {
+      "country": "Pakistan",
+      "id": "wpi-48600",
+      "latitude": 24.783333,
+      "longitude": 66.983333,
+      "name": "Karachi",
+      "waterBody": "Arabian Sea; Indian Ocean"
+    },
+    {
+      "country": "Panama",
+      "id": "wpi-9865",
+      "latitude": 9.366667,
+      "longitude": -79.883333,
+      "name": "Puerto Colon",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Papua New Guinea",
+      "id": "wpi-56855",
+      "latitude": -6.216667,
+      "longitude": 155.633333,
+      "name": "Kieta",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Peru",
+      "id": "wpi-14860",
+      "latitude": -17.0,
+      "longitude": -72.116667,
+      "name": "Bahia De Matarani",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Philippines",
+      "id": "wpi-58370",
+      "latitude": 14.583333,
+      "longitude": 120.966667,
+      "name": "Manila",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Poland",
+      "id": "wpi-28740",
+      "latitude": 54.533333,
+      "longitude": 18.55,
+      "name": "Gdynia",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Portugal",
+      "id": "wpi-38010",
+      "latitude": 37.1,
+      "longitude": -8.616667,
+      "name": "Lagos",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Puerto Rico",
+      "id": "wpi-11270",
+      "latitude": 18.016667,
+      "longitude": -66.766667,
+      "name": "Playa De Guayanilla",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Qatar",
+      "id": "wpi-48290",
+      "latitude": 25.283333,
+      "longitude": 51.533333,
+      "name": "Doha",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Reunion",
+      "id": "wpi-47695",
+      "latitude": -20.933333,
+      "longitude": 55.283333,
+      "name": "Port Ouest",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Romania",
+      "id": "wpi-43558",
+      "latitude": 44.166667,
+      "longitude": 28.433333,
+      "name": "Basarabi",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Russia",
+      "id": "wpi-28370",
+      "latitude": 59.933333,
+      "longitude": 30.3,
+      "name": "Sankt-Peterburg",
+      "waterBody": "Gulf of Finland; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saint Helena, Ascension, and Tristan da Cunha",
+      "id": "wpi-46670",
+      "latitude": -7.933333,
+      "longitude": -14.416667,
+      "name": "Georgetown",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Saint Kitts and Nevis",
+      "id": "wpi-11410",
+      "latitude": 17.133333,
+      "longitude": -62.633333,
+      "name": "Charlestown",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saint Lucia",
+      "id": "wpi-11625",
+      "latitude": 13.983333,
+      "longitude": -61.016667,
+      "name": "Grand Cul De Sac Bay",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saint Pierre and Miquelon",
+      "id": "wpi-1760",
+      "latitude": 47.1,
+      "longitude": -56.366666667,
+      "name": "Miquelon",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Sao Tome and Principe",
+      "id": "wpi-46380",
+      "latitude": 0.35,
+      "longitude": 6.733333,
+      "name": "Sao Tome",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saudi Arabia",
+      "id": "wpi-48335",
+      "latitude": 26.5,
+      "longitude": 50.2,
+      "name": "Dammam",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Senegal",
+      "id": "wpi-45818",
+      "latitude": 16.016667,
+      "longitude": -16.516667,
+      "name": "St Louis",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Sierra Leone",
+      "id": "wpi-45867",
+      "latitude": 7.533333,
+      "longitude": -12.5,
+      "name": "Bonthe",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Singapore",
+      "id": "wpi-50000",
+      "latitude": 1.283333,
+      "longitude": 103.85,
+      "name": "Keppel - (East Singapore)",
+      "waterBody": "Strait of Malacca; Indian Ocean"
+    },
+    {
+      "country": "Sint Maarten",
+      "id": "wpi-11370",
+      "latitude": 18.016667,
+      "longitude": -63.05,
+      "name": "Philipsburg",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Slovenia",
+      "id": "wpi-40870",
+      "latitude": 45.533333,
+      "longitude": 13.566667,
+      "name": "Piran",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Solomon Islands",
+      "id": "wpi-57005",
+      "latitude": -8.116667,
+      "longitude": 157.1,
+      "name": "Ringgi Cove",
+      "waterBody": "Solomon Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Somalia",
+      "id": "wpi-47820",
+      "latitude": 10.45,
+      "longitude": 45.016667,
+      "name": "Berbera",
+      "waterBody": "Gulf of Aden; Indian Ocean"
+    },
+    {
+      "country": "South Africa",
+      "id": "wpi-46850",
+      "latitude": -29.866667,
+      "longitude": 31.066667,
+      "name": "Durban",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "South Georgia and South Sandwich Islands",
+      "id": "wpi-14020",
+      "latitude": -54.033333,
+      "longitude": -37.15,
+      "name": "Prince Olav Harbor",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "South Korea",
+      "id": "wpi-60320",
+      "latitude": 37.466667,
+      "longitude": 126.616667,
+      "name": "Inchon",
+      "waterBody": "Yellow Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Spain",
+      "id": "wpi-38170",
+      "latitude": 28.15,
+      "longitude": -15.416667,
+      "name": "Las Palmas",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Sri Lanka",
+      "id": "wpi-49290",
+      "latitude": 8.55,
+      "longitude": 81.216667,
+      "name": "Trincomalee Harbor",
+      "waterBody": "Bay of Bengal; Indian Ocean"
+    },
+    {
+      "country": "Sudan",
+      "id": "wpi-47940",
+      "latitude": 19.6,
+      "longitude": 37.233333,
+      "name": "Port Sudan",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Suriname",
+      "id": "wpi-12405",
+      "latitude": 5.95,
+      "longitude": -57.0,
+      "name": "Nieuw Nickerie",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Svalbard",
+      "id": "wpi-20570",
+      "latitude": 78.227222222,
+      "longitude": 15.633333333,
+      "name": "Longyearbyen",
+      "waterBody": "Greenland Sea; Arctic Ocean"
+    },
+    {
+      "country": "Sweden",
+      "id": "wpi-24210",
+      "latitude": 55.623333333,
+      "longitude": 12.984722222,
+      "name": "Malmo",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Syria",
+      "id": "wpi-45010",
+      "latitude": 35.533333,
+      "longitude": 35.766667,
+      "name": "Al Ladhiqiyah",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Taiwan",
+      "id": "wpi-57910",
+      "latitude": 23.983333,
+      "longitude": 121.6,
+      "name": "Hua-Lien Kang",
+      "waterBody": "Taiwan Strait; North Pacific Ocean"
+    },
+    {
+      "country": "Tanzania",
+      "id": "wpi-47020",
+      "latitude": -5.25,
+      "longitude": 39.766667,
+      "name": "Chake Chake",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Thailand",
+      "id": "wpi-57458",
+      "latitude": 13.166667,
+      "longitude": 100.916667,
+      "name": "Si Racha",
+      "waterBody": "Gulf of Thailand; South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "The Bahamas",
+      "id": "wpi-9985",
+      "latitude": 26.516667,
+      "longitude": -78.783333,
+      "name": "Freeport",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Togo",
+      "id": "wpi-46095",
+      "latitude": 6.2,
+      "longitude": 1.516667,
+      "name": "Kpeme",
+      "waterBody": "Bight of Benin; Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Tonga",
+      "id": "wpi-55590",
+      "latitude": -21.133333,
+      "longitude": -175.2,
+      "name": "Nuku Alofa",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Trinidad and Tobago",
+      "id": "wpi-11772",
+      "latitude": 10.133333,
+      "longitude": -60.983333,
+      "name": "Galeota Point Terminal",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Tunisia",
+      "id": "wpi-45435",
+      "latitude": 36.6,
+      "longitude": 11.683333,
+      "name": "Tazerka Oil Terminal",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Turkey",
+      "id": "wpi-44750",
+      "latitude": 38.433333,
+      "longitude": 27.133333,
+      "name": "Izmir",
+      "waterBody": "Aegean Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Turks and Caicos Islands",
+      "id": "wpi-10020",
+      "latitude": 21.433333,
+      "longitude": -71.15,
+      "name": "Grand Turk",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "U.S. Virgin Islands",
+      "id": "wpi-11320",
+      "latitude": 18.333333,
+      "longitude": -64.8,
+      "name": "Cruz Bay",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Ukraine",
+      "id": "wpi-43650",
+      "latitude": 46.483333,
+      "longitude": 30.733333,
+      "name": "Odesa",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "United Arab Emirates",
+      "id": "wpi-48278",
+      "latitude": 24.5,
+      "longitude": 54.333333,
+      "name": "Abu Zaby",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "United Kingdom",
+      "id": "wpi-32170",
+      "latitude": 56.466667,
+      "longitude": -2.95,
+      "name": "Dundee",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "United States",
+      "id": "wpi-7250",
+      "latitude": 42.35,
+      "longitude": -71.05,
+      "name": "Boston",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Uruguay",
+      "id": "wpi-13140",
+      "latitude": -34.466667,
+      "longitude": -57.85,
+      "name": "Colonia",
+      "waterBody": "Rio de la Plata; South Atlantic Ocean"
+    },
+    {
+      "country": "Vanuatu",
+      "id": "wpi-57245",
+      "latitude": -17.683333,
+      "longitude": 168.55,
+      "name": "Forari Bay",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Venezuela",
+      "id": "wpi-11960",
+      "latitude": 10.633333,
+      "longitude": -71.6,
+      "name": "Maracaibo",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Vietnam",
+      "id": "wpi-57680",
+      "latitude": 20.916667,
+      "longitude": 106.683333,
+      "name": "Hai Phong",
+      "waterBody": "Gulf of Tonkin; South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Western Sahara",
+      "id": "wpi-45809",
+      "latitude": 27.083333,
+      "longitude": -13.433333,
+      "name": "Laayoune",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Yemen",
+      "id": "wpi-48190",
+      "latitude": 12.783333,
+      "longitude": 44.95,
+      "name": "Aden",
+      "waterBody": "Gulf of Aden; Indian Ocean"
+    },
+    {
+      "country": "Albania",
+      "id": "wpi-41690",
+      "latitude": 40.466667,
+      "longitude": 19.5,
+      "name": "Vlores",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Algeria",
+      "id": "wpi-45490",
+      "latitude": 36.916667,
+      "longitude": 7.766667,
+      "name": "Annaba",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Angola",
+      "id": "wpi-46590",
+      "latitude": -12.333333,
+      "longitude": 13.566667,
+      "name": "Lobito",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Antarctica",
+      "id": "wpi-63120",
+      "latitude": -64.316667,
+      "longitude": -62.933333,
+      "name": "Andersen Harbor",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Argentina",
+      "id": "wpi-13740",
+      "latitude": -32.483333,
+      "longitude": -58.233333,
+      "name": "Concepcion Del Uruguay",
+      "waterBody": "Rio de la Plata; South Atlantic Ocean"
+    },
+    {
+      "country": "Australia",
+      "id": "wpi-54030",
+      "latitude": -37.833333,
+      "longitude": 144.966667,
+      "name": "Melbourne",
+      "waterBody": "Bass Strait; South Pacific Ocean"
+    },
+    {
+      "country": "Bahrain",
+      "id": "wpi-48320",
+      "latitude": 26.166667,
+      "longitude": 50.666667,
+      "name": "Sitrah",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Belgium",
+      "id": "wpi-31290",
+      "latitude": 51.233333,
+      "longitude": 3.216667,
+      "name": "Bruges",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Bermuda",
+      "id": "wpi-9940",
+      "latitude": 32.383333,
+      "longitude": -64.683333,
+      "name": "St George",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Brazil",
+      "id": "wpi-12970",
+      "latitude": -23.95,
+      "longitude": -46.3,
+      "name": "Santos",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Brunei",
+      "id": "wpi-51646",
+      "latitude": 4.633333,
+      "longitude": 114.2,
+      "name": "Kuala Belait",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Burma",
+      "id": "wpi-49620",
+      "latitude": 20.133333,
+      "longitude": 92.9,
+      "name": "Sittwe",
+      "waterBody": "Bay of Bengal; Indian Ocean"
+    },
+    {
+      "country": "Cameroon",
+      "id": "wpi-46285",
+      "latitude": 4.25,
+      "longitude": 8.55,
+      "name": "Kole Oil Terminal",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Canada",
+      "id": "wpi-18150",
+      "latitude": 49.283333,
+      "longitude": -123.116667,
+      "name": "Vancouver",
+      "waterBody": "Alaska-Canada coastal waters; North Pacific Ocean"
+    },
+    {
+      "country": "Caribbean Netherlands",
+      "id": "wpi-11780",
+      "latitude": 12.15,
+      "longitude": -68.283333,
+      "name": "Kralendijk",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Chile",
+      "id": "wpi-14340",
+      "latitude": -39.8,
+      "longitude": -73.25,
+      "name": "Bahia De Valdivia",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "China",
+      "id": "wpi-60140",
+      "latitude": 36.033333,
+      "longitude": 120.266667,
+      "name": "Qingdao Gang",
+      "waterBody": "Yellow Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Colombia",
+      "id": "wpi-15370",
+      "latitude": 3.883333,
+      "longitude": -77.066667,
+      "name": "Buenaventura",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Comoros",
+      "id": "wpi-47300",
+      "latitude": -11.7,
+      "longitude": 43.25,
+      "name": "Moroni",
+      "waterBody": "Mozambique Channel; Indian Ocean"
+    },
+    {
+      "country": "Congo (Brazzaville)",
+      "id": "wpi-46459",
+      "latitude": -4.25,
+      "longitude": 10.816667,
+      "name": "Dussafu Terminal",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Costa Rica",
+      "id": "wpi-9810",
+      "latitude": 9.983333,
+      "longitude": -83.016667,
+      "name": "Puerto Limon",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cote D'Ivoire",
+      "id": "wpi-46008",
+      "latitude": 5.05,
+      "longitude": -4.45,
+      "name": "Espoir Marine Terminal",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Croatia",
+      "id": "wpi-41030",
+      "latitude": 45.3,
+      "longitude": 14.533333,
+      "name": "Bakar",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cuba",
+      "id": "wpi-10270",
+      "latitude": 20.683333,
+      "longitude": -75.333333,
+      "name": "Bahia De Sagua De Tanamo",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Curacao",
+      "id": "wpi-11800",
+      "latitude": 12.066667,
+      "longitude": -68.866667,
+      "name": "Caracasbaai",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cyprus",
+      "id": "wpi-44950",
+      "latitude": 34.666667,
+      "longitude": 33.05,
+      "name": "Limassol",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Denmark",
+      "id": "wpi-30285",
+      "latitude": 56.25,
+      "longitude": 10.35,
+      "name": "Studstrup",
+      "waterBody": "Kattegat; North Atlantic Ocean"
+    },
+    {
+      "country": "Dominican Republic",
+      "id": "wpi-11050",
+      "latitude": 18.216667,
+      "longitude": -70.516667,
+      "name": "Las Calderas",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ecuador",
+      "id": "wpi-15290",
+      "latitude": -2.216667,
+      "longitude": -80.916667,
+      "name": "La Libertad",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Egypt",
+      "id": "wpi-48040",
+      "latitude": 29.966667,
+      "longitude": 32.55,
+      "name": "As Suways",
+      "waterBody": "Gulf of Suez; Red Sea; Indian Ocean"
+    },
+    {
+      "country": "El Salvador",
+      "id": "wpi-15600",
+      "latitude": 13.333333,
+      "longitude": -87.833333,
+      "name": "La Union",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Equatorial Guinea",
+      "id": "wpi-46335",
+      "latitude": 1.416667,
+      "longitude": 9.233333,
+      "name": "Ceiba Terminal",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Estonia",
+      "id": "wpi-28425",
+      "latitude": 59.42612,
+      "longitude": 27.73945,
+      "name": "Sillamae",
+      "waterBody": "Gulf of Finland; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Faroe Islands",
+      "id": "wpi-32700",
+      "latitude": 62.116667,
+      "longitude": -6.733333,
+      "name": "Kongshavn",
+      "waterBody": "Norwegian Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Federated States of Micronesia",
+      "id": "wpi-56570",
+      "latitude": 5.333333,
+      "longitude": 163.033333,
+      "name": "Lele Harbor",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Fiji",
+      "id": "wpi-55530",
+      "latitude": -17.6,
+      "longitude": 177.45,
+      "name": "Lautoka Harbor",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Finland",
+      "id": "wpi-28230",
+      "latitude": 60.466667,
+      "longitude": 26.966667,
+      "name": "Kotka",
+      "waterBody": "Gulf of Finland; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "France",
+      "id": "wpi-35950",
+      "latitude": 49.65,
+      "longitude": -1.633333,
+      "name": "Rade De Cherbourg",
+      "waterBody": "English Channel; North Atlantic Ocean"
+    },
+    {
+      "country": "French Polynesia",
+      "id": "wpi-56015",
+      "latitude": -8.933333,
+      "longitude": -140.083333,
+      "name": "Baie Taiohae",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Gabon",
+      "id": "wpi-46446",
+      "latitude": -1.466667,
+      "longitude": 8.916667,
+      "name": "Oguendjo Terminal",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Georgia",
+      "id": "wpi-44345",
+      "latitude": 42.1,
+      "longitude": 41.716667,
+      "name": "Supsa Marine Terminal",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Germany",
+      "id": "wpi-28860",
+      "latitude": 54.1,
+      "longitude": 12.133333,
+      "name": "Rostock",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ghana",
+      "id": "wpi-46063",
+      "latitude": 5.2,
+      "longitude": -1.05,
+      "name": "Saltpond",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Greece",
+      "id": "wpi-43130",
+      "latitude": 35.35,
+      "longitude": 25.15,
+      "name": "Iraklion",
+      "waterBody": "Aegean Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Greenland",
+      "id": "wpi-543",
+      "latitude": 61.766667,
+      "longitude": -42.216667,
+      "name": "Kusanartoq",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Guadeloupe",
+      "id": "wpi-11380",
+      "latitude": 17.9,
+      "longitude": -62.85,
+      "name": "Gustavia",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Guatemala",
+      "id": "wpi-15660",
+      "latitude": 13.916667,
+      "longitude": -90.8,
+      "name": "Puerto Quetzal",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Guernsey",
+      "id": "wpi-35990",
+      "latitude": 49.483333,
+      "longitude": -2.516667,
+      "name": "Saint Sampson",
+      "waterBody": "English Channel; North Atlantic Ocean"
+    },
+    {
+      "country": "Guinea",
+      "id": "wpi-45850",
+      "latitude": 10.633333,
+      "longitude": -14.616667,
+      "name": "Kamsar",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Haiti",
+      "id": "wpi-10820",
+      "latitude": 18.233333,
+      "longitude": -72.533333,
+      "name": "Jacmel",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Honduras",
+      "id": "wpi-9670",
+      "latitude": 15.783333,
+      "longitude": -86.8,
+      "name": "La Ceiba",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Iceland",
+      "id": "wpi-400",
+      "latitude": 65.266667,
+      "longitude": -14.0,
+      "name": "Seydhisfjordhur",
+      "waterBody": "Norwegian Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "India",
+      "id": "wpi-48840",
+      "latitude": 18.966667,
+      "longitude": 72.866667,
+      "name": "Mumbai (Bombay)",
+      "waterBody": "Arabian Sea; Indian Ocean"
+    },
+    {
+      "country": "Indonesia",
+      "id": "wpi-53045",
+      "latitude": -1.3,
+      "longitude": 131.016667,
+      "name": "Kasim Terminal",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Iran",
+      "id": "wpi-48460",
+      "latitude": 30.433333,
+      "longitude": 49.083333,
+      "name": "Bandar Khomeyni",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Iraq",
+      "id": "wpi-48390",
+      "latitude": 29.783333,
+      "longitude": 48.8,
+      "name": "Khawr Al Amaya",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Ireland",
+      "id": "wpi-34480",
+      "latitude": 53.35,
+      "longitude": -6.25,
+      "name": "Dublin",
+      "waterBody": "Irish Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Israel",
+      "id": "wpi-48076",
+      "latitude": 29.55,
+      "longitude": 34.95,
+      "name": "Elat",
+      "waterBody": "Gulf of Aqaba; Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Italy",
+      "id": "wpi-39470",
+      "latitude": 44.398,
+      "longitude": 8.922,
+      "name": "Genova",
+      "waterBody": "Ligurian Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Jamaica",
+      "id": "wpi-10710",
+      "latitude": 18.183333,
+      "longitude": -76.45,
+      "name": "Port Antonio",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Japan",
+      "id": "wpi-61465",
+      "latitude": 34.716667,
+      "longitude": 137.3,
+      "name": "Mikawa",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Kenya",
+      "id": "wpi-47107",
+      "latitude": -3.216667,
+      "longitude": 40.133333,
+      "name": "Malindi",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Kiribati",
+      "id": "wpi-56450",
+      "latitude": 1.333333,
+      "longitude": 172.933333,
+      "name": "Tarawa Atoll",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Kuwait",
+      "id": "wpi-48360",
+      "latitude": 29.016667,
+      "longitude": 48.166667,
+      "name": "Mina Abd Allah",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Latvia",
+      "id": "wpi-28620",
+      "latitude": 57.4,
+      "longitude": 21.533333,
+      "name": "Ventspils",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Lebanon",
+      "id": "wpi-45040",
+      "latitude": 33.5,
+      "longitude": 35.35,
+      "name": "Sayda",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Liberia",
+      "id": "wpi-45955",
+      "latitude": 4.366667,
+      "longitude": -7.716667,
+      "name": "Cape Palmas",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Libya",
+      "id": "wpi-45295",
+      "latitude": 30.416667,
+      "longitude": 19.6,
+      "name": "Al Burayqah",
+      "waterBody": "Gulf of Sidra; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Madagascar",
+      "id": "wpi-47360",
+      "latitude": -13.4,
+      "longitude": 48.3,
+      "name": "Andoany",
+      "waterBody": "Mozambique Channel; Indian Ocean"
+    },
+    {
+      "country": "Malaysia",
+      "id": "wpi-57425",
+      "latitude": 5.516667,
+      "longitude": 105.016667,
+      "name": "Tapis Marine Terminal A",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Marshall Islands",
+      "id": "wpi-56400",
+      "latitude": 7.083333,
+      "longitude": 171.383333,
+      "name": "Majuro Atoll",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Mexico",
+      "id": "wpi-15770",
+      "latitude": 19.05,
+      "longitude": -104.316667,
+      "name": "Manzanillo",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Montenegro",
+      "id": "wpi-41590",
+      "latitude": 42.516667,
+      "longitude": 18.7,
+      "name": "Risan",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Morocco",
+      "id": "wpi-45753",
+      "latitude": 35.9,
+      "longitude": -5.516667,
+      "name": "Tangier-Mediterranean",
+      "waterBody": "Strait of Gibraltar; North Atlantic Ocean"
+    },
+    {
+      "country": "Mozambique",
+      "id": "wpi-46900",
+      "latitude": -18.566667,
+      "longitude": 36.5,
+      "name": "Chinde",
+      "waterBody": "Mozambique Channel; Indian Ocean"
+    },
+    {
+      "country": "Netherlands",
+      "id": "wpi-30990",
+      "latitude": 53.333333,
+      "longitude": 6.933333,
+      "name": "Delfzijl",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "New Caledonia",
+      "id": "wpi-57325",
+      "latitude": -21.15,
+      "longitude": 165.55,
+      "name": "Baie Ugue",
+      "waterBody": "Coral Sea; South Pacific Ocean"
+    },
+    {
+      "country": "New Zealand",
+      "id": "wpi-55230",
+      "latitude": -36.933333,
+      "longitude": 174.783333,
+      "name": "Manukau Harbor",
+      "waterBody": "Tasman Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Nicaragua",
+      "id": "wpi-9769",
+      "latitude": 12.0,
+      "longitude": -83.7,
+      "name": "El Bluff",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Nigeria",
+      "id": "wpi-46205",
+      "latitude": 4.45,
+      "longitude": 7.166667,
+      "name": "Bonny",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "North Korea",
+      "id": "wpi-60450",
+      "latitude": 39.833333,
+      "longitude": 127.616667,
+      "name": "Hungnam",
+      "waterBody": "Sea of Japan; North Pacific Ocean"
+    },
+    {
+      "country": "Northern Mariana Islands",
+      "id": "wpi-56530",
+      "latitude": 14.966667,
+      "longitude": 145.616667,
+      "name": "Tinian",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Norway",
+      "id": "wpi-21610",
+      "latitude": 68.8,
+      "longitude": 16.55,
+      "name": "Harstad",
+      "waterBody": "Norwegian Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Oman",
+      "id": "wpi-48255",
+      "latitude": 23.633333,
+      "longitude": 58.516667,
+      "name": "Mina Al Fahl",
+      "waterBody": "Gulf of Oman; Indian Ocean"
+    },
+    {
+      "country": "Pakistan",
+      "id": "wpi-48605",
+      "latitude": 24.766667,
+      "longitude": 67.35,
+      "name": "Muhamamad Bin Qasim",
+      "waterBody": "Arabian Sea; Indian Ocean"
+    },
+    {
+      "country": "Panama",
+      "id": "wpi-9860",
+      "latitude": 9.35,
+      "longitude": -79.916667,
+      "name": "Puerto Cristobal",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Papua New Guinea",
+      "id": "wpi-53160",
+      "latitude": -9.466667,
+      "longitude": 147.133333,
+      "name": "Port Moresby",
+      "waterBody": "Coral Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Peru",
+      "id": "wpi-15190",
+      "latitude": -4.583333,
+      "longitude": -81.283333,
+      "name": "Talara",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Philippines",
+      "id": "wpi-58320",
+      "latitude": 13.75,
+      "longitude": 121.05,
+      "name": "Batangas City",
+      "waterBody": "Philippine inland seas; North Pacific Ocean"
+    },
+    {
+      "country": "Poland",
+      "id": "wpi-28715",
+      "latitude": 54.4,
+      "longitude": 18.716667,
+      "name": "Port Polnochny",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Portugal",
+      "id": "wpi-37990",
+      "latitude": 38.7,
+      "longitude": -9.166667,
+      "name": "Lisboa",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Puerto Rico",
+      "id": "wpi-11260",
+      "latitude": 17.983333,
+      "longitude": -66.616667,
+      "name": "Playa De Ponce",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Qatar",
+      "id": "wpi-48287",
+      "latitude": 24.916667,
+      "longitude": 51.566667,
+      "name": "Umm Said",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Reunion",
+      "id": "wpi-47680",
+      "latitude": -20.866667,
+      "longitude": 55.45,
+      "name": "Saint-Denis",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Romania",
+      "id": "wpi-43550",
+      "latitude": 43.816667,
+      "longitude": 28.583333,
+      "name": "Mangalia",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Russia",
+      "id": "wpi-60610",
+      "latitude": 43.108888889,
+      "longitude": 131.888333333,
+      "name": "Vladivostok",
+      "waterBody": "Sea of Japan; North Pacific Ocean"
+    },
+    {
+      "country": "Saint Helena, Ascension, and Tristan da Cunha",
+      "id": "wpi-46691",
+      "latitude": -7.883333,
+      "longitude": -14.366667,
+      "name": "North Point",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Saint Lucia",
+      "id": "wpi-11620",
+      "latitude": 13.716667,
+      "longitude": -60.966667,
+      "name": "Vieux Fort",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Saudi Arabia",
+      "id": "wpi-48106",
+      "latitude": 27.566667,
+      "longitude": 35.533333,
+      "name": "Duba",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Senegal",
+      "id": "wpi-45822",
+      "latitude": 12.566667,
+      "longitude": -16.666667,
+      "name": "Karabane",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Sierra Leone",
+      "id": "wpi-45865",
+      "latitude": 8.583333,
+      "longitude": -13.05,
+      "name": "Pepel",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Singapore",
+      "id": "wpi-50010",
+      "latitude": 1.233333,
+      "longitude": 103.766667,
+      "name": "Pulau Bukom",
+      "waterBody": "Strait of Malacca; Indian Ocean"
+    },
+    {
+      "country": "Solomon Islands",
+      "id": "wpi-56970",
+      "latitude": -8.1,
+      "longitude": 156.85,
+      "name": "Gizo Harbor",
+      "waterBody": "Solomon Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Somalia",
+      "id": "wpi-47830",
+      "latitude": 11.283333,
+      "longitude": 49.183333,
+      "name": "Boosaaso",
+      "waterBody": "Gulf of Aden; Indian Ocean"
+    },
+    {
+      "country": "South Africa",
+      "id": "wpi-46800",
+      "latitude": -34.174722222,
+      "longitude": 22.146111111,
+      "name": "Mossel Bay",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "South Georgia and South Sandwich Islands",
+      "id": "wpi-14040",
+      "latitude": -54.15,
+      "longitude": -36.7,
+      "name": "Stromness Harbor",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "South Korea",
+      "id": "wpi-60376",
+      "latitude": 34.90846,
+      "longitude": 127.75012,
+      "name": "Gwangyang Hang",
+      "waterBody": "Korea Strait; North Pacific Ocean"
+    },
+    {
+      "country": "Spain",
+      "id": "wpi-38540",
+      "latitude": 41.1,
+      "longitude": 1.233333,
+      "name": "Tarragona",
+      "waterBody": "Balearic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Sri Lanka",
+      "id": "wpi-49250",
+      "latitude": 6.033055556,
+      "longitude": 80.228333333,
+      "name": "Galle Harbor",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Sudan",
+      "id": "wpi-47942",
+      "latitude": 19.583333,
+      "longitude": 37.25,
+      "name": "Al Khair Oil Terminal",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Svalbard",
+      "id": "wpi-20580",
+      "latitude": 78.928333333,
+      "longitude": 11.933055556,
+      "name": "Ny Alesund",
+      "waterBody": "Greenland Sea; Arctic Ocean"
+    },
+    {
+      "country": "Sweden",
+      "id": "wpi-24040",
+      "latitude": 56.881666667,
+      "longitude": 12.466111111,
+      "name": "Falkenberg",
+      "waterBody": "Kattegat; North Atlantic Ocean"
+    },
+    {
+      "country": "Syria",
+      "id": "wpi-45003",
+      "latitude": 34.9,
+      "longitude": 35.866667,
+      "name": "Tartus",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Taiwan",
+      "id": "wpi-57920",
+      "latitude": 22.616667,
+      "longitude": 120.25,
+      "name": "Kao-Hsiung",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Tanzania",
+      "id": "wpi-47030",
+      "latitude": -5.083333,
+      "longitude": 39.116667,
+      "name": "Tanga",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Thailand",
+      "id": "wpi-57462",
+      "latitude": 13.083333,
+      "longitude": 100.883333,
+      "name": "Laem Chabang",
+      "waterBody": "Gulf of Thailand; South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "The Bahamas",
+      "id": "wpi-9995",
+      "latitude": 25.0,
+      "longitude": -77.55,
+      "name": "Clifton Pier",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Tonga",
+      "id": "wpi-55600",
+      "latitude": -19.8,
+      "longitude": -174.35,
+      "name": "Pangai",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Trinidad and Tobago",
+      "id": "wpi-11750",
+      "latitude": 10.4,
+      "longitude": -61.5,
+      "name": "Point Lisas Industrial Port",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Tunisia",
+      "id": "wpi-45430",
+      "latitude": 36.8,
+      "longitude": 10.25,
+      "name": "Tunis",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Turkey",
+      "id": "wpi-44450",
+      "latitude": 41.3,
+      "longitude": 36.35,
+      "name": "Samsun",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Turks and Caicos Islands",
+      "id": "wpi-10030",
+      "latitude": 21.733333333,
+      "longitude": -72.283333333,
+      "name": "Providenciales",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "U.S. Virgin Islands",
+      "id": "wpi-11330",
+      "latitude": 17.716667,
+      "longitude": -64.883333,
+      "name": "Frederiksted",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ukraine",
+      "id": "wpi-43760",
+      "latitude": 44.616667,
+      "longitude": 33.533333,
+      "name": "Sevastopol",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "United Arab Emirates",
+      "id": "wpi-48282",
+      "latitude": 24.2,
+      "longitude": 52.7,
+      "name": "Jabal Az Zannah/ruways",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "United Kingdom",
+      "id": "wpi-34690",
+      "latitude": 53.416667,
+      "longitude": -3.0,
+      "name": "Liverpool",
+      "waterBody": "Irish Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "United States",
+      "id": "wpi-7630",
+      "latitude": 40.666667,
+      "longitude": -74.016667,
+      "name": "Brooklyn",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Uruguay",
+      "id": "wpi-13160",
+      "latitude": -33.116667,
+      "longitude": -58.316667,
+      "name": "Fray Bentos",
+      "waterBody": "Rio de la Plata; South Atlantic Ocean"
+    },
+    {
+      "country": "Vanuatu",
+      "id": "wpi-57230",
+      "latitude": -17.733333,
+      "longitude": 168.316667,
+      "name": "Port Vila",
+      "waterBody": "Coral Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Venezuela",
+      "id": "wpi-12120",
+      "latitude": 10.483333,
+      "longitude": -68.0,
+      "name": "Puerto Cabello",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Vietnam",
+      "id": "wpi-57660",
+      "latitude": 18.766667,
+      "longitude": 105.766667,
+      "name": "Nghe Tinh",
+      "waterBody": "Gulf of Tonkin; South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Yemen",
+      "id": "wpi-48175",
+      "latitude": 13.316667,
+      "longitude": 43.25,
+      "name": "Al Mukha",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Algeria",
+      "id": "wpi-45630",
+      "latitude": 35.85,
+      "longitude": -0.3,
+      "name": "Arzew",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Angola",
+      "id": "wpi-46560",
+      "latitude": -8.8,
+      "longitude": 13.25,
+      "name": "Luanda",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Antarctica",
+      "id": "wpi-63070",
+      "latitude": -60.733333,
+      "longitude": -45.033333,
+      "name": "Ellefsen Harbor",
+      "waterBody": "Scotia Sea; South Atlantic Ocean"
+    },
+    {
+      "country": "Argentina",
+      "id": "wpi-13780",
+      "latitude": -38.033333,
+      "longitude": -57.533333,
+      "name": "Mar Del Plata",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Australia",
+      "id": "wpi-53610",
+      "latitude": -32.916667,
+      "longitude": 151.783333,
+      "name": "Newcastle",
+      "waterBody": "Tasman Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Bahrain",
+      "id": "wpi-48310",
+      "latitude": 26.233333,
+      "longitude": 50.583333,
+      "name": "Al Manamah",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Belgium",
+      "id": "wpi-31320",
+      "latitude": 51.133333,
+      "longitude": 2.75,
+      "name": "Nieuwpoort",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Bermuda",
+      "id": "wpi-9930",
+      "latitude": 32.316666667,
+      "longitude": -64.833333333,
+      "name": "Freeport",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Brazil",
+      "id": "wpi-12855",
+      "latitude": -20.283333,
+      "longitude": -40.25,
+      "name": "Tubarao",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Brunei",
+      "id": "wpi-51635",
+      "latitude": 4.716667,
+      "longitude": 114.45,
+      "name": "Lumut",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Burma",
+      "id": "wpi-49730",
+      "latitude": 9.983333333,
+      "longitude": 98.55,
+      "name": "Victoria Point Harbor",
+      "waterBody": "Andaman Sea; Indian Ocean"
+    },
+    {
+      "country": "Cameroon",
+      "id": "wpi-46292",
+      "latitude": 2.916667,
+      "longitude": 9.8,
+      "name": "Kome Kribi 1 Marine Terminal",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Canada",
+      "id": "wpi-1710",
+      "latitude": 47.3,
+      "longitude": -53.983333,
+      "name": "Argentia",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Caribbean Netherlands",
+      "id": "wpi-11782",
+      "latitude": 12.083333,
+      "longitude": -68.283333,
+      "name": "Salina",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Chile",
+      "id": "wpi-14400",
+      "latitude": -37.033333,
+      "longitude": -73.166667,
+      "name": "Coronel",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "China",
+      "id": "wpi-59970",
+      "latitude": 31.216667,
+      "longitude": 121.5,
+      "name": "Shanghai",
+      "waterBody": "East China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Colombia",
+      "id": "wpi-11900",
+      "latitude": 9.416667,
+      "longitude": -75.683333,
+      "name": "Covenas",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Comoros",
+      "id": "wpi-47320",
+      "latitude": -12.15,
+      "longitude": 44.4,
+      "name": "Moutsamoudu",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Congo (Brazzaville)",
+      "id": "wpi-46473",
+      "latitude": -5.266667,
+      "longitude": 11.566667,
+      "name": "N'kossa Terminal",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Costa Rica",
+      "id": "wpi-9805",
+      "latitude": 10.0,
+      "longitude": -83.083333,
+      "name": "Puerto Moin",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cote D'Ivoire",
+      "id": "wpi-45990",
+      "latitude": 5.233333,
+      "longitude": -3.966667,
+      "name": "Port Bouet",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Croatia",
+      "id": "wpi-41550",
+      "latitude": 42.666667,
+      "longitude": 18.083333,
+      "name": "Dubrovnik",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cuba",
+      "id": "wpi-10540",
+      "latitude": 22.15,
+      "longitude": -80.45,
+      "name": "Cienfuegos",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Curacao",
+      "id": "wpi-11821",
+      "latitude": 12.133333,
+      "longitude": -69.016667,
+      "name": "Sint Michelsbaai",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Cyprus",
+      "id": "wpi-44965",
+      "latitude": 34.966667,
+      "longitude": 33.716667,
+      "name": "Dhekelia",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Denmark",
+      "id": "wpi-30100",
+      "latitude": 55.05,
+      "longitude": 9.433333,
+      "name": "Abenra",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Dominican Republic",
+      "id": "wpi-11045",
+      "latitude": 18.416667,
+      "longitude": -70.016667,
+      "name": "Puerto De Haina",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ecuador",
+      "id": "wpi-15310",
+      "latitude": -0.95,
+      "longitude": -80.716667,
+      "name": "Manta",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Egypt",
+      "id": "wpi-45140",
+      "latitude": 31.266667,
+      "longitude": 32.3,
+      "name": "Bur Sa'id",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Equatorial Guinea",
+      "id": "wpi-46340",
+      "latitude": 1.083333,
+      "longitude": 9.7,
+      "name": "Cogo",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Estonia",
+      "id": "wpi-28480",
+      "latitude": 59.450128,
+      "longitude": 24.766676,
+      "name": "Vanasadam - Port of Tallinn",
+      "waterBody": "Gulf of Finland; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Faroe Islands",
+      "id": "wpi-32702",
+      "latitude": 62.116667,
+      "longitude": -6.716667,
+      "name": "Runavik",
+      "waterBody": "Norwegian Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Federated States of Micronesia",
+      "id": "wpi-56600",
+      "latitude": 7.433333,
+      "longitude": 151.833333,
+      "name": "Moen",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Fiji",
+      "id": "wpi-55556",
+      "latitude": -16.35,
+      "longitude": 179.366667,
+      "name": "Malai",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Finland",
+      "id": "wpi-27520",
+      "latitude": 65.016667,
+      "longitude": 25.4,
+      "name": "Oulu",
+      "waterBody": "Gulf of Bothnia; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "France",
+      "id": "wpi-38870",
+      "latitude": 43.1,
+      "longitude": 5.916667,
+      "name": "Toulon",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "French Polynesia",
+      "id": "wpi-55960",
+      "latitude": -23.116667,
+      "longitude": -134.966667,
+      "name": "Port Rikitea",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Gabon",
+      "id": "wpi-46435",
+      "latitude": 0.283333,
+      "longitude": 9.5,
+      "name": "Port Owendo",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Germany",
+      "id": "wpi-30850",
+      "latitude": 53.333333,
+      "longitude": 8.483333,
+      "name": "Brake",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ghana",
+      "id": "wpi-46045",
+      "latitude": 4.95,
+      "longitude": -1.7,
+      "name": "Sekondi",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "Greece",
+      "id": "wpi-41720",
+      "latitude": 39.616667,
+      "longitude": 19.933333,
+      "name": "Kerkira",
+      "waterBody": "Ionian Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Greenland",
+      "id": "wpi-640",
+      "latitude": 64.183333,
+      "longitude": -51.75,
+      "name": "Nuuk",
+      "waterBody": "Labrador Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Guadeloupe",
+      "id": "wpi-11470",
+      "latitude": 16.416667,
+      "longitude": -61.533333,
+      "name": "Port Louis",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Guinea",
+      "id": "wpi-45845",
+      "latitude": 10.816667,
+      "longitude": -14.566667,
+      "name": "Victoria",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Haiti",
+      "id": "wpi-10860",
+      "latitude": 18.45,
+      "longitude": -73.083333,
+      "name": "Miragoane",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Honduras",
+      "id": "wpi-9690",
+      "latitude": 16.0,
+      "longitude": -85.983333,
+      "name": "Puerto Castilla",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Iceland",
+      "id": "wpi-510",
+      "latitude": 63.433333,
+      "longitude": -20.283333,
+      "name": "Vestmannaeyjar",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "India",
+      "id": "wpi-48845",
+      "latitude": 18.95,
+      "longitude": 72.95,
+      "name": "Jawaharlal Nehru Port (Nhava Shiva)",
+      "waterBody": "Arabian Sea; Indian Ocean"
+    },
+    {
+      "country": "Indonesia",
+      "id": "wpi-50730",
+      "latitude": 3.783333,
+      "longitude": 98.683333,
+      "name": "Belawan",
+      "waterBody": "Strait of Malacca; Indian Ocean"
+    },
+    {
+      "country": "Iran",
+      "id": "wpi-48450",
+      "latitude": 30.466667,
+      "longitude": 49.183333,
+      "name": "Bandar-E Mahshahr",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Iraq",
+      "id": "wpi-48406",
+      "latitude": 30.133333,
+      "longitude": 47.916667,
+      "name": "Khawr Al Zubair Lng Terminal",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Ireland",
+      "id": "wpi-34420",
+      "latitude": 52.25,
+      "longitude": -6.333333,
+      "name": "Rosslare",
+      "waterBody": "Irish Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Israel",
+      "id": "wpi-45110",
+      "latitude": 31.666667,
+      "longitude": 34.5,
+      "name": "Ashqelon",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Italy",
+      "id": "wpi-40115",
+      "latitude": 38.444,
+      "longitude": 15.89,
+      "name": "Gioia Tauro",
+      "waterBody": "Tyrrhenian Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Jamaica",
+      "id": "wpi-10620",
+      "latitude": 18.483333,
+      "longitude": -77.65,
+      "name": "Falmouth",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Japan",
+      "id": "wpi-62360",
+      "latitude": 32.716667,
+      "longitude": 129.85,
+      "name": "Nagasaki",
+      "waterBody": "East China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Kenya",
+      "id": "wpi-47105",
+      "latitude": -3.633333,
+      "longitude": 39.866667,
+      "name": "Kilifi",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Kuwait",
+      "id": "wpi-48370",
+      "latitude": 29.35,
+      "longitude": 47.933333,
+      "name": "Al Kuwayt",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Latvia",
+      "id": "wpi-28615",
+      "latitude": 57.0,
+      "longitude": 23.433333,
+      "name": "Lielupe",
+      "waterBody": "Gulf of Riga; Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Lebanon",
+      "id": "wpi-45027",
+      "latitude": 34.283333333,
+      "longitude": 35.655,
+      "name": "Selaata",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Liberia",
+      "id": "wpi-45952",
+      "latitude": 4.983333,
+      "longitude": -9.05,
+      "name": "Greenville",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Libya",
+      "id": "wpi-45335",
+      "latitude": 32.8,
+      "longitude": 12.716667,
+      "name": "Az Zawiya",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Madagascar",
+      "id": "wpi-47625",
+      "latitude": -13.083333,
+      "longitude": 48.833333,
+      "name": "Antsohim Bondrona",
+      "waterBody": "Mozambique Channel; Indian Ocean"
+    },
+    {
+      "country": "Malaysia",
+      "id": "wpi-51690",
+      "latitude": 5.983333,
+      "longitude": 116.066667,
+      "name": "Kota Kinabalu",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Mexico",
+      "id": "wpi-15810",
+      "latitude": 23.2,
+      "longitude": -106.416667,
+      "name": "Mazatlan",
+      "waterBody": "North Pacific Ocean"
+    },
+    {
+      "country": "Montenegro",
+      "id": "wpi-41620",
+      "latitude": 42.433333,
+      "longitude": 18.7,
+      "name": "Tivat",
+      "waterBody": "Adriatic Sea; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Morocco",
+      "id": "wpi-45755",
+      "latitude": 35.783333,
+      "longitude": -5.816667,
+      "name": "Tanger",
+      "waterBody": "Strait of Gibraltar; North Atlantic Ocean"
+    },
+    {
+      "country": "Mozambique",
+      "id": "wpi-46880",
+      "latitude": -23.916667,
+      "longitude": 35.4,
+      "name": "Inhambane",
+      "waterBody": "Mozambique Channel; Indian Ocean"
+    },
+    {
+      "country": "Netherlands",
+      "id": "wpi-31020",
+      "latitude": 52.966667,
+      "longitude": 4.783333,
+      "name": "Den Helder",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "New Zealand",
+      "id": "wpi-55400",
+      "latitude": -46.6,
+      "longitude": 168.333333,
+      "name": "Bluff Harbor",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Nicaragua",
+      "id": "wpi-9760",
+      "latitude": 14.016667,
+      "longitude": -83.383333,
+      "name": "Puerto Cabezas",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Nigeria",
+      "id": "wpi-46225",
+      "latitude": 4.216667,
+      "longitude": 8.333333,
+      "name": "Antan Oil Terminal",
+      "waterBody": "Gulf of Guinea; North Atlantic Ocean"
+    },
+    {
+      "country": "North Korea",
+      "id": "wpi-60510",
+      "latitude": 42.233333,
+      "longitude": 130.3,
+      "name": "Najin",
+      "waterBody": "Sea of Japan; North Pacific Ocean"
+    },
+    {
+      "country": "Norway",
+      "id": "wpi-23750",
+      "latitude": 59.416667,
+      "longitude": 10.5,
+      "name": "Horten",
+      "waterBody": "Skagerrak; North Atlantic Ocean"
+    },
+    {
+      "country": "Oman",
+      "id": "wpi-48230",
+      "latitude": 16.951111111,
+      "longitude": 54.029166667,
+      "name": "Mina Raysut",
+      "waterBody": "Arabian Sea; Indian Ocean"
+    },
+    {
+      "country": "Panama",
+      "id": "wpi-9875",
+      "latitude": 9.4,
+      "longitude": -79.816667,
+      "name": "Bahia De Las Minas",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Papua New Guinea",
+      "id": "wpi-56810",
+      "latitude": -4.2,
+      "longitude": 152.183333,
+      "name": "Rabaul",
+      "waterBody": "Bismarck Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Peru",
+      "id": "wpi-14960",
+      "latitude": -11.75,
+      "longitude": -77.183333,
+      "name": "Bahia De Ancon",
+      "waterBody": "South Pacific Ocean"
+    },
+    {
+      "country": "Philippines",
+      "id": "wpi-59710",
+      "latitude": 8.5,
+      "longitude": 124.666667,
+      "name": "Cagayan De Oro",
+      "waterBody": "Bohol Sea; Philippine inland seas; North Pacific Ocean"
+    },
+    {
+      "country": "Poland",
+      "id": "wpi-28720",
+      "latitude": 54.416667,
+      "longitude": 18.666667,
+      "name": "Nowy Port",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Portugal",
+      "id": "wpi-37970",
+      "latitude": 40.65,
+      "longitude": -8.65,
+      "name": "Aveiro",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Puerto Rico",
+      "id": "wpi-11230",
+      "latitude": 17.966667,
+      "longitude": -66.066667,
+      "name": "Arroyo",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Qatar",
+      "id": "wpi-48300",
+      "latitude": 26.65,
+      "longitude": 51.55,
+      "name": "Al Rayyan Terminal",
+      "waterBody": "Persian Gulf; Indian Ocean"
+    },
+    {
+      "country": "Reunion",
+      "id": "wpi-47700",
+      "latitude": -21.35,
+      "longitude": 55.466667,
+      "name": "Saint-Pierre",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Romania",
+      "id": "wpi-43568",
+      "latitude": 44.35,
+      "longitude": 28.666667,
+      "name": "Midia",
+      "waterBody": "Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Russia",
+      "id": "wpi-60810",
+      "latitude": 51.466667,
+      "longitude": 140.783333,
+      "name": "De Kastri",
+      "waterBody": "Tatar Strait; North Pacific Ocean"
+    },
+    {
+      "country": "Saint Helena, Ascension, and Tristan da Cunha",
+      "id": "wpi-46710",
+      "latitude": -37.05,
+      "longitude": -12.3,
+      "name": "Edinburgh Of The Seven Seas",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Saudi Arabia",
+      "id": "wpi-48140",
+      "latitude": 21.483333,
+      "longitude": 39.183333,
+      "name": "Jiddah",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Senegal",
+      "id": "wpi-45819",
+      "latitude": 14.716667,
+      "longitude": -17.4,
+      "name": "M Bao Oil Terminal",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Singapore",
+      "id": "wpi-50015",
+      "latitude": 1.2,
+      "longitude": 103.8,
+      "name": "Pulau Sebarok",
+      "waterBody": "Strait of Malacca; Indian Ocean"
+    },
+    {
+      "country": "Solomon Islands",
+      "id": "wpi-57120",
+      "latitude": -9.416667,
+      "longitude": 159.95,
+      "name": "Honiara",
+      "waterBody": "Solomon Sea; South Pacific Ocean"
+    },
+    {
+      "country": "Somalia",
+      "id": "wpi-47140",
+      "latitude": 1.1,
+      "longitude": 44.05,
+      "name": "Baraawe",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "South Africa",
+      "id": "wpi-46820",
+      "latitude": -33.951944444,
+      "longitude": 25.6425,
+      "name": "Port Elizabeth",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "South Korea",
+      "id": "wpi-60380",
+      "latitude": 35.183333,
+      "longitude": 128.566667,
+      "name": "Masan",
+      "waterBody": "Korea Strait; North Pacific Ocean"
+    },
+    {
+      "country": "Spain",
+      "id": "wpi-38440",
+      "latitude": 38.333333,
+      "longitude": -0.483333,
+      "name": "Alicante",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Sri Lanka",
+      "id": "wpi-49300",
+      "latitude": 9.816667,
+      "longitude": 80.05,
+      "name": "Kankesanturai",
+      "waterBody": "Palk Strait; Indian Ocean"
+    },
+    {
+      "country": "Sudan",
+      "id": "wpi-47946",
+      "latitude": 19.133333,
+      "longitude": 37.35,
+      "name": "Sawakin Harbor",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Sweden",
+      "id": "wpi-24120",
+      "latitude": 56.035277778,
+      "longitude": 12.687777778,
+      "name": "Helsingborg",
+      "waterBody": "Baltic Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Taiwan",
+      "id": "wpi-57900",
+      "latitude": 24.6,
+      "longitude": 121.866667,
+      "name": "Su-Ao",
+      "waterBody": "East China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Tanzania",
+      "id": "wpi-47050",
+      "latitude": -6.166667,
+      "longitude": 39.183333,
+      "name": "Zanzibar",
+      "waterBody": "Indian Ocean"
+    },
+    {
+      "country": "Thailand",
+      "id": "wpi-57435",
+      "latitude": 6.95,
+      "longitude": 101.3,
+      "name": "Pattani",
+      "waterBody": "Gulf of Thailand; South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "The Bahamas",
+      "id": "wpi-10006",
+      "latitude": 24.05,
+      "longitude": -74.533333,
+      "name": "Cockburn Town",
+      "waterBody": "North Atlantic Ocean"
+    },
+    {
+      "country": "Trinidad and Tobago",
+      "id": "wpi-11725",
+      "latitude": 10.383333,
+      "longitude": -61.483333,
+      "name": "Point Lisas Port",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Tunisia",
+      "id": "wpi-45377",
+      "latitude": 34.283333,
+      "longitude": 11.383333,
+      "name": "Ashtart Oil Terminal",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Turkey",
+      "id": "wpi-44540",
+      "latitude": 41.0,
+      "longitude": 29.016667,
+      "name": "Haydarpasa",
+      "waterBody": "Sea of Marmara; Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "U.S. Virgin Islands",
+      "id": "wpi-11340",
+      "latitude": 17.75,
+      "longitude": -64.7,
+      "name": "Christiansted",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Ukraine",
+      "id": "wpi-44000",
+      "latitude": 46.75,
+      "longitude": 36.783333,
+      "name": "Berdyansk",
+      "waterBody": "Sea of Azov; Black Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "United Arab Emirates",
+      "id": "wpi-48263",
+      "latitude": 25.362777778,
+      "longitude": 56.368888889,
+      "name": "Khawr Fakkan",
+      "waterBody": "Gulf of Oman; Indian Ocean"
+    },
+    {
+      "country": "United Kingdom",
+      "id": "wpi-31720",
+      "latitude": 54.65,
+      "longitude": -1.133333,
+      "name": "Teesport",
+      "waterBody": "North Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "United States",
+      "id": "wpi-9150",
+      "latitude": 29.316667,
+      "longitude": -94.783333,
+      "name": "Galveston",
+      "waterBody": "Gulf of Mexico; North Atlantic Ocean"
+    },
+    {
+      "country": "Uruguay",
+      "id": "wpi-13115",
+      "latitude": -34.95,
+      "longitude": -54.7,
+      "name": "Jose Ignacio",
+      "waterBody": "South Atlantic Ocean"
+    },
+    {
+      "country": "Venezuela",
+      "id": "wpi-12070",
+      "latitude": 11.75,
+      "longitude": -70.233333,
+      "name": "Amuay (Bahia De Amuay)",
+      "waterBody": "Caribbean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Vietnam",
+      "id": "wpi-57620",
+      "latitude": 12.25,
+      "longitude": 109.233333,
+      "name": "Nha Trang",
+      "waterBody": "South China Sea; North Pacific Ocean"
+    },
+    {
+      "country": "Yemen",
+      "id": "wpi-48165",
+      "latitude": 14.833333,
+      "longitude": 42.966667,
+      "name": "Al Ahmadi",
+      "waterBody": "Red Sea; Indian Ocean"
+    },
+    {
+      "country": "Algeria",
+      "id": "wpi-45635",
+      "latitude": 35.816667,
+      "longitude": -0.25,
+      "name": "Arzew El Djedid",
+      "waterBody": "Mediterranean Sea; North Atlantic Ocean"
+    },
+    {
+      "country": "Angola",
+      "id": "wpi-46487",
+      "latitude": -5.433333,
+      "longitude": 12.083333,
+      "name": "Malongo Oil Terminal",
+      "waterBody": "South Atlantic Ocean"
+    }
+  ],
+  "schemaVersion": 1,
+  "selection": "country-round-robin, harbor-size then name; globally represented within 25 km",
+  "source": "NGA World Port Index UpdatedPub150.csv",
+  "sourceSHA256": "299ad0963f07a0354b42997825aa30ac360c936537bc3a1a2091b379de397a9f"
+}
