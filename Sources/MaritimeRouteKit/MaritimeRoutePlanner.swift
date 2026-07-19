@@ -2,17 +2,33 @@ import Foundation
 
 /// Plans deterministic, offline, illustrative water routes.
 ///
+/// ``MaritimeRoutePlanner`` loads a bundled, offline water graph and calculates routes
+/// concurrently. Because it is an actor, you can share a single instance across
+/// your app to preserve its routing cache and loaded data in memory.
+///
 /// MaritimeRouteKit is not a navigation system. Its geometric routes ignore
 /// depth, shipping lanes, traffic rules, tides, weather, restrictions, lock
 /// operations, and vessel characteristics.
+///
+/// ```swift
+/// let planner = MaritimeRoutePlanner()
+/// let result = await planner.plan(stops: itineraryStops)
+/// ```
 public actor MaritimeRoutePlanner {
   private var waterWorld: WaterWorld?
   private var routeWorkers: [WaterWorldWorker] = []
   private var dataLoadFailed = false
 
+  /// Creates a new route planner instance.
   public init() {}
 
   /// Plans consecutive legs in itinerary order without accessing the network.
+  ///
+  /// This method is asynchronous. It distributes the routing of individual legs
+  /// across multiple background threads if possible, using a shared data structure.
+  ///
+  /// - Parameter stops: An ordered array of ``MaritimeRouteStop`` items to visit.
+  /// - Returns: A complete ``MaritimeRouteResult`` detailing placements, legs, and diagnostics.
   public func plan(stops: [MaritimeRouteStop]) async -> MaritimeRouteResult {
     let world: WaterWorld
     do {

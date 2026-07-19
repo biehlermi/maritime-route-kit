@@ -6,10 +6,30 @@ import UIKit
 ///
 /// Stops appear immediately. Offline route planning then replaces their input
 /// coordinates with normalized water placements and adds each successful leg.
+///
+/// Because it uses ``MaritimeRoutePlanner`` internally, all routing is performed
+/// entirely offline on device.
+///
+/// ## Example
+///
+/// ```swift
+/// struct ItineraryView: View {
+///   var stops: [MaritimeRouteStop]
+///
+///   var body: some View {
+///     MaritimeRouteMap(stops: stops)
+///       .ignoresSafeArea()
+///   }
+/// }
+/// ```
 @MainActor
 public struct MaritimeRouteMap: View {
+  /// The itinerary stops to display on the map.
   private let stops: [MaritimeRouteStop]
 
+  /// Creates a new map view displaying the given stops.
+  ///
+  /// - Parameter stops: The sequence of stops defining the route.
   public init(stops: [MaritimeRouteStop]) {
     self.stops = stops
   }
