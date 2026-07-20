@@ -1,21 +1,21 @@
 # Canals and Connectors
 
-Routing through major artificial waterways and straits.
+Understand the explicitly represented artificial passages.
 
-## Overview
+## Supported Connectors
 
-Global maritime routing heavily depends on key chokepoints and canals. MaritimeRouteKit explicitly models these vital links to provide accurate, real-world routes.
+The bundled graph includes high-detail water masks and passage metadata for:
 
-## Major Canals Supported
+- Suez Canal
+- Panama Canal
 
-The routing network includes specific high-priority connections for:
+The planner considers these connections automatically during graph search. A
+caller neither selects a canal nor needs to add a canal stop, although stops
+inside represented connector areas are supported.
 
-- **The Panama Canal**: Connecting the Atlantic and Pacific oceans.
-- **The Suez Canal**: Connecting the Mediterranean Sea to the Red Sea.
-- **The Kiel Canal**: Connecting the North Sea to the Baltic Sea.
+Connector representation establishes illustrative geometric connectivity only.
+It does not model dimensions, draft, air draft, tolls, bookings, queues, convoy
+rules, lock operations, opening times, maintenance, or closures.
 
-## Automatic Selection
-
-The ``MaritimeRoutePlanner`` evaluates these canals dynamically during the A* search. Based on the start and end points, it automatically determines if passing through a canal yields a shorter overall distance compared to alternative routes (e.g., going around Cape Horn or the Cape of Good Hope).
-
-> Note: The current implementation routes based purely on distance. It does not account for canal tolls, waiting times, or vessel size restrictions (e.g., Panamax limits).
+Other canals, including the Kiel Canal, are not explicitly modeled by the
+current bundled data.

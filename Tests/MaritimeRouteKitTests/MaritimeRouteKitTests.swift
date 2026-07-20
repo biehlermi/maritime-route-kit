@@ -13,6 +13,7 @@ struct MaritimeRoutePlannerTests {
     let oneStop = await MaritimeRoutePlanner().plan(stops: [hamburg])
     #expect(oneStop.placements.map(\.stop.id) == ["hamburg-1"])
     #expect(oneStop.legs.isEmpty)
+    #expect(oneStop.isComplete)
 
     let repeated = await MaritimeRoutePlanner().plan(stops: [hamburg, repeatedHamburg])
     #expect(repeated.placements.map(\.stop.id) == ["hamburg-1", "hamburg-2"])
@@ -29,9 +30,10 @@ struct MaritimeRoutePlannerTests {
       stop("berlin", "Berlin", 52.520, 13.405),
     ])
     #expect(result.placements[0].status == .invalidCoordinate)
-    #expect(result.placements[1].status == .noNavigableWaterWithin25Kilometers)
+    #expect(result.placements[1].status == .noNavigableWater)
     #expect(result.diagnostics.contains { $0.kind == .invalidCoordinate })
     #expect(result.diagnostics.contains { $0.kind == .stopCannotBePlaced })
+    #expect(!result.isComplete)
   }
 
   @Test("A port coordinate slightly over land snaps to represented water")
@@ -44,6 +46,25 @@ struct MaritimeRoutePlannerTests {
     #expect(placement.normalizedCoordinate != nil)
     #expect((placement.snapDistanceMeters ?? 0) > 0)
     #expect((placement.snapDistanceMeters ?? .infinity) < 25_000)
+  }
+
+  @Test("The per-plan snap limit can reject land without rejecting represented water")
+  func configurableSnapDistance() async throws {
+    let planner = MaritimeRoutePlanner()
+    let geiranger = stop("geiranger", "Geiranger", 62.1015, 7.207)
+    let normal = await planner.plan(stops: [geiranger])
+    let normalized = try #require(normal.placements.first?.normalizedCoordinate)
+    #expect((normal.placements.first?.snapDistanceMeters ?? 0) > 0)
+
+    let strict = await planner.plan(stops: [geiranger], maximumSnapDistanceMeters: 0)
+    #expect(strict.placements.first?.status == .noNavigableWater)
+    #expect(strict.diagnostics.contains { $0.kind == .stopCannotBePlaced })
+
+    let representedWater = MaritimeRouteStop(
+      id: "represented-water", title: "Represented Water", coordinate: normalized)
+    let exact = await planner.plan(stops: [representedWater], maximumSnapDistanceMeters: 0)
+    #expect(exact.placements.first?.status == .placed)
+    #expect(exact.placements.first?.snapDistanceMeters == 0)
   }
 
   @Test("Hamburg routes down the Elbe to Bergen")
@@ -310,6 +331,22 @@ private func pathLength(_ coordinates: [MaritimeCoordinate]) -> Double {
 
 @Suite("Map presentation")
 struct MapPresentationTests {
+  @Test("Completion is exactly equivalent to having no diagnostics")
+  func completionStatus() {
+    let complete = MaritimeRouteResult(placements: [], legs: [], diagnostics: [])
+    let incomplete = MaritimeRouteResult(
+      placements: [], legs: [],
+      diagnostics: [
+        MaritimeRouteDiagnostic(
+          id: "failure", kind: .legCannotBeRouted, message: "A planning failure.")
+      ])
+
+    #expect(complete.isComplete)
+    #expect(!incomplete.isComplete)
+    #expect(complete.isComplete == complete.diagnostics.isEmpty)
+    #expect(incomplete.isComplete == incomplete.diagnostics.isEmpty)
+  }
+
   @Test("Antimeridian legs split without a world-spanning polyline")
   func antimeridianSplit() {
     let coordinates = [
@@ -324,7 +361,7 @@ struct MapPresentationTests {
           abs($0.longitude - $1.longitude) <= 180
         }
       })
-    let region = MapViewport.region(for: coordinates)
+    let region = MaritimeMapViewport.region(for: coordinates)
     #expect((region?.span.longitudeDelta ?? 360) < 5)
   }
 
@@ -358,9 +395,116 @@ struct MapPresentationTests {
       diagnostics: []
     )
     let presentation = MaritimeMapPresentation(result: result)
-    #expect(presentation.arrows.count == 1)
-    #expect(presentation.routeParts.count == 1)
-    #expect(MapViewport.region(for: presentation.allCoordinates) != nil)
+    #expect(result.routeArrows.count == 1)
+    #expect(result.routePolylines.count == 1)
+    #expect(MaritimeMapViewport.region(for: presentation.allCoordinates) != nil)
+  }
+
+  @Test("Distances use wrapped geodesics and sum successful legs")
+  func distances() {
+    let first = MaritimeRouteLeg(
+      id: "first", startIndex: 0, endIndex: 1, startStopID: "a", endStopID: "b",
+      coordinates: [
+        MaritimeCoordinate(latitude: 0, longitude: 0),
+        MaritimeCoordinate(latitude: 0, longitude: 1),
+      ])
+    let dateline = MaritimeRouteLeg(
+      id: "dateline", startIndex: 2, endIndex: 3, startStopID: "c", endStopID: "d",
+      coordinates: [
+        MaritimeCoordinate(latitude: 0, longitude: 179),
+        MaritimeCoordinate(latitude: 0, longitude: -179),
+      ])
+    let trivial = MaritimeRouteLeg(
+      id: "trivial", startIndex: 4, endIndex: 5, startStopID: "e", endStopID: "f",
+      coordinates: [MaritimeCoordinate(latitude: 0, longitude: 0)])
+    let result = MaritimeRouteResult(
+      placements: [], legs: [first, dateline, trivial],
+      diagnostics: [
+        MaritimeRouteDiagnostic(
+          id: "missing", kind: .legCannotBeRouted, legStartIndex: 1,
+          message: "A failed leg is not included in the distance.")
+      ])
+
+    #expect(abs(first.distanceInMeters - 111_195) < 10)
+    #expect(abs(dateline.distanceInMeters - 222_390) < 20)
+    #expect(trivial.distanceInMeters == 0)
+    #expect(abs(first.distanceInNauticalMiles - first.distanceInMeters / 1_852) < 0.000_001)
+    #expect(
+      abs(result.distanceInMeters - (first.distanceInMeters + dateline.distanceInMeters)) < 0.001)
+    #expect(
+      abs(result.distanceInNauticalMiles - result.distanceInMeters / 1_852) < 0.000_001)
+  }
+
+  @Test("Public presentation geometry is drawable, ordered, and antimeridian safe")
+  func resultPresentationGeometry() throws {
+    let eastbound = MaritimeRouteLeg(
+      id: "eastbound", startIndex: 0, endIndex: 1, startStopID: "a", endStopID: "b",
+      coordinates: [
+        MaritimeCoordinate(latitude: 10, longitude: 179),
+        MaritimeCoordinate(latitude: 10, longitude: -179),
+      ])
+    let trivial = MaritimeRouteLeg(
+      id: "trivial", startIndex: 1, endIndex: 2, startStopID: "b", endStopID: "c",
+      coordinates: [MaritimeCoordinate(latitude: 10, longitude: -179)])
+    let northbound = MaritimeRouteLeg(
+      id: "northbound", startIndex: 2, endIndex: 3, startStopID: "c", endStopID: "d",
+      coordinates: [
+        MaritimeCoordinate(latitude: 10, longitude: -10),
+        MaritimeCoordinate(latitude: 11, longitude: -10),
+      ])
+    let result = MaritimeRouteResult(
+      placements: [], legs: [eastbound, trivial, northbound], diagnostics: [])
+
+    #expect(result.routePolylines.count == 3)
+    #expect(result.routePolylines[0].first?.longitude == 179)
+    #expect(result.routePolylines[1].last?.longitude == -179)
+    #expect(result.routePolylines[2] == northbound.coordinates)
+    #expect(result.routePolylines.allSatisfy { $0.count > 1 })
+    #expect(
+      result.routePolylines.allSatisfy { polyline in
+        zip(polyline, polyline.dropFirst()).allSatisfy {
+          abs($0.longitude - $1.longitude) <= 180
+        }
+      })
+
+    #expect(result.routeArrows.map(\.id) == ["eastbound", "northbound"])
+    let eastArrow = try #require(result.routeArrows.first)
+    #expect(abs(abs(eastArrow.coordinate.longitude) - 180) < 0.001)
+    #expect(eastArrow.rotationRadians.isFinite)
+
+    let tooShort = MaritimeRouteResult(
+      placements: [],
+      legs: [
+        MaritimeRouteLeg(
+          id: "short", startIndex: 0, endIndex: 1, startStopID: "a", endStopID: "b",
+          coordinates: [
+            MaritimeCoordinate(latitude: 0, longitude: 0),
+            MaritimeCoordinate(latitude: 0, longitude: 0.000_01),
+          ])
+      ], diagnostics: [])
+    #expect(tooShort.routeArrows.isEmpty)
+  }
+
+  @Test("Viewport fitting rejects unusable input and pads valid points")
+  func viewportValidation() throws {
+    #expect(MaritimeMapViewport.region(for: []) == nil)
+    #expect(
+      MaritimeMapViewport.region(for: [
+        MaritimeCoordinate(latitude: .nan, longitude: 0)
+      ]) == nil)
+    #expect(
+      MaritimeMapViewport.region(for: [
+        MaritimeCoordinate(latitude: 0, longitude: 181)
+      ]) == nil)
+
+    let point = try #require(
+      MaritimeMapViewport.region(for: [
+        MaritimeCoordinate(latitude: 53.5, longitude: 9.9)
+      ]))
+    #expect(point.center.latitude == 53.5)
+    #expect(abs(point.center.longitude - 9.9) < 0.000_001)
+    #expect(point.span.latitudeDelta == 0.08)
+    #expect(point.span.longitudeDelta == 0.08)
   }
 }
 

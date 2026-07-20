@@ -2,16 +2,20 @@
 
 ## Overview
 
-A diagnostic message generated during route calculation.
-
-A ``MaritimeRouteDiagnostic`` provides warnings or errors about the generated route, such as shallow waters, restricted areas, or adverse weather conditions.
-
-> Note: Diagnostics with an error severity mean the route should not be navigated.
+A structured explanation for a stop or leg that could not be included. Use
+`stopIndex` and `legStartIndex` to associate a diagnostic with the original
+itinerary.
 
 ## Topics
 
-### Properties
+### Creating a Diagnostic
+
+- ``init(id:kind:stopIndex:legStartIndex:message:)``
+
+### Diagnostic Values
+
+- ``id``
 - ``kind``
-- ``severity``
+- ``stopIndex``
+- ``legStartIndex``
 - ``message``
-- ``affectedLegIndex``

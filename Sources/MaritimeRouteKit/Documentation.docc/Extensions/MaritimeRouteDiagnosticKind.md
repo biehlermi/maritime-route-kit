@@ -2,14 +2,13 @@
 
 ## Overview
 
-The specific type of a maritime route diagnostic.
-
-``MaritimeRouteDiagnosticKind`` categorizes the issues that can occur during route planning, such as depth restrictions, weather hazards, or restricted zones.
+The category of a route-planning failure.
 
 ## Topics
 
-### Cases
-- ``shallowWater``
-- ``restrictedZone``
-- ``weatherHazard``
-- ``unroutable``
+### Diagnostic Kinds
+
+- ``invalidCoordinate``
+- ``stopCannotBePlaced``
+- ``legCannotBeRouted``
+- ``routingDataUnavailable``

@@ -1,34 +1,42 @@
 # AI Agent Integration Guide
 
-Reference documentation designed for AI agents interacting with MaritimeRouteKit.
+Use this summary when generating MaritimeRouteKit integrations.
 
-## Overview
+## Actual Public Workflow
 
-This guide provides a structured summary of the MaritimeRouteKit module, intended for use by AI coding assistants, autonomous agents, and large language models (LLMs) to quickly understand the project architecture and public API.
+1. Build ordered ``MaritimeRouteStop`` values from ``MaritimeCoordinate``
+   values.
+2. Reuse a ``MaritimeRoutePlanner`` actor.
+3. Call `await planner.plan(stops:)`, optionally with a stricter
+   `maximumSnapDistanceMeters` from zero through 25,000.
+4. Inspect all ``MaritimeRouteResult/placements`` and
+   ``MaritimeRouteResult/diagnostics``.
+5. Consume successful ``MaritimeRouteResult/legs``, or use
+   ``MaritimeRouteResult/routePolylines`` and
+   ``MaritimeRouteResult/routeArrows`` for MapKit presentation.
 
-## Module Summary
+The planner is asynchronous and nonthrowing. There is no `RouteResult`,
+`RoutePoint`, `RoutingError`, synchronous calculation API, speed profile, or
+route-style configuration.
 
-MaritimeRouteKit is a Swift framework for offline maritime route calculation. It uses a rasterized grid derived from Natural Earth and OpenStreetMap data to perform A* pathfinding across the global oceans, natively handling edge cases like the antimeridian.
+## Result Semantics
 
-## Public API Surface
+- A placement can be `placed`, `invalidCoordinate`, `noNavigableWater`, or
+  `routingDataUnavailable`.
+- Legs identify their source calls with itinerary indices and stop IDs.
+- Failed legs are omitted and diagnosed; later independent legs can still
+  succeed.
+- Result distances sum successful leg geometry and may therefore describe only
+  a partial itinerary.
+- Trivial colocated legs contain one coordinate and have zero distance.
 
-### Core Classes
-- ``MaritimeRoutePlanner``: The main entry point. Requires initialization to load data.
+## Architecture and Safety
 
-### Key Methods
-- `calculateRoute(from:to:) throws -> RouteResult`
-- `calculateRouteAsync(from:to:) async throws -> RouteResult`
+Routing uses the bundled `world.mrkroute` resource generated from Natural Earth
+and selected OpenStreetMap-derived detailed masks. It performs no online route
+lookup. Suez and Panama are represented connectors and are selected
+automatically when their graph paths are lower cost.
 
-### Data Structures
-- ``RouteResult``: Contains `path: [RoutePoint]` and `distanceInNauticalMiles: Double`.
-- ``RoutePoint``: Contains `coordinate: CLLocationCoordinate2D`.
-- ``RoutingError``: Swift Error enum (`unreachable`, `invalidCoordinates`, etc.).
-
-## Architectural Notes for AI Agents
-
-1. **Dependency**: Imports `CoreLocation` for coordinate types.
-2. **Concurrency**: Prefer `calculateRouteAsync` in modern Swift contexts to avoid blocking the main thread during long A* traversals (e.g., transatlantic routes).
-3. **Data Dependency**: The framework relies on bundled resources (`routing_grid.dat`). Ensure the resource bundle is accessible in the target environment.
-4. **Coordinate System**: Assumes standard WGS84 coordinates.
-
-When generating code that uses this framework, prioritize proper error handling for `RoutingError` cases, as coordinates provided by end-users may frequently fall inland.
+Never describe output as safe or suitable for navigation. The engine does not
+know charted depth, vessel characteristics, traffic schemes, rules, weather,
+tides, lock operations, restrictions, schedules, or closures.

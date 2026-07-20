@@ -111,7 +111,8 @@ private struct MaritimeMapRepresentable: UIViewRepresentable {
         return PortAnnotation(stopID: stop.id, name: stop.title, coordinate: stop.coordinate)
       }
       mapView.addAnnotations(annotations)
-      MapViewport.fit(annotations.map(\.maritimeCoordinate), on: mapView, animated: false)
+      MaritimeMapViewport.fit(
+        annotations.map(\.maritimeCoordinate), on: mapView, animated: false)
     }
 
     private func show(result: MaritimeRouteResult, on mapView: MKMapView) {
@@ -125,16 +126,18 @@ private struct MaritimeMapRepresentable: UIViewRepresentable {
       }
       mapView.addAnnotations(ports)
 
-      for part in presentation.routeParts where part.count > 1 {
+      for part in result.routePolylines {
         var coordinates = part.map(\.clLocationCoordinate)
         mapView.addOverlay(
           MKPolyline(coordinates: &coordinates, count: coordinates.count), level: .aboveRoads)
       }
-      let arrows = presentation.arrows.map {
-        ArrowAnnotation(coordinate: $0.coordinate, angle: $0.angle)
+      let arrows = result.routeArrows.map {
+        ArrowAnnotation(
+          coordinate: $0.coordinate,
+          rotationRadians: $0.rotationRadians)
       }
       mapView.addAnnotations(arrows)
-      MapViewport.fit(presentation.allCoordinates, on: mapView, animated: true)
+      MaritimeMapViewport.fit(presentation.allCoordinates, on: mapView, animated: true)
     }
 
     func mapView(_ mapView: MKMapView, viewFor annotation: any MKAnnotation) -> MKAnnotationView? {
@@ -153,7 +156,7 @@ private struct MaritimeMapRepresentable: UIViewRepresentable {
             withIdentifier: ArrowAnnotationView.reuseIdentifier,
             for: arrow
           ) as! ArrowAnnotationView
-        view.configure(angle: arrow.angle)
+        view.configure(rotationRadians: arrow.rotationRadians)
         return view
       default:
         return nil
@@ -196,11 +199,11 @@ private final class PortAnnotation: NSObject, MKAnnotation {
 
 private final class ArrowAnnotation: NSObject, MKAnnotation {
   dynamic var coordinate: CLLocationCoordinate2D
-  let angle: CGFloat
+  let rotationRadians: Double
 
-  init(coordinate: MaritimeCoordinate, angle: CGFloat) {
+  init(coordinate: MaritimeCoordinate, rotationRadians: Double) {
     self.coordinate = coordinate.clLocationCoordinate
-    self.angle = angle
+    self.rotationRadians = rotationRadians
   }
 }
 
@@ -292,42 +295,42 @@ private final class ArrowAnnotationView: MKAnnotationView {
     transform = .identity
   }
 
-  func configure(angle: CGFloat) {
-    transform = CGAffineTransform(rotationAngle: angle)
+  func configure(rotationRadians: Double) {
+    transform = CGAffineTransform(rotationAngle: CGFloat(rotationRadians))
     accessibilityLabel = "Route direction"
   }
 }
 
 struct MaritimeMapPresentation {
-  struct Arrow {
-    let coordinate: MaritimeCoordinate
-    let angle: CGFloat
-  }
-
-  let routeParts: [[MaritimeCoordinate]]
-  let arrows: [Arrow]
   let allCoordinates: [MaritimeCoordinate]
 
   init(result: MaritimeRouteResult) {
-    routeParts = result.legs.flatMap { MaritimeGeometry.splitAtAntimeridian($0.coordinates) }
-    arrows = result.legs.compactMap { leg in
-      MaritimeGeometry.arrow(for: leg.coordinates).map(Arrow.init)
-    }
     allCoordinates =
       result.placements.compactMap(\.normalizedCoordinate)
       + result.legs.flatMap(\.coordinates)
   }
 }
 
-enum MapViewport {
+/// Utilities for fitting maritime coordinates into a MapKit region.
+public enum MaritimeMapViewport {
   @MainActor
   static func fit(_ coordinates: [MaritimeCoordinate], on mapView: MKMapView, animated: Bool) {
     guard let region = region(for: coordinates) else { return }
     mapView.setRegion(region, animated: animated)
   }
 
-  static func region(for coordinates: [MaritimeCoordinate]) -> MKCoordinateRegion? {
-    guard !coordinates.isEmpty else { return nil }
+  /// Returns a padded region containing valid maritime coordinates.
+  ///
+  /// Longitudes are fitted on a circle, so coordinates around the
+  /// antimeridian produce a narrow region instead of a nearly global one.
+  ///
+  /// - Parameter coordinates: The coordinates to fit.
+  /// - Returns: A fitted region, or `nil` when the array is empty or contains
+  ///   a non-finite or out-of-range coordinate.
+  public static func region(for coordinates: [MaritimeCoordinate]) -> MKCoordinateRegion? {
+    guard !coordinates.isEmpty, coordinates.allSatisfy(MaritimeGeometry.isValid) else {
+      return nil
+    }
     let latitudes = coordinates.map(\.latitude)
     let minLatitude = latitudes.min()!
     let maxLatitude = latitudes.max()!

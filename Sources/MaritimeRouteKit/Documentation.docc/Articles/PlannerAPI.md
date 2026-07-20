@@ -1,51 +1,59 @@
-# Planner API Reference
+# Planner API
 
-Using MaritimeRoutePlanner directly and interpreting its results.
+Use the planner directly when an app needs geometry, placement information, or
+diagnostics without the fixed map presentation.
 
-## Overview
+## Planning
 
-The ``MaritimeRoutePlanner`` is the primary entry point for all route calculations in MaritimeRouteKit. It provides synchronous and asynchronous methods for finding paths across the global maritime network.
-
-## Initializing the Planner
-
-Creating a planner instance loads the necessary offline routing data into memory. This operation is generally fast, but for performance-critical applications, consider reusing a single instance.
+``MaritimeRoutePlanner`` is an actor. It loads `world.mrkroute` lazily on the
+first plan and retains bounded data and route caches.
 
 ```swift
 let planner = MaritimeRoutePlanner()
+let result = await planner.plan(stops: stops)
 ```
 
-## Calculating Routes
+Planning is asynchronous, deterministic for the same package data and input,
+and performs no network requests. Individual itinerary legs may be routed
+concurrently.
 
-Use the calculation methods to find a route between two coordinates. The planner will automatically find the nearest navigable water point if the provided coordinates are slightly inland.
-
-### Synchronous Routing
-
-For simple scripts or background queues:
+To enforce a stricter placement policy for one plan, pass a distance from zero
+through 25,000 meters:
 
 ```swift
-let result = try planner.calculateRoute(from: origin, to: destination)
+let result = await planner.plan(
+    stops: stops,
+    maximumSnapDistanceMeters: 5_000
+)
 ```
 
-### Asynchronous Routing
+Zero allows coordinates already on represented navigable water and disables
+off-water snapping. Values outside the supported range are programmer errors.
 
-For modern Swift concurrency applications:
+## Results
 
-```swift
-let result = try await planner.calculateRouteAsync(from: origin, to: destination)
-```
+``MaritimeRouteResult`` has three ordered collections:
 
-## Interpreting Results
+- `placements` contains exactly one entry for each input stop.
+- `legs` contains successful consecutive-stop routes. Failed legs are omitted,
+  so use `startIndex` and `endIndex` rather than assuming array indices match.
+- `diagnostics` explains invalid stops, placement failures, route failures, or
+  an unavailable resource.
 
-A successful calculation returns a ``RouteResult`` object, which contains:
+A result's `isComplete` property is exactly equivalent to
+`diagnostics.isEmpty`. It reports planning completeness, not navigational
+safety.
 
-- `path`: An array of ``RoutePoint`` objects defining the continuous path.
-- `distanceInNauticalMiles`: The total computed distance along the route.
-- `estimatedTime`: If a speed profile was provided (optional feature).
+A one-coordinate leg represents colocated calls and has zero distance.
+`distanceInMeters` and `distanceInNauticalMiles` sum successful geometry only.
 
-## Handling Errors
+## Presentation Geometry
 
-If a route cannot be found, the planner throws a ``RoutingError``. Common errors include:
+Use `routePolylines` for antimeridian-safe map overlays and `routeArrows` for one
+midpoint direction marker per leg longer than ten meters. Use
+``MaritimeMapViewport/region(for:)`` to calculate a padded MapKit region with
+correct dateline handling.
 
-- `unreachable`: The destination is isolated (e.g., an inland lake without sea access).
-- `invalidCoordinates`: Coordinates are outside valid bounds (-90 to 90 latitude).
-- `noData`: The routing grid data is missing or corrupted.
+> Important: Routes are illustrative geometry, not navigational advice. They do
+> not model depth, vessel dimensions, lanes, traffic rules, weather, tides,
+> restrictions, locks, or closures.

@@ -1,27 +1,27 @@
 # Data Provenance
 
-Information on data sources, licensing, and rebuilding the routing grid.
+Understand the source and licensing of the bundled routing data.
 
-## Overview
+## Sources
 
-MaritimeRouteKit relies on open-source geographic data to build its offline routing network. Understanding the sources and licenses is crucial for compliance when distributing your app.
+The global ocean mask is derived from Natural Earth 1:10m ocean version 5.1.1,
+which is public domain. Detailed masks for selected coastal areas and connectors
+are derived from OpenStreetMap data and remain covered by ODbL 1.0. The test
+port catalog is derived from the NGA World Port Index.
 
-## Data Sources
+Exact source dates, checksums, attribution, extraction notes, and license
+details are recorded in `DataSources/SOURCES.md` in the repository.
 
-The land/water mask and coastline definitions are primarily sourced from **Natural Earth** (public domain). Additional precise routing definitions for complex waterways are sourced from **OpenStreetMap (OSM)** contributors.
+## Runtime Resource
 
-## Licensing
+The package ships one `world.mrkroute` resource. It contains metadata, a
+compressed portal graph, and independently compressed raster tiles. The
+resource is read lazily and route planning does not access the network.
 
-Because the routing grid incorporates OpenStreetMap data, the resulting dataset is subject to the **Open Data Commons Open Database License (ODbL)**.
+## Rebuilding
 
-> Important: If you publicly distribute an application using this framework, you must provide appropriate attribution to OpenStreetMap contributors as required by the ODbL.
-
-## Rebuilding the Grid
-
-The framework includes tools for regenerating the offline grid data if you need to update the source material or adjust the grid resolution. 
-
-To rebuild the data, run the included python script located in the `Scripts/` directory of the repository:
-
-```bash
-python3 Scripts/build_routing_grid.py --resolution high
-```
+Use `Tools/build_water_data.py` to create intermediate grids and
+`Tools/build_world_route.py` to compile the runtime container. Validate the
+result with `Tools/inspect_world_route.py`. The tools use Python's standard
+library; their command-line arguments and the required pinned source files are
+documented in the repository README and `DataSources/SOURCES.md`.

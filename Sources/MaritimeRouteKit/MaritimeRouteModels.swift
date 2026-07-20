@@ -61,8 +61,10 @@ public enum MaritimeStopPlacementStatus: String, Hashable, Sendable {
   case placed
   /// The provided coordinate was invalid or out of bounds.
   case invalidCoordinate
-  /// No navigable water could be found within 25 kilometers of the coordinate.
-  case noNavigableWaterWithin25Kilometers
+  /// No navigable water could be found within the plan's maximum snap distance.
+  case noNavigableWater
+  /// Placement could not be attempted because the bundled routing data was unavailable.
+  case routingDataUnavailable
 }
 
 /// The normalized water placement corresponding to one input stop.
@@ -172,6 +174,14 @@ public struct MaritimeRouteLeg: Identifiable, Hashable, Sendable {
   /// A Boolean value indicating whether the leg has fewer than two coordinates.
   public var isTrivial: Bool { coordinates.count < 2 }
 
+  /// The length of the route geometry, in meters.
+  public var distanceInMeters: Double {
+    zip(coordinates, coordinates.dropFirst()).map(MaritimeGeometry.distance).reduce(0, +)
+  }
+
+  /// The length of the route geometry, in nautical miles.
+  public var distanceInNauticalMiles: Double { distanceInMeters / 1_852 }
+
   /// Creates a new route leg.
   ///
   /// - Parameters:
@@ -198,6 +208,31 @@ public struct MaritimeRouteLeg: Identifiable, Hashable, Sendable {
   }
 }
 
+/// A screen-oriented direction marker for a successful route leg.
+///
+/// Apply `rotationRadians` to an east-pointing symbol. Positive values rotate
+/// clockwise in MapKit's screen projection, including across the antimeridian.
+public struct MaritimeRouteArrow: Identifiable, Hashable, Sendable {
+  /// The identifier of the route leg represented by this arrow.
+  public let id: String
+  /// The coordinate at the midpoint of the route leg's traveled distance.
+  public let coordinate: MaritimeCoordinate
+  /// The clockwise rotation from east, in radians.
+  public let rotationRadians: Double
+
+  /// Creates a route direction marker.
+  ///
+  /// - Parameters:
+  ///   - id: The identifier of the represented route leg.
+  ///   - coordinate: The marker coordinate.
+  ///   - rotationRadians: The clockwise rotation from east, in radians.
+  public init(id: String, coordinate: MaritimeCoordinate, rotationRadians: Double) {
+    self.id = id
+    self.coordinate = coordinate
+    self.rotationRadians = rotationRadians
+  }
+}
+
 /// The complete deterministic result for an itinerary.
 ///
 /// This result is illustrative and must never be used for navigation. It does
@@ -210,6 +245,44 @@ public struct MaritimeRouteResult: Hashable, Sendable {
   public let legs: [MaritimeRouteLeg]
   /// The issues preventing a complete route, if any.
   public let diagnostics: [MaritimeRouteDiagnostic]
+
+  /// A Boolean value indicating whether planning reported no failures.
+  ///
+  /// This property is exactly equivalent to `diagnostics.isEmpty`. It does not
+  /// indicate that the illustrative route is safe or suitable for navigation.
+  public var isComplete: Bool { diagnostics.isEmpty }
+
+  /// Antimeridian-safe, drawable polylines for all successful legs.
+  ///
+  /// Trivial legs are omitted. A leg crossing the antimeridian produces more
+  /// than one polyline so that map renderers do not draw across the world.
+  public var routePolylines: [[MaritimeCoordinate]] {
+    legs.flatMap { MaritimeGeometry.splitAtAntimeridian($0.coordinates) }
+      .filter { $0.count > 1 }
+  }
+
+  /// One screen-oriented midpoint arrow for each leg longer than 10 meters.
+  public var routeArrows: [MaritimeRouteArrow] {
+    legs.compactMap { leg in
+      MaritimeGeometry.arrow(for: leg.coordinates).map {
+        MaritimeRouteArrow(
+          id: leg.id,
+          coordinate: $0.coordinate,
+          rotationRadians: $0.rotationRadians)
+      }
+    }
+  }
+
+  /// The combined length of all successfully routed legs, in meters.
+  ///
+  /// Check ``diagnostics`` before treating this value as the length of the
+  /// complete requested itinerary because failed legs are not included.
+  public var distanceInMeters: Double { legs.map(\.distanceInMeters).reduce(0, +) }
+
+  /// The combined length of all successfully routed legs, in nautical miles.
+  ///
+  /// One nautical mile is exactly 1,852 meters.
+  public var distanceInNauticalMiles: Double { distanceInMeters / 1_852 }
 
   /// Creates a new route result.
   ///

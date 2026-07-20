@@ -2,13 +2,17 @@
 
 ## Overview
 
-A designated location along a maritime route.
-
-A ``MaritimeRouteStop`` represents a specific destination, waypoint, or point of interest where a vessel is scheduled to stop or pass through during its journey.
+One call in an ordered itinerary. IDs identify calls, so repeated visits to the
+same location need distinct IDs.
 
 ## Topics
 
-### Properties
+### Creating a Stop
+
+- ``init(id:title:coordinate:)``
+
+### Stop Values
+
+- ``id``
+- ``title``
 - ``coordinate``
-- ``name``
-- ``estimatedTimeOfArrival``

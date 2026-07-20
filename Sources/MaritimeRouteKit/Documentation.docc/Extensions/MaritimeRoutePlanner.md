@@ -2,20 +2,26 @@
 
 ## Overview
 
-The primary interface for calculating maritime routes.
-
-Use ``MaritimeRoutePlanner`` to generate a ``MaritimeRouteResult`` between multiple ``MaritimeRouteStop`` locations, taking into account navigational constraints, depth, and weather conditions.
+An actor that lazily loads the bundled water graph and plans deterministic,
+offline itinerary legs. Reuse an instance to preserve its loaded resource and
+bounded route caches.
 
 ```swift
-let planner = MaritimeRoutePlanner(configuration: .default)
-let result = try await planner.calculateRoute(from: start, to: destination)
+let planner = MaritimeRoutePlanner()
+let result = await planner.plan(
+    stops: stops,
+    maximumSnapDistanceMeters: 10_000
+)
 ```
+
+The method returns diagnostics rather than throwing for routing failures.
 
 ## Topics
 
-### Initialization
-- ``init(configuration:)``
+### Creating a Planner
 
-### Methods
-- ``calculateRoute(from:to:)``
-- ``calculateRoute(stops:)``
+- ``init()``
+
+### Planning
+
+- ``plan(stops:maximumSnapDistanceMeters:)``

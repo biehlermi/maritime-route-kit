@@ -1,27 +1,27 @@
 # Known Limitations
 
-Understanding the constraints and edge cases of the routing engine.
+MaritimeRouteKit produces illustrative geometry and must not be used for
+navigation.
 
-## Overview
+## Geographic Detail
 
-While MaritimeRouteKit provides robust global routing, its offline, grid-based approach introduces certain limitations that developers should be aware of.
+Outside the bundled detailed regions, the Natural Earth source scale omits
+small islands, harbor basins, river approaches, and narrow passages. Inland
+lakes are not connected to the ocean routing graph. A represented real-world
+waterway may therefore be unavailable, and a rendered route can differ from a
+route selected by a mariner.
 
-## Scale Gaps and Resolution
+## Static Model
 
-The routing grid operates at a fixed resolution to balance memory usage and performance. As a result:
-- Very narrow channels or straits might be marked as non-navigable if they fall between grid points.
-- Coastlines are approximated, meaning a route might visually clip a sharp peninsula when rendered on a high-definition map.
+The engine does not account for charted depth, under-keel clearance, vessel
+dimensions or handling, shipping lanes, traffic separation schemes, pilotage,
+port rules, restricted or military waters, weather, currents, tides, ice,
+piracy, notices to mariners, locks, bookings, schedules, fees, maintenance, or
+temporary closures.
 
-## Inland Waterways and Lakes
+## Placement and Presentation
 
-The current dataset is optimized for open-ocean and major sea routes.
-- **No Inland Lakes**: Routing is not supported within enclosed bodies of water like the Great Lakes or the Caspian Sea, as they do not connect to the global ocean network.
-- **Rivers**: River navigation is generally unsupported unless the river mouth is exceptionally wide and captured by the ocean grid mask.
-
-## Dynamic Conditions
-
-The routing engine calculates static distances. It does not factor in:
-- Weather conditions, storms, or wave heights.
-- Ocean currents.
-- Seasonal ice coverage (routes may pass through the Arctic even in winter).
-- Piracy risk zones.
+Stops can move to represented water by up to the configured maximum snap
+distance. Always show or otherwise account for normalized placements when that
+distinction matters. MapKit basemap tiles follow normal system availability even
+though route planning itself is offline.

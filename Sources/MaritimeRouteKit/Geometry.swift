@@ -80,7 +80,7 @@ enum MaritimeGeometry {
 
   static func arrow(
     for coordinates: [MaritimeCoordinate]
-  ) -> (coordinate: MaritimeCoordinate, angle: CGFloat)? {
+  ) -> (coordinate: MaritimeCoordinate, rotationRadians: Double)? {
     guard coordinates.count > 1 else { return nil }
     let lengths = zip(coordinates, coordinates.dropFirst()).map(distance)
     let total = lengths.reduce(0, +)
@@ -104,7 +104,10 @@ enum MaritimeGeometry {
         let worldWidth = MKMapSize.world.width
         if afterPoint.x - beforePoint.x > worldWidth / 2 { afterPoint.x -= worldWidth }
         if beforePoint.x - afterPoint.x > worldWidth / 2 { afterPoint.x += worldWidth }
-        return (midpoint, atan2(afterPoint.y - beforePoint.y, afterPoint.x - beforePoint.x))
+        return (
+          midpoint,
+          Double(atan2(afterPoint.y - beforePoint.y, afterPoint.x - beforePoint.x))
+        )
       }
       covered += length
     }

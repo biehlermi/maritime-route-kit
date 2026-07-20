@@ -2,16 +2,29 @@
 
 ## Overview
 
-The result of a maritime route calculation.
-
-A ``MaritimeRouteResult`` contains the computed route path, represented as a series of ``MaritimeRouteLeg`` objects, as well as the total distance, estimated travel time, and any generated ``MaritimeRouteDiagnostic`` messages.
-
-> Important: Always check the ``diagnostics`` property to ensure the route is safe for the intended vessel.
+The deterministic output of planning an itinerary. Placements correspond to all
+input stops, while legs and distances include successful routes only. Inspect
+diagnostics before treating the output as complete.
 
 ## Topics
 
-### Properties
+### Creating a Result
+
+- ``init(placements:legs:diagnostics:)``
+
+### Planning Output
+
+- ``placements``
 - ``legs``
-- ``totalDistance``
-- ``estimatedDuration``
 - ``diagnostics``
+- ``isComplete``
+
+### Distances
+
+- ``distanceInMeters``
+- ``distanceInNauticalMiles``
+
+### Map Presentation
+
+- ``routePolylines``
+- ``routeArrows``

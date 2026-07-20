@@ -1,30 +1,46 @@
 # ``MaritimeRouteKit``
 
-Calculate efficient sea routes around the globe using offline data.
+Plan deterministic, offline, illustrative water routes for ordered itineraries.
 
 ## Overview
 
-MaritimeRouteKit provides a robust routing engine for finding navigable maritime paths between geographical coordinates. It uses an offline grid-based approach with A* search to calculate paths, automatically handling complex scenarios like crossing the antimeridian and navigating major canals.
+MaritimeRouteKit places itinerary calls on a bundled navigable-water graph,
+plans each consecutive leg, and reports successful geometry alongside
+structured diagnostics. Use the fixed ``MaritimeRouteMap`` or render a
+``MaritimeRouteResult`` in your own MapKit or SwiftUI interface.
+
+> Important: MaritimeRouteKit is not a navigation system and does not model the
+> conditions, rules, charts, or vessel characteristics needed for safe passage.
 
 ## Topics
 
 ### Essentials
+
 - <doc:GettingStarted>
+- <doc:PlannerAPI>
 - <doc:KnownLimitations>
 
-### Route Planning
+### Planning and Results
+
 - ``MaritimeRoutePlanner``
-- ``RouteResult``
-- ``RoutePoint``
-- <doc:PlannerAPI>
-- <doc:CanalsAndConnectors>
+- ``MaritimeRouteStop``
+- ``MaritimeRouteResult``
+- ``MaritimeRouteLeg``
+- ``MaritimeStopPlacement``
+- ``MaritimeRouteDiagnostic``
 
-### Diagnostics
-- ``RoutingError``
+### Map Presentation
 
-### Understanding the Engine
+- ``MaritimeRouteMap``
+- ``MaritimeMapViewport``
+- ``MaritimeRouteArrow``
+
+### Routing Data and Behavior
+
 - <doc:HowRoutingWorks>
+- <doc:CanalsAndConnectors>
 - <doc:DataProvenance>
 
-### AI Agent Integration
+### Integration Reference
+
 - <doc:AIAgentGuide>

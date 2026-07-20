@@ -1,65 +1,85 @@
 # Getting Started
 
-Learn how to integrate MaritimeRouteKit into your Swift applications.
+Plan an ordered itinerary offline and present its route in SwiftUI.
 
-## Overview
+## Create an Itinerary
 
-MaritimeRouteKit provides an easy-to-use API for calculating maritime routes. The core of the framework is the ``MaritimeRoutePlanner`` class, which handles the complex routing logic using offline data.
-
-## Basic Usage
-
-To calculate a route, create an instance of ``MaritimeRoutePlanner`` and call its routing method with starting and ending coordinates.
+Create one ``MaritimeRouteStop`` for each itinerary call. Repeated visits need
+different IDs because IDs identify calls, not port records.
 
 ```swift
-import MaritimeRouteKit
-import CoreLocation
+let stops = [
+    MaritimeRouteStop(
+        id: "hamburg-1",
+        title: "Hamburg",
+        coordinate: MaritimeCoordinate(latitude: 53.535, longitude: 9.950)
+    ),
+    MaritimeRouteStop(
+        id: "bergen-1",
+        title: "Bergen",
+        coordinate: MaritimeCoordinate(latitude: 60.392, longitude: 5.323)
+    ),
+]
+```
 
+For the package's fixed presentation, pass the stops directly to
+``MaritimeRouteMap``:
+
+```swift
+MaritimeRouteMap(stops: stops)
+```
+
+## Plan and Inspect a Route
+
+Reuse one ``MaritimeRoutePlanner`` actor so its loaded data and route cache can
+serve later plans.
+
+```swift
 let planner = MaritimeRoutePlanner()
-let start = CLLocationCoordinate2D(latitude: 34.05, longitude: -118.24) // Los Angeles
-let end = CLLocationCoordinate2D(latitude: 35.68, longitude: 139.69) // Tokyo
+let result = await planner.plan(stops: stops)
 
-do {
-    let result = try planner.calculateRoute(from: start, to: end)
-    print("Route distance: \(result.distanceInNauticalMiles) nm")
-    for point in result.path {
-        print("Point: \(point.coordinate.latitude), \(point.coordinate.longitude)")
-    }
-} catch {
-    print("Routing failed: \(error)")
+print("Distance: \(result.distanceInNauticalMiles) nm")
+
+for placement in result.placements {
+    print(placement.stop.title, placement.status)
+}
+
+for diagnostic in result.diagnostics {
+    print(diagnostic.message)
 }
 ```
 
-## Using with SwiftUI
+The method returns diagnostics instead of throwing for invalid coordinates,
+unplaceable stops, unroutable legs, or unavailable bundled data. Distances only
+sum successful legs, so inspect `diagnostics` before treating the result as a
+complete itinerary.
 
-You can easily integrate route calculation into your SwiftUI views using the async API.
+## Draw in a SwiftUI Map
+
+``MaritimeRouteResult/routePolylines`` already splits routes at the
+antimeridian. ``MaritimeRouteResult/routeArrows`` supplies screen-oriented
+midpoint markers.
 
 ```swift
-import SwiftUI
-import MapKit
-import MaritimeRouteKit
+Map {
+    ForEach(Array(result.routePolylines.enumerated()), id: \.offset) { _, part in
+        MapPolyline(coordinates: part.map {
+            CLLocationCoordinate2D(latitude: $0.latitude, longitude: $0.longitude)
+        })
+        .stroke(.blue, lineWidth: 2)
+    }
 
-struct RouteMapView: View {
-    @State private var planner = MaritimeRoutePlanner()
-    @State private var route: RouteResult?
-    
-    var body: some View {
-        Map {
-            if let route = route {
-                MapPolyline(coordinates: route.path.map(\.coordinate))
-                    .stroke(.blue, lineWidth: 2)
-            }
-        }
-        .task {
-            // Calculate route on appear
-            let start = CLLocationCoordinate2D(latitude: 40.71, longitude: -74.00) // NY
-            let end = CLLocationCoordinate2D(latitude: 51.50, longitude: -0.12) // London
-            
-            do {
-                route = try await planner.calculateRouteAsync(from: start, to: end)
-            } catch {
-                print("Error: \(error)")
-            }
+    ForEach(result.routeArrows) { arrow in
+        Annotation("", coordinate: CLLocationCoordinate2D(
+            latitude: arrow.coordinate.latitude,
+            longitude: arrow.coordinate.longitude
+        )) {
+            Image(systemName: "arrow.right")
+                .rotationEffect(.radians(arrow.rotationRadians))
         }
     }
 }
 ```
+
+Use ``MaritimeMapViewport/region(for:)`` to fit the same coordinates without
+implementing circular-longitude bounds yourself.

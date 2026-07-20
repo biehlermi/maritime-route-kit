@@ -1,21 +1,28 @@
 # How Routing Works
 
-A deep dive into the architecture and algorithms powering MaritimeRouteKit.
+MaritimeRouteKit plans deterministic illustrative routes entirely on device.
 
-## Overview
+## Water Representation
 
-MaritimeRouteKit operates entirely offline, using a pre-processed grid representing the world's oceans. This grid allows for rapid route calculation without relying on external web services.
+A coarse global Natural Earth mask provides worldwide ocean coverage. Selected
+OpenStreetMap-derived grids provide finer representation for constrained
+coasts, fjords, archipelagos, and the Suez and Panama connectors. The masks are
+conservatively eroded according to their build-time clearance values.
 
-## The A* Search Algorithm
+## Placement and Search
 
-The core routing engine employs the A* (A-Star) search algorithm. This algorithm efficiently finds the shortest path by combining:
-- The known distance from the start node (g-score).
-- A heuristic estimating the distance to the target (h-score), typically based on the great-circle distance.
+Each valid stop is placed on the finest available navigable grid within the
+plan's maximum snap distance. Bounded local searches attach placed endpoints to
+a precomputed portal graph. A* selects graph edges using geodesic costs, while
+local detailed searches include a fixed shore-proximity penalty.
 
-## Natural Earth Data Masks
+Selected graph sections are reconstructed through their source tiles. A
+line-of-sight simplifier removes unnecessary grid steps only when the
+replacement segment remains navigable in the available masks. The planner does
+not substitute an unchecked straight line when a search fails.
 
-To distinguish between land and water, the kit utilizes datasets derived from Natural Earth. During the build process, these high-resolution vector files are rasterized into a discrete grid. This grid acts as a mask, dictating which nodes in the A* graph are navigable.
+## Antimeridian Handling
 
-## Handling the Antimeridian
-
-One of the most complex challenges in global routing is the antimeridian (the 180th meridian). Standard Cartesian grids break at this boundary. MaritimeRouteKit handles this by creating a toroidal graph structure where nodes on the eastern edge logically connect to nodes on the western edge, allowing routes (like crossing the Pacific) to seamlessly split across the dateline in coordinate space.
+The global grid wraps east to west, and geodesic calculations use wrapped
+longitude deltas. Public `routePolylines` split renderable geometry at ±180°,
+while ``MaritimeMapViewport`` fits longitude on a circle.

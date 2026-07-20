@@ -27,9 +27,19 @@ public actor MaritimeRoutePlanner {
   /// This method is asynchronous. It distributes the routing of individual legs
   /// across multiple background threads if possible, using a shared data structure.
   ///
-  /// - Parameter stops: An ordered array of ``MaritimeRouteStop`` items to visit.
+  /// - Parameters:
+  ///   - stops: An ordered array of ``MaritimeRouteStop`` items to visit.
+  ///   - maximumSnapDistanceMeters: The farthest an off-water stop may move to represented
+  ///     navigable water. The supported range is 0 through 25,000 meters.
   /// - Returns: A complete ``MaritimeRouteResult`` detailing placements, legs, and diagnostics.
-  public func plan(stops: [MaritimeRouteStop]) async -> MaritimeRouteResult {
+  public func plan(
+    stops: [MaritimeRouteStop],
+    maximumSnapDistanceMeters: Double = 25_000
+  ) async -> MaritimeRouteResult {
+    precondition(
+      maximumSnapDistanceMeters.isFinite && (0...25_000).contains(maximumSnapDistanceMeters),
+      "maximumSnapDistanceMeters must be finite and between 0 and 25,000"
+    )
     let world: WaterWorld
     do {
       world = try loadedWorld()
@@ -55,17 +65,20 @@ public actor MaritimeRoutePlanner {
         continue
       }
 
-      guard let node = world.place(stop.coordinate, maximumSnapDistance: 25_000) else {
+      guard
+        let node = world.place(
+          stop.coordinate, maximumSnapDistance: maximumSnapDistanceMeters)
+      else {
         placements.append(
           MaritimeStopPlacement(
-            inputIndex: index, stop: stop, status: .noNavigableWaterWithin25Kilometers,
+            inputIndex: index, stop: stop, status: .noNavigableWater,
             normalizedCoordinate: nil, snapDistanceMeters: nil))
         nodes.append(nil)
         diagnostics.append(
           MaritimeRouteDiagnostic(
             id: "unplaceable-stop-\(index)", kind: .stopCannotBePlaced, stopIndex: index,
             message:
-              "No ocean-connected water represented by the bundled data lies within 25 km of \(stop.title)."
+              "No ocean-connected water represented by the bundled data lies within \(Self.formattedSnapDistance(maximumSnapDistanceMeters)) of \(stop.title)."
           ))
         continue
       }
@@ -136,6 +149,13 @@ public actor MaritimeRoutePlanner {
     }
   }
 
+  private static func formattedSnapDistance(_ distanceMeters: Double) -> String {
+    if distanceMeters >= 1_000 {
+      return "\(distanceMeters / 1_000) km"
+    }
+    return "\(distanceMeters) m"
+  }
+
   private func route(_ work: [LegWork]) async -> [LegWorkResult] {
     guard !work.isEmpty else { return [] }
     let workerCount = min(routeWorkers.count, work.count)
@@ -168,7 +188,7 @@ public actor MaritimeRoutePlanner {
         MaritimeStopPlacement(
           inputIndex: index, stop: stop,
           status: MaritimeGeometry.isValid(stop.coordinate)
-            ? .noNavigableWaterWithin25Kilometers : .invalidCoordinate,
+            ? .routingDataUnavailable : .invalidCoordinate,
           normalizedCoordinate: nil, snapDistanceMeters: nil)
       },
       legs: [],

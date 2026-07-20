@@ -2,21 +2,17 @@
 
 ## Overview
 
-A visual representation of maritime routes and navigational data.
-
-``MaritimeRouteMap`` provides an interface for rendering a ``MaritimeRouteResult``, ``MaritimeRouteStop`` points, and other maritime map features on a digital chart.
+A fixed-style SwiftUI view backed by MapKit. It displays valid stops
+immediately, plans offline, then replaces them with normalized placements and
+draws successful antimeridian-safe legs with midpoint arrows.
 
 ```swift
-let map = MaritimeRouteMap()
-map.display(route: myRouteResult)
+MaritimeRouteMap(stops: itineraryStops)
+    .ignoresSafeArea()
 ```
 
 ## Topics
 
-### Properties
-- ``visibleRegion``
-- ``displayedRoutes``
+### Creating a Map
 
-### Methods
-- ``display(route:)``
-- ``clearRoutes()``
+- ``init(stops:)``

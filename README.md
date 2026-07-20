@@ -1,6 +1,6 @@
 # MaritimeRouteKit
 
-MaritimeRouteKit is an iOS 27 Swift package that draws an ordered cruise
+MaritimeRouteKit is an iOS 26 Swift package that draws an ordered cruise
 itinerary on a fixed-style MapKit map. Route calculation is local,
 deterministic, and does not use an online routing service.
 
@@ -12,9 +12,9 @@ deterministic, and does not use an online routing service.
 
 ## Requirements
 
-- iOS 27 or newer
-- Xcode 27 or newer
-- Swift 6.4 or newer
+- iOS 26 or newer
+- Xcode 26.3 or newer
+- Swift 6.3 or newer
 
 ## Add the package
 
@@ -63,6 +63,9 @@ tile, graph-search, and route caches for later plans.
 let planner = MaritimeRoutePlanner()
 let result = await planner.plan(stops: stops)
 
+print(result.distanceInMeters)
+print(result.distanceInNauticalMiles)
+
 for placement in result.placements {
     switch placement.status {
     case .placed:
@@ -71,7 +74,7 @@ for placement in result.placements {
             placement.normalizedCoordinate as Any,
             placement.snapDistanceMeters as Any
         )
-    case .invalidCoordinate, .noNavigableWaterWithin25Kilometers:
+    case .invalidCoordinate, .noNavigableWater, .routingDataUnavailable:
         print("Unplaced stop:", placement.stop.title, placement.status)
     }
 }
@@ -82,12 +85,22 @@ for leg in result.legs {
 }
 ```
 
+To use a stricter placement policy for one request, pass a value from zero
+through the default 25 km ceiling:
+
+```swift
+let result = await planner.plan(
+    stops: stops,
+    maximumSnapDistanceMeters: 5_000
+)
+```
+
 `plan(stops:)` is asynchronous and returns a result instead of throwing. Its
 three arrays have stable, complementary roles:
 
 | Result member | Contract |
 | --- | --- |
-| `placements` | Exactly one entry per input stop, in input order. A placed coordinate may differ from the input coordinate because stops can snap to represented water within 25 km. |
+| `placements` | Exactly one entry per input stop, in input order. A placed coordinate may differ from the input coordinate because stops can snap to represented water within the configured limit (25 km by default). |
 | `legs` | Geometry for each successfully planned pair of consecutive stops. Use `startIndex` and `endIndex`; do not assume `legs[index]` exists when an earlier leg failed. Repeated or colocated calls produce a trivial one-coordinate leg. |
 | `diagnostics` | Structured stop, leg, or bundled-data failures. `stopIndex` and `legStartIndex` associate a diagnostic with the original itinerary. |
 
@@ -96,6 +109,24 @@ The planner never substitutes a straight line across represented land, and a
 failure on one leg does not prevent later independent legs from being planned.
 Planning is offline, deterministic for the same package data and input order,
 and safe to call from a SwiftUI task.
+
+`result.isComplete` is convenient shorthand for `result.diagnostics.isEmpty`.
+It means planning reported no failures; it does not make the illustrative route
+safe or suitable for navigation.
+
+`distanceInMeters` and `distanceInNauticalMiles` are available on each leg and
+on the result. Result distances sum successful legs only, so check diagnostics
+before treating them as the distance of the complete requested itinerary.
+
+### Custom MapKit and SwiftUI presentation
+
+`result.routePolylines` returns drawable coordinate arrays that are already
+split at the antimeridian, and `result.routeArrows` returns one screen-oriented
+midpoint arrow for every leg longer than ten meters. This lets a SwiftUI `Map`
+consumer avoid duplicating the package's dateline and direction calculations.
+
+Use `MaritimeMapViewport.region(for:)` to calculate the same padded,
+antimeridian-aware `MKCoordinateRegion` used by the bundled map view.
 
 ### Canals and other connectors
 
@@ -116,7 +147,7 @@ Swift routing logic or public API.
   the tidal Elbe, Bergen approach, Geirangerfjord, Stockholm archipelago, Suez
   Canal, and Panama Canal at sub-100 m cell sizes.
 - Stops over land snap to the closest represented navigable water point within
-  25 km.
+  the per-plan limit, which defaults to 25 km.
 - A hierarchical portal graph connects the tiled masks. Bounded local searches
   attach each endpoint to up to four graph nodes; flat-array A* then finds the
   worldwide path with geodesic distance as its heuristic. Contextual graph
