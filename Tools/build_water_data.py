@@ -513,9 +513,7 @@ def main() -> None:
     )
     # Keep the original flags as source-binding conveniences.
     parser.add_argument("--elbe-json", type=Path)
-    parser.add_argument("--geiranger-json", type=Path)
     parser.add_argument("--stockholm-json", type=Path)
-    parser.add_argument("--bergen-json", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -530,9 +528,7 @@ def main() -> None:
         source_paths[name] = Path(path)
     for name, path in {
         "elbe": args.elbe_json,
-        "geirangerfjord": args.geiranger_json,
         "stockholm": args.stockholm_json,
-        "bergen": args.bergen_json,
     }.items():
         if path is not None:
             source_paths[name] = path

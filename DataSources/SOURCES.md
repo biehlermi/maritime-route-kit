@@ -21,14 +21,15 @@ clearance. It is the authoritative fallback outside detailed masks.
 
 ## Current high-detail water masks
 
-The Elbe, Bergen, Geirangerfjord, and Stockholm masks are derived from
+The Elbe, western Norway, Trondheimsfjord, and Stockholm masks are derived from
 OpenStreetMap coastline and water-area geometry as it existed at
 `2026-07-18T00:00:00Z`. The Suez and Panama connector extracts were retrieved on
 `2026-07-18`. Their source content is pinned by these SHA-256 values:
 
 - Elbe Overpass JSON: `5be1dd297d8e6151e3b37917534166451e2d68a35d43517a5590fb3502e61708`
-- Bergen Overpass JSON: `232d5fe6b6061b2f40be0f8d7b8a53907bbfdfc057f7cd2cc6e11c00c1c38d7a`
-- Geirangerfjord Overpass JSON: `4beca19e520c807fe813a99dc30207a30a666a9d3bffabefc6f1c85cbd8dd861`
+- Southern Norway Overpass JSON: `1246547ad81c87b7650028ad9ddbb28f24bbe3af7f125fe8dce48d10f3f0549e`
+- Central Norway Overpass JSON: `ede7e21b2e2cba263be6b84cf0ef706e9da460151dd4677f60c6e671ee5d64eb`
+- Trondheimsfjord Overpass JSON: `8cb7b0ce42d90b0ae243dd0315c4a7fa6c39daa00137cdc8eff8a7df56915ab4`
 - Stockholm archipelago Overpass JSON: `5b13ba747e4bc54f680a733cba28ce59e6ff51dff6c01f9f67f84d930c7edd03`
 - Suez Overpass JSON: `2a1bf439160b713b873fc01cc5a3dfb2cbec3003919d46fea1d0b24b0c90ae92`
 - Panama Overpass JSON: `0f68a4ca737b9879260fa84cc307cd68d2ccf2c5324ea1142123a0ee63930fe7`
@@ -62,8 +63,9 @@ Create the deterministic intermediate masks outside the package resources:
 python3 Tools/build_water_data.py \
   --natural-earth-shp path/to/ne_10m_ocean.shp \
   --source elbe=path/to/elbe-water.json \
-  --source bergen=path/to/bergen-coastline.json \
-  --source geirangerfjord=path/to/geiranger-coastline.json \
+  --source norway-south=path/to/norway-south-coastline.json \
+  --source norway-central=path/to/norway-central-coastline.json \
+  --source trondheimsfjord=path/to/trondheimsfjord-coastline.json \
   --source stockholm=path/to/stockholm-coastline.json \
   --source suez=path/to/suez-water.json \
   --source panama=path/to/panama-water.json \
@@ -89,8 +91,8 @@ portal graph in flat CSR form and rejects disconnected declared gateways. The
 builder and inspector both enforce the 25 MiB installed-size ceiling.
 
 Identical source files and manifest settings produce byte-identical output.
-The committed container is 5,513,587 bytes with SHA-256
-`48537dd158291435d30540383aea7b64fde6b649d454b3a9fb7270483b337657`.
+The committed container is 5,833,346 bytes with SHA-256
+`77430acaf3164dee57bc00a5d5101e6c198c72ca331e066334979f3bc0d5d3bc`.
 
 For the WPI fixture catalog:
 
@@ -106,7 +108,7 @@ python3 Tools/build_port_fixtures.py \
 
 The container architecture and routing logic support arbitrary additional
 detailed regions without Swift changes. This committed dataset currently has
-high detail for Elbe/Hamburg, Bergen, Geirangerfjord, Stockholm, Suez, and
-Panama. Other ocean-connected coordinates use the coarser Natural Earth mask;
-Kotor, Kiel Canal, the additional fjords, and the remaining requested passages
-still require pinned worldwide OSM source data and regenerated detailed tiles.
+high detail for Elbe/Hamburg, western Norway from Haugesund through
+Trondheimsfjord, Stockholm, Suez, and Panama. Other ocean-connected coordinates
+use the coarser Natural Earth mask; Kotor, Kiel Canal, and other narrow passages
+still require pinned OSM source data and regenerated detailed tiles.

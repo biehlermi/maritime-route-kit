@@ -2,22 +2,31 @@
   "schemaVersion": 1,
   "waterways": [
     {
-      "name": "bergen",
-      "kind": "constrained",
-      "bounds": [59.95, 4.70, 60.60, 5.55],
-      "gateways": [[60.25, 4.74]]
-    },
-    {
       "name": "elbe",
       "kind": "constrained",
       "bounds": [53.25, 8.35, 54.25, 10.25],
       "gateways": [[53.999, 8.415]]
     },
     {
-      "name": "geirangerfjord",
+      "name": "norway-central",
       "kind": "constrained",
-      "bounds": [61.85, 5.65, 62.65, 7.55],
-      "gateways": [[62.45, 5.72]]
+      "bounds": [61.40, 4.55, 63.00, 8.30],
+      "gateways": [[62.80, 4.65]],
+      "step": 0.001
+    },
+    {
+      "name": "norway-south",
+      "kind": "constrained",
+      "bounds": [58.90, 4.15, 61.55, 8.25],
+      "gateways": [[59.05, 4.25]],
+      "step": 0.001
+    },
+    {
+      "name": "trondheimsfjord",
+      "kind": "constrained",
+      "bounds": [62.75, 7.40, 64.00, 11.20],
+      "gateways": [[63.70, 7.50]],
+      "step": 0.001
     },
     {
       "name": "stockholm",

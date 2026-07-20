@@ -195,6 +195,41 @@ struct MaritimeRoutePlannerTests {
     for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
   }
 
+  @Test("A western Norway itinerary routes through every requested fjord port")
+  func westernNorwayItinerary() async throws {
+    let stops = [
+      stop("bergen", "Bergen", 60.401799065948644, 5.309421440417016),
+      stop("alesund", "Ålesund", 62.4722, 6.1549),
+      stop("geiranger", "Geiranger", 62.1015, 7.205),
+      stop("molde", "Molde", 62.7375, 7.1591),
+      stop("maloy", "Måløy", 61.9353, 5.1136),
+      stop("flam", "Flåm", 60.8628, 7.1138),
+      stop("haugesund", "Haugesund", 59.4138, 5.2677),
+    ]
+    let result = await MaritimeRoutePlanner().plan(stops: stops)
+
+    #expect(result.placements.map(\.stop.id) == stops.map(\.id))
+    #expect(result.placements.allSatisfy { $0.status == .placed })
+    #expect(result.legs.map(\.startIndex) == Array(0..<(stops.count - 1)))
+    #expect(result.diagnostics.isEmpty)
+    for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
+  }
+
+  @Test("The pictured Geiranger–Trondheim–Molde sequence routes both legs")
+  func trondheimsfjordItinerary() async throws {
+    let stops = [
+      stop("geiranger", "Geiranger", 62.1015, 7.205),
+      stop("trondheim", "Trondheim", 63.4389, 10.4000),
+      stop("molde", "Molde", 62.7375, 7.1591),
+    ]
+    let result = await MaritimeRoutePlanner().plan(stops: stops)
+
+    #expect(result.placements.allSatisfy { $0.status == .placed })
+    #expect(result.legs.map(\.startIndex) == [0, 1])
+    #expect(result.diagnostics.isEmpty)
+    for leg in result.legs { try assertEverySegmentIsWaterSafe(leg) }
+  }
+
   @Test("Fourteen Caribbean ports and islands produce thirteen ordered legs")
   func fourteenStopCaribbeanItinerary() async throws {
     let stops = caribbeanStops

@@ -144,8 +144,9 @@ Swift routing logic or public API.
 
 - A compressed Natural Earth 1:10m ocean mask supplies worldwide illustrative
   open-water coverage at 0.025°. OpenStreetMap-derived detail currently covers
-  the tidal Elbe, Bergen approach, Geirangerfjord, Stockholm archipelago, Suez
-  Canal, and Panama Canal at sub-100 m cell sizes.
+  the tidal Elbe, western Norway from Haugesund through Trondheimsfjord,
+  Stockholm archipelago, Suez Canal, and Panama Canal at fine regional cell
+  sizes.
 - Stops over land snap to the closest represented navigable water point within
   the per-plan limit, which defaults to 25 km.
 - A hierarchical portal graph connects the tiled masks. Bounded local searches
@@ -201,8 +202,9 @@ unshipped intermediate masks, then compile them into the only runtime resource:
 python3 Tools/build_water_data.py \
   --natural-earth-shp path/to/ne_10m_ocean.shp \
   --source elbe=path/to/elbe-water.json \
-  --source bergen=path/to/bergen-coastline.json \
-  --source geirangerfjord=path/to/geiranger-coastline.json \
+  --source norway-south=path/to/norway-south-coastline.json \
+  --source norway-central=path/to/norway-central-coastline.json \
+  --source trondheimsfjord=path/to/trondheimsfjord-coastline.json \
   --source stockholm=path/to/stockholm-coastline.json \
   --source suez=path/to/suez-water.json \
   --source panama=path/to/panama-water.json \
@@ -216,7 +218,7 @@ python3 Tools/inspect_world_route.py \
   Sources/MaritimeRouteKit/Resources/world.mrkroute
 ```
 
-The committed resource is about 5.3 MiB; generation and CI reject it if it
+The committed resource is about 5.6 MiB; generation and CI reject it if it
 exceeds 25 MiB. Identical pinned inputs produce byte-identical output.
 
 Run the iOS package tests from Xcode, or with an installed simulator:
